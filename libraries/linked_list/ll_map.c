@@ -6,14 +6,15 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 22:47:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 05:10:01 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/05/29 06:21:53 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 
 /**
- * returns a linked list in which the nodes are the inital lists nodes with the function f applied to them.
+ * Returns a linked list where each node contains the content
+ * of the initial list's nodes, with the function f applied to them.
 */
 t_node	*ll_map(t_node	*head, void *(f)(void	*))
 {
