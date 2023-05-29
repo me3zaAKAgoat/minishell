@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2022/10/17 14:04:30 by echoukri          #+#    #+#             */
+/*   Updated: 2022/10/25 19:33:36 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int main(void)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	char	*input;
+	int	index;
 
-	while (1)
+	if (!s || !f)
+		return ;
+	index = 0;
+	while (s[index])
 	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
+		f(index, s + index);
+		index++;
 	}
 }

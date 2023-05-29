@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2022/10/14 13:23:36 by echoukri          #+#    #+#             */
+/*   Updated: 2022/10/25 18:55:20 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*input;
+	char	*ptr;
+	int		i;
+	int		j;
 
-	while (1)
+	if (!s1 || !s2)
+		return (NULL);
+	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
 	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
+		ptr[i] = s1[i];
+		i++;
 	}
+	while (s2[j])
+		ptr[i++] = s2[j++];
+	ptr[i] = '\0';
+	return (ptr);
 }

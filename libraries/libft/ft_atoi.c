@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2022/10/14 12:12:33 by echoukri          #+#    #+#             */
+/*   Updated: 2022/10/24 20:49:34 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-int main(void)
+int	ft_atoi(const char *str)
 {
-	char	*input;
+	int	return_number;
+	int	i;
+	int	sign;
 
-	while (1)
+	i = 0;
+	return_number = 0;
+	sign = 1;
+	while ((str[i] <= 13 && 9 <= str[i]) || str[i] == 32)
+		i++;
+	if (str[i] == '-')
 	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
+		sign *= -1;
+		i++;
 	}
+	else if (str[i] == '+')
+		i++;
+	while ('0' <= str[i] && str[i] <= '9')
+		return_number = return_number * 10 + (str[i++] - 48);
+	return (sign * return_number);
 }

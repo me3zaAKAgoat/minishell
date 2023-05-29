@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ll_last.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2023/05/28 22:46:29 by echoukri          #+#    #+#             */
+/*   Updated: 2023/05/29 01:54:18 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "linked_list.h"
 
-int main(void)
+t_node	*ll_last(t_node *head)
 {
-	char	*input;
-
-	while (1)
-	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
-	}
+	if (!head)
+		return (NULL);
+	while (head->next)
+		head = head->next;
+	return (head);
 }

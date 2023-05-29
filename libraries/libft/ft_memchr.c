@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2022/10/14 15:59:07 by echoukri          #+#    #+#             */
+/*   Updated: 2022/10/25 19:53:12 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char	*input;
+	unsigned int	index;
+	unsigned char	ci;
+	unsigned char	*converted_s;
 
-	while (1)
+	ci = c;
+	converted_s = (unsigned char *)s;
+	index = 0;
+	while (index < n)
 	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
+		if (converted_s[index] == ci)
+			return (converted_s + index);
+		index++;
 	}
+	return (NULL);
 }

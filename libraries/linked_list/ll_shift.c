@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ll_shift.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2023/05/02 00:30:36 by echoukri          #+#    #+#             */
+/*   Updated: 2023/05/29 02:38:27 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "linked_list.h"
 
-int main(void)
+void	ll_shift(t_node **head_p)
 {
-	char	*input;
+	t_node	*old_head;
 
-	while (1)
-	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
-	}
+	old_head = *head_p;
+	*head_p = (*head_p)->next;
+	ll_del_one(old_head);
 }

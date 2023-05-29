@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 03:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2022/10/14 16:32:16 by echoukri          #+#    #+#             */
+/*   Updated: 2022/10/21 21:16:05 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	char	*input;
+	int				index;
+	char			ci;
+	unsigned int	sl;
 
-	while (1)
+	sl = ft_strlen(s);
+	ci = (char)c;
+	index = 0;
+	if (s[sl - index] == ci)
+		return ((char *)(s) + sl - index);
+	while (s[index])
 	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
+		if (s[sl - index - 1] == ci)
+			return ((char *)(s) + sl - index - 1);
+		index++;
 	}
+	return (NULL);
 }
