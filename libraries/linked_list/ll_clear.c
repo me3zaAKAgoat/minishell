@@ -6,21 +6,24 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 22:41:42 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/28 22:41:49 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/05/29 05:07:54 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 
-void	ll_clear(t_node	**lst)
+/**
+ * Clear all nodes of a linked list from the heap.
+*/
+void	ll_clear(t_node	**head)
 {
 	t_node	*tmp;
 
-	while (*lst)
+	while (*head)
 	{
-		tmp = (*lst)->next;
-		free(*lst);
-		(*lst) = tmp;
+		tmp = (*head)->next;
+		ll_del_one(*head, NULL);
+		(*head) = tmp;
 	}
-	*lst = NULL;
+	*head = NULL;
 }
