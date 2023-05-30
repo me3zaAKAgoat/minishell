@@ -1,11 +1,12 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror 
 NAME = minishell
 READLINE = -lreadline
 
 HEADER = includes/minishell.h
 
-SOURCES = src/main.c src/builtins/pwd.c src/env/env.c src/util/dict.c
+SOURCES = src/main.c src/builtins/pwd.c src/builtins/unset.c src/env/env.c src/util/dict.c src/builtins/export.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
