@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ll_shift.c                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 00:30:36 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/30 15:35:16 by echoukri         ###   ########.fr       */
+/*   Created: 2023/05/30 09:30:57 by echoukri          #+#    #+#             */
+/*   Updated: 2023/05/30 10:16:01 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "linked_list.h"
+#include "minishell.h"
 
-/**
- * removes the first node of the linked list.
-*/
-t_node	*ll_shift(t_node **head_p)
+void	pwd(t_meta *meta)
 {
-	t_node	*old_head;
+	char	*wd;
 
-	old_head = *head_p;
-	*head_p = (*head_p)->next;
-	return (old_head);
+	wd = getcwd(NULL, 0);
+	write(meta->outfile, wd, ft_strlen(wd));
+	free(wd);
 }

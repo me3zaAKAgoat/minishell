@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ll_shift.c                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 00:30:36 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/30 15:35:16 by echoukri         ###   ########.fr       */
+/*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
+/*   Updated: 2023/05/30 10:29:55 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "linked_list.h"
+#include "minishell.h"
 
-/**
- * removes the first node of the linked list.
-*/
-t_node	*ll_shift(t_node **head_p)
+t_node	*init_env(char **env)
 {
-	t_node	*old_head;
+	t_node	*head;
+	char	**arr;
 
-	old_head = *head_p;
-	*head_p = (*head_p)->next;
-	return (old_head);
+	head = NULL;
+	while (*env)
+	{
+		arr = ft_split(*env, '=');
+		ll_push(&head, ll_new(new_kvp(arr[0], arr[1])));
+		free(arr);
+		env++;
+	}
+	return (head);
 }
