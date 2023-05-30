@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 00:30:36 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 05:13:56 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:35:16 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 /**
  * removes the first node of the linked list.
 */
-void	ll_shift(t_node **head_p)
+t_node	*ll_shift(t_node **head_p)
 {
 	t_node	*old_head;
 
 	old_head = *head_p;
 	*head_p = (*head_p)->next;
-	ll_del_one(old_head, NULL);
+	return (old_head);
 }

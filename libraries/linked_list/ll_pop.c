@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 00:30:36 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 05:11:53 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:53:45 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,21 @@
 /**
  * removes the last node of list.
 */
-void	ll_pop(t_node *head)
+t_node	*ll_pop(t_node **head_p, int index)
 {
-	ll_del_one(ll_last(head), NULL);
-	ll_atindex(head, ll_size(head) - 1)->next = NULL;
+	t_node	*tmp;
+
+	if (index == 0)
+		return (ll_shift(head_p));
+	else if (index == -1)
+	{
+		tmp = ll_last(*head_p);
+		ll_atindex(*head_p, ll_size(*head_p) - 1)->next = NULL;
+	}
+	else
+	{
+		tmp = ll_atindex(*head_p, index);
+		ll_atindex(*head_p, index - 1)->next = tmp->next;
+	}
+	return (tmp);
 }
