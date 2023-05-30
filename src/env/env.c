@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/30 10:29:47 by echoukri         ###   ########.fr       */
+/*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
+/*   Updated: 2023/05/30 10:29:55 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	init_meta(t_meta *meta, char **env)
+t_node	*init_env(char **env)
 {
-	meta->env = init_env(env);
-}
+	t_node	*head;
+	char	**arr;
 
-int main(int ac, char **av, char **env)
-{
-	char	*input;
-	t_meta	meta;
-	t_dict	*kvp;
-
-	(void)ac;
-	(void)av;
-	init_meta(&meta, env);
-	while (1)
+	head = NULL;
+	while (*env)
 	{
-		input = readline("\033[1;33m$\033[0m\033[1;35m-minishell > \033[0m");
-		printf("%s\n", input);
+		arr = ft_split(*env, '=');
+		ll_push(&head, ll_new(new_kvp(arr[0], arr[1])));
+		free(arr);
+		env++;
 	}
+	return (head);
 }

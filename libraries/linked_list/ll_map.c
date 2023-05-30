@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 22:47:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/29 06:21:53 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:14:54 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 */
 t_node	*ll_map(t_node	*head, void *(f)(void	*))
 {
-	t_node	*head;
+	t_node	*new_head;
 	t_node	*new;
 
-	head = NULL;
+	new_head = NULL;
 	while (head)
 	{
 		new = ll_new(f(&head->content));
@@ -30,8 +30,8 @@ t_node	*ll_map(t_node	*head, void *(f)(void	*))
 			ll_clear(&head);
 			return (NULL);
 		}
-		ll_push(&head, new);
+		ll_push(&new_head, new);
 		head = head->next;
 	}
-	return (head);
+	return (new_head);
 }

@@ -5,9 +5,9 @@ READLINE = -lreadline
 
 HEADER = includes/minishell.h
 
-MAIN_SOURCE = src/main.c
+SOURCES = src/main.c src/builtins/pwd.c src/env/env.c src/util/dict.c
 
-MAIN_OBJECT = $(MAIN_SOURCE:.c=.o)
+OBJECTS = $(SOURCES:.c=.o)
 
 LINKED_LIST = libraries/linked_list
 
@@ -25,8 +25,8 @@ WHITE=\033[1;37m
 
 all : $(NAME)
 
-$(NAME) : linked_list libft  $(MAIN_OBJECT)
-	$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJECT) $(READLINE) -lll -lft -L$(LINKED_LIST) -L$(LIBFT)
+$(NAME) : linked_list libft $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(READLINE) -lll -lft -L$(LINKED_LIST) -L$(LIBFT)
 
 bonus : $(BONUS_NAME)
 
@@ -44,13 +44,13 @@ libft :
 	@echo "${GREEN}Done.${COLOR_OFF}"
 
 clean :
-	rm -f $(MAIN_OBJECT)
+	rm -f $(OBJECTS)
 	@echo "${RED}Make clean libraries${COLOR_OFF}"
 	@make -C $(LIBFT) clean > /dev/null 
 	@make -C $(LINKED_LIST) clean > /dev/null 
 
 fclean :
-	rm -f $(MAIN_OBJECT) $(NAME) 
+	rm -f $(OBJECTS) $(NAME) 
 	@echo "${RED}Make fclean libraries${COLOR_OFF}"
 	@make -C $(LIBFT) fclean > /dev/null 
 	@make -C $(LINKED_LIST) fclean > /dev/null 
