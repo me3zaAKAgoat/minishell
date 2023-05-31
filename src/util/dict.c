@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:55:15 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/30 10:17:10 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:11:15 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_dict	*new_kvp(char *key, char *val)
 	char	*h_key;
 	char	*h_val;
 
+	if (!key || !val)
+		return (NULL);
 	kvp = malloc(sizeof(t_dict));
 	h_key = malloc(ft_strlen(key) + 1);
 	h_val = malloc(ft_strlen(val) + 1);

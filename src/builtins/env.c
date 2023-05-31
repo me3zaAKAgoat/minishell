@@ -5,28 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/31 14:14:40 by echoukri         ###   ########.fr       */
+/*   Created: 2023/05/31 13:38:08 by echoukri          #+#    #+#             */
+/*   Updated: 2023/05/31 14:23:16 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*init_env(char **env)
+void	print_env(t_meta *meta)
 {
-	t_node	*head;
-	char	**arr;
-	t_dict	*tmp;
+	t_node	*iterator;
+	t_dict	*kvp;
 
-	head = NULL;
-	while (*env)
+	iterator = meta->env;
+	while (iterator)
 	{
-		arr = ft_split(*env, '=');
-		tmp = new_kvp(arr[0], arr[1]);
-		if (tmp)
-			ll_push(&head, ll_new(tmp));
-		split_clear(arr);
-		env++;
+		kvp = iterator->content;
+		write(1, kvp->key, ft_strlen(kvp->key));
+		write(1, "=", ft_strlen("="));
+		write(1, kvp->value, ft_strlen(kvp->value));
+		write(1, "\n", ft_strlen("\n"));
+		iterator = iterator->next;
 	}
-	return (head);
 }
