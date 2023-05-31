@@ -51,5 +51,6 @@ extern char		*ft_strtrim(char const *s1, char const *set);
 extern char		*ft_substr(char const *s, unsigned int start, size_t len);
 extern int		ft_toupper(int c);
 extern int		ft_tolower(int c);
+extern void		*split_clear(char	**arr);
 
 #endif
