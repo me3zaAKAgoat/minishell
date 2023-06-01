@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/31 14:22:56 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/01 02:59:16 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ typedef struct s_dict {
 
 typedef struct s_meta {
 	t_node	*env;
-	char	*cwd;
-	int		outfile;
-	int		infile;
 }	t_meta;
-/*cwd stand for current working directory*/
 
 /* DECLARATIONS */
 
@@ -44,8 +40,9 @@ extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_node	*init_env(char **env);
 extern	void		unset(t_meta *meta, char *key);
-extern	void		pwd(t_meta *meta);
+extern	void		pwd(void);
 extern	void		export(t_meta *meta, char *key, char *value);
 extern	void		print_env(t_meta *meta);
+extern	void		cd(t_meta *meta, const char *path);
 
 #endif

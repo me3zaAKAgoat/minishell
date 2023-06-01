@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:30:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/30 17:14:35 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/01 02:59:34 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	unset(t_meta *meta, char *key)
 		kvp = iterator->content;
 		if (!ft_strncmp(key, kvp->key, ft_strlen(kvp->key)))
 		{
-			ll_del_one(ll_pop(&meta->env, ll_get_index(meta->env, iterator)), (void*)clear_kvp);
+			ll_del_one(ll_pop(&meta->env,
+					ll_get_index(meta->env, iterator)), (void*)clear_kvp);
 			break ;
 		}
 		iterator = iterator->next;
