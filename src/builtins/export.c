@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/01 02:58:13 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/01 03:16:15 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,10 @@
 
 void	export(t_meta *meta, char *key, char *value)
 {
-	ll_push(&meta->env, ll_new(new_kvp(key, value)));
+	t_dict	*tmp;
+
+	tmp = new_kvp(key, value);
+	if (!tmp)
+		return ;
+	ll_push(&meta->env, ll_new(tmp));
 }
