@@ -7,7 +7,8 @@ READLINE = -lreadline
 HEADER = includes/minishell.h
 
 SOURCES = src/main.c src/builtins/pwd.c src/builtins/unset.c\
-	src/env/env.c src/util/dict.c src/builtins/export.c src/builtins/env.c
+	src/env/env.c src/util/dict.c src/builtins/export.c src/builtins/env.c\
+	src/builtins/cd.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

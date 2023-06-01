@@ -17,3 +17,6 @@
 - https://tomassetti.me/guide-parsing-algorithms-terminology/
 
 # **concerns**
+
+- how to handle signals
+- how to handle error codes to color prompt
