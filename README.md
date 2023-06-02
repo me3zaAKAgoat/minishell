@@ -18,5 +18,4 @@
 
 # **concerns**
 
-- how to handle signals
 - how to handle error codes to color prompt
