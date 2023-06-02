@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 23:56:41 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 04:20:05 by echoukri         ###   ########.fr       */
+/*   Created: 2023/06/02 05:10:40 by echoukri          #+#    #+#             */
+/*   Updated: 2023/06/02 05:17:50 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef TYPES_H
+# define TYPES_H
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-}
+/* TYPES */
+typedef struct s_dict {
+	char	*key;
+	char	*value;
+}	t_dict;
 
-void	install_signals(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
-}
+typedef struct s_meta {
+	t_node	*env;
+	int		status;
+}	t_meta;
+
+typedef struct s_command {
+	int		outfile;
+	int		infile;
+	char	*cmd;
+	char	*args;
+}	t_command;
+
+#endif

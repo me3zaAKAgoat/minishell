@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 23:56:41 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 04:20:05 by echoukri         ###   ########.fr       */
+/*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
+/*   Updated: 2023/06/02 05:37:55 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
+void	parse(t_meta *meta, char *input)
 {
-	(void)sig;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-}
-
-void	install_signals(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
+	if (!input)
+		exit(0); // this should be status of last executed command instead of 0
+	if (!ft_strncmp(input, "env", ft_strlen(input)) && ft_strlen(input))
+		print_env(meta);
 }

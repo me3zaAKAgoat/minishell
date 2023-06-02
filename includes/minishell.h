@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 02:07:26 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/02 05:37:31 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include "linked_list.h"
 # include "libft.h"
+# include "types.h"
 
 /* MACROS */
 # define CMD_FAIL 126
@@ -37,19 +38,8 @@
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
 
-/* TYPES */
-typedef struct s_dict {
-	char	*key;
-	char	*value;
-}	t_dict;
-
-typedef struct s_meta {
-	t_node	*env;
-	int		status;
-}	t_meta;
 
 /* DECLARATIONS */
-
 extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_node	*init_env(char **env);
@@ -60,5 +50,7 @@ extern	void		print_env(t_meta *meta);
 extern	void		cd(t_meta *meta, const char *path);
 extern	void		install_signals(void);
 extern	char		*array_to_str(char **words, char *sep);
+extern	void		prompt_loop(t_meta *meta);
+extern	void		parse(t_meta *meta, char *input);
 
 #endif
