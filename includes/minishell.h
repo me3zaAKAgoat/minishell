@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 22:08:33 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/03 09:44:17 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ extern	void		parse(t_meta *meta, char *input);
 extern	char		*strip(char *str);
 extern	char		*here_doc(char *eof);
 extern	void		shell_exit(t_meta *meta);
+extern	char		*expand_env(t_node *env, char *key);
 
 #endif
