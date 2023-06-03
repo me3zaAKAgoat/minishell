@@ -9,11 +9,14 @@ HEADER = includes/minishell.h
 SOURCES = src/main.c src/builtins/pwd.c src/builtins/unset.c\
 	src/env/env.c src/util/dict.c src/builtins/export.c src/builtins/env.c\
 	src/builtins/cd.c src/signals/signals.c src/util/array_to_str.c\
-	src/util/prompt.c src/parsing/parse.c
+	src/util/prompt.c src/parsing/parse.c src/util/strip.c src/util/here_doc.c\
+	src/builtins/exit.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
 LINKED_LIST = libraries/linked_list
+
+GET_NEXT_LINE = libraries/get_next_line
 
 LIBFT = libraries/libft
 
@@ -29,8 +32,8 @@ WHITE=\033[1;37m
 
 all : $(NAME)
 
-$(NAME) : linked_list libft $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(READLINE) -lll -lft -L$(LINKED_LIST) -L$(LIBFT)
+$(NAME) : linked_list libft get_next_line $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(READLINE) -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE)
 
 bonus : $(BONUS_NAME)
 
@@ -42,6 +45,11 @@ linked_list :
 	@make -C $(LINKED_LIST) > /dev/null
 	@echo "${GREEN}Done.${COLOR_OFF}"
 
+get_next_line :
+	@echo "${YELLOW}Making get next line library...${COLOR_OFF}"
+	@make -C $(GET_NEXT_LINE) > /dev/null
+	@echo "${GREEN}Done.${COLOR_OFF}"
+	
 libft :
 	@echo "${YELLOW}Making libft library...${COLOR_OFF}"
 	@make -C $(LIBFT) > /dev/null
@@ -52,12 +60,14 @@ clean :
 	@echo "${RED}Make clean libraries${COLOR_OFF}"
 	@make -C $(LIBFT) clean > /dev/null 
 	@make -C $(LINKED_LIST) clean > /dev/null 
+	@make -C $(GET_NEXT_LINE) clean > /dev/null 
 
 fclean :
 	rm -f $(OBJECTS) $(NAME) 
 	@echo "${RED}Make fclean libraries${COLOR_OFF}"
 	@make -C $(LIBFT) fclean > /dev/null 
 	@make -C $(LINKED_LIST) fclean > /dev/null 
+	@make -C $(GET_NEXT_LINE) fclean > /dev/null 
 
 re : fclean all
 

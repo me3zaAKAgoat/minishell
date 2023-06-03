@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 05:31:34 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/02 22:08:10 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	shell_exit(t_meta *meta)
 {
-	exit(meta->status);	
+	exit(meta->status);
 }

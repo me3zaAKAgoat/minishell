@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 05:37:31 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/02 22:08:33 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include "linked_list.h"
 # include "libft.h"
+# include "get_next_line.h"
 # include "types.h"
 
 /* MACROS */
@@ -38,7 +39,6 @@
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
 
-
 /* DECLARATIONS */
 extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
@@ -52,5 +52,8 @@ extern	void		install_signals(void);
 extern	char		*array_to_str(char **words, char *sep);
 extern	void		prompt_loop(t_meta *meta);
 extern	void		parse(t_meta *meta, char *input);
+extern	char		*strip(char *str);
+extern	char		*here_doc(char *eof);
+extern	void		shell_exit(t_meta *meta);
 
 #endif
