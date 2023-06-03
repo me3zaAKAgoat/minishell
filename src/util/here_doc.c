@@ -6,13 +6,13 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:48:13 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 22:10:54 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/03 04:42:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*prompt_heredoc(void)
+static char	*prompt_heredoc(void)
 {
 	write(1, "heredoc>", ft_strlen("heredoc>"));
 	return (get_next_line(0));

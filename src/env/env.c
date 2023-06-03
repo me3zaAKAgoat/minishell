@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/01 02:58:22 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/03 04:27:21 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_node	*init_env(char **env)
 	char	**arr;
 	t_dict	*tmp;
 
+	if (!env)
+		return (NULL);
 	head = NULL;
 	while (*env)
 	{
