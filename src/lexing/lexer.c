@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/04 05:29:28 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/04 21:33:01 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,21 @@ static t_token	*new_token(char *value, t_token_type type)
 static char	*lex_quotes(char *cmd_line, char delim)
 {
 	int		end;
-	char	*str;
 
 	end = 0;
 	while ((cmd_line + 1)[end] && (cmd_line + 1)[end] != delim)
 		end++;
-	str = ft_substr(cmd_line, 0, end + 2);
-	return (str);
+	return (ft_substr(cmd_line, 0, end + 2));
 }
 
 static char	*lex_string(char *cmd_line)
 {
 	int		end;
-	char	*str;
 
 	end = 0;
-	while (cmd_line[end] && !ft_isspace(cmd_line[end]))
+	while (cmd_line[end] && !ft_isspace(cmd_line[end] && cmd_line[end] == '\'' && cmd_line[end] == '\"'))
 		end++;
-	str = ft_substr(cmd_line, 0, end);
-	return (str);
+	return (ft_substr(cmd_line, 0, end));
 }
 
 static t_token	*get_next_token(char *cmd_line, int i)
