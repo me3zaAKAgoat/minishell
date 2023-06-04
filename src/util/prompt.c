@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 22:07:24 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/04 02:35:37 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ char	*prompt_string(void)
 
 void	prompt_loop(t_meta *meta)
 {
-	char	*input;
+	char	*cmd_line;
 	char	*prompt;
 
 	while (1)
 	{
 		prompt = prompt_string();
-		input = readline(prompt);
+		cmd_line = readline(prompt);
 		free(prompt);
-		parse(meta, input);
-		free(input);
+		parse(meta, cmd_line);
+		free(cmd_line);
 	}
 }

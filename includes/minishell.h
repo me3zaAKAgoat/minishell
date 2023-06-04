@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/03 09:44:17 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/04 05:29:45 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,16 @@ extern	void		pwd(void);
 extern	void		export(t_meta *meta, char *key, char *value);
 extern	void		print_env(t_meta *meta);
 extern	void		cd(t_meta *meta, const char *path);
-extern	void		install_signals(void);
+extern	void		redirect_signals(void);
 extern	char		*array_to_str(char **words, char *sep);
 extern	void		prompt_loop(t_meta *meta);
-extern	void		parse(t_meta *meta, char *input);
+extern	void		parse(t_meta *meta, char *cmd_line);
 extern	char		*strip(char *str);
 extern	char		*here_doc(char *eof);
 extern	void		shell_exit(t_meta *meta);
 extern	char		*expand_env(t_node *env, char *key);
+extern	int		ft_isspace(char c);
+extern	t_node	*tokenize(char *cmd_line);
+extern	void		clear_token(t_token *token);
 
 #endif

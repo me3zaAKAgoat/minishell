@@ -10,7 +10,7 @@ SOURCES = src/main.c src/builtins/pwd.c src/builtins/unset.c\
 	src/env/env.c src/util/dict.c src/builtins/export.c src/builtins/env.c\
 	src/builtins/cd.c src/signals/signals.c src/util/array_to_str.c\
 	src/util/prompt.c src/parsing/parse.c src/util/strip.c src/util/here_doc.c\
-	src/builtins/exit.c
+	src/builtins/exit.c src/lexing/lexer.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
