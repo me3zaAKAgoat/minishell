@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/04 05:29:45 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/05 01:40:46 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ extern	char		*expand_env(t_node *env, char *key);
 extern	int		ft_isspace(char c);
 extern	t_node	*tokenize(char *cmd_line);
 extern	void		clear_token(t_token *token);
+extern	t_token	*new_token(char *value, t_token_type type);
+extern	char		**envp_generator(t_node *env);
+extern	void		free_envp(char **envp);
 
 #endif

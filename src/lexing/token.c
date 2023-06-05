@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/05 02:18:01 by echoukri         ###   ########.fr       */
+/*   Created: 2023/06/05 00:38:45 by echoukri          #+#    #+#             */
+/*   Updated: 2023/06/05 00:38:55 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse(t_meta *meta, char *cmd_line)
+void	clear_token(t_token *token)
 {
-	t_node	*tokens;
+	free(token->value);
+	free(token);
+}
 
-	(void)meta;
-	if (!cmd_line)
-		exit(0); // this should be status of last executed command instead of 0
-	tokens = tokenize(cmd_line);
-	if (!tokens)
-		return ;
-	ll_clear(&tokens, clear_token);
+t_token	*new_token(char *value, t_token_type type)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = type;
+	token->value = value;
+	return (token);
 }
