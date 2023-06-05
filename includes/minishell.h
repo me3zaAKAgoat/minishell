@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/05 01:40:46 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/05 04:59:36 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include "linked_list.h"
 # include "libft.h"
 # include "get_next_line.h"
-# include "types.h"
 
 /* MACROS */
 # define CMD_FAIL 126
@@ -38,6 +37,39 @@
 # define PURPLE "\033[1;35m"
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
+
+/* TYPES */
+typedef struct s_dict {
+	char	*key;
+	char	*value;
+}	t_dict;
+
+typedef struct s_meta {
+	t_node	*env;
+	int		status;
+}	t_meta;
+
+typedef enum e_token_type {
+	STRING,
+	PIPE,
+	IN,
+	OUT,
+	HEREDOC,
+	APPEND,
+	ENV,
+	END
+}	t_token_type;
+
+typedef struct s_token {
+	char			*value;
+	t_token_type	type;
+}	t_token;
+
+typedef struct s_command {
+	char	**args;
+	int		in;
+	int		out;
+}	t_command;
 
 /* DECLARATIONS */
 extern	void		clear_kvp(t_dict *kvp);
