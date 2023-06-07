@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/05 03:06:25 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:00:45 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static char	*lex_string(char *cmd_line)
 	int	end;
 
 	end = 0;
-	while (cmd_line[end] && (!ft_isspace(cmd_line[end])
-			|| cmd_line[end] == '\'' || cmd_line[end] == '\"'))
+	while (cmd_line[end] && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
 }
@@ -65,7 +64,7 @@ static int	check_lexing_errors(t_node	*tokens)
 	while (iterator)
 	{
 		current = iterator->content;
-		if ((current->type == OUT || current->type == IN))
+		if (current->type == OUT || current->type == IN || current->type == HEREDOC || current->type == APPEND)
 		{
 			if (!iterator->next)
 				return (printf("parsing error near '%s'\n", current->value), 1);

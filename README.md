@@ -19,7 +19,7 @@
 # **concerns**
 
 - how to handle error codes to color prompt
-- implement a heredoc that dosent need a file or just a dynamic better way of simulating a heredoc
+- implement a dynamic tmp file for heredoc
 - should cleanup cmds and heredoc when they're not longer needed
 - lexing
   - handle env expansions
