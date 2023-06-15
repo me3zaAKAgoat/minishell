@@ -24,7 +24,7 @@
 # include "libft.h"
 # include "get_next_line.h"
 
-/* MACROS */
+	/* MACROS */
 # define CMD_FAIL 126
 # define CMD_UNKNOWN 126
 
@@ -38,7 +38,7 @@
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
 
-/* TYPES */
+	/* TYPES */
 typedef struct s_dict {
 	char	*key;
 	char	*value;
@@ -48,6 +48,14 @@ typedef struct s_meta {
 	t_node	*env;
 	int		status;
 }	t_meta;
+
+typedef struct s_command {
+	char	*args;
+	char	*infile;
+	char	*truncfile;
+	char	*DELIM;
+	char	*appendfile;
+}	t_command;
 
 typedef enum e_token_type {
 	STRING,
@@ -65,13 +73,7 @@ typedef struct s_token {
 	t_token_type	type;
 }	t_token;
 
-typedef struct s_command {
-	char	**args;
-	int		in;
-	int		out;
-}	t_command;
-
-/* DECLARATIONS */
+	/* DECLARATIONS */
 extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_node	*init_env(char **env);
