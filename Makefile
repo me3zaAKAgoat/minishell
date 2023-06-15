@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # CFLAGS = -Wall -Wextra -Werror 
 NAME = minishell
-READLINE = -lreadline
+READLINE = -lreadline -L/goinfre/ekenane/.brew/opt/readline/lib
 
 HEADER = includes/minishell.h
 
@@ -37,8 +37,8 @@ $(NAME) : linked_list libft get_next_line $(OBJECTS)
 
 bonus : $(BONUS_NAME)
 
-%.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) -I./includes -c $< -o $@
+%.o : %.c $(HEADERS)
+	$(CC) $(CFLAGS) -I/goinfre/ekenane/.brew/opt/readline/include -I./includes -c $< -o $@
 
 linked_list :
 	@echo "${YELLOW}Making linked list library...${COLOR_OFF}"
