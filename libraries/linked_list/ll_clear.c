@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 22:41:42 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/04 05:28:54 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/16 02:58:15 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Clear all nodes of a linked list from the heap.
 */
-void	ll_clear(t_node	**head, void (free_content)())
+void	ll_clear(t_node	**head, void (free_content)(void *))
 {
 	t_node	*tmp;
 
