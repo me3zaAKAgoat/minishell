@@ -25,3 +25,13 @@
   - handle env expansions
   - handle unclosed quotes
   - handle pipes at the end of the input
+- handle cd when directories are removed
+- have cd handle PWD and OLDPWD
+- have echo handle its arguments in a fluent manner (-nnnnn -nnnnss -ss) etc
+- have the lexer raise syntax errors for when heredoc append trunc and inputredir are not followed by strings/ when pipe is an end token/ when quotes are unclosed
+- have the pre parser/ lexer expand environment variables
+- store pids of all forks somewhere for them to get killed by CTRL-C
+- have builtins run inside forks aswell
+- find an elegant way to manage pipes
+- make a dict function that returns the value of a key
+- update global exit status

@@ -6,11 +6,25 @@ READLINE = -lreadline
 
 HEADER = includes/minishell.h
 
-SOURCES = src/main.c src/builtins/pwd.c src/builtins/unset.c\
-	src/builtins/export.c src/builtins/env.c src/builtins/cd.c src/builtins/exit.c\
-	src/util/dict.c src/util/array_to_str.c src/util/prompt.c src/util/strip.c\
-	src/util/here_doc.c src/lexing/lexer.c src/lexing/token.c src/env/env.c\
-	src/signals/signals.c src/parsing/parse.c
+SOURCES = src/main.c\
+	src/builtins/pwd.c\
+	src/builtins/unset.c\
+	src/builtins/export.c\
+	src/builtins/env.c\
+	src/builtins/cd.c\
+	src/builtins/exit.c\
+	src/util/dict.c\
+	src/util/join_arr.c\
+	src/util/prompt.c\
+	src/util/strip.c\
+	src/util/here_doc.c\
+	src/util/cmd.c\
+	src/lexing/lexer.c\
+	src/lexing/token.c\
+	src/env/env.c\
+	src/signals/signals.c\
+	src/parsing/parse.c\
+	src/parsing/create_command.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 

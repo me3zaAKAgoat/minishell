@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/05 04:59:36 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/16 03:08:42 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,17 @@ typedef struct s_command {
 	char	*args;
 	char	*infile;
 	char	*truncfile;
-	char	*DELIM;
+	char	*delim;
 	char	*appendfile;
 }	t_command;
 
 typedef enum e_token_type {
-	STRING,
-	PIPE,
 	IN,
 	OUT,
 	HEREDOC,
 	APPEND,
-	ENV,
+	STRING,
+	PIPE,
 	END
 }	t_token_type;
 
@@ -83,7 +82,7 @@ extern	void		export(t_meta *meta, char *key, char *value);
 extern	void		print_env(t_meta *meta);
 extern	void		cd(t_meta *meta, const char *path);
 extern	void		redirect_signals(void);
-extern	char		*array_to_str(char **words, char *sep);
+extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(t_meta *meta);
 extern	void		parse(t_meta *meta, char *cmd_line);
 extern	char		*strip(char *str);
@@ -96,5 +95,10 @@ extern	void		clear_token(t_token *token);
 extern	t_token	*new_token(char *value, t_token_type type);
 extern	char		**envp_generator(t_node *env);
 extern	void		free_envp(char **envp);
+extern	t_command	*init_command(void);
+extern	void		clear_command(t_command *cmd);
+extern	void		join_command_args(t_node *tokens, t_command *cmd);
+extern	void		setup_redirections(t_node *tokens, t_command *cmd);
+extern	t_command	*create_command(t_node *tokens);
 
 #endif

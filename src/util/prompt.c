@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/04 02:35:37 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:01:38 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*prompt_string(void)
 	words[7] = " ► ";
 	words[8] = COLOR_OFF;
 	words[9] = NULL;
-	prompt = array_to_str(words, "");
+	prompt = join_arr(words, "");
 	free(relative_path);
 	return (prompt);
 }
