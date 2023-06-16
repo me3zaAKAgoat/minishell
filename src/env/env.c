@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/05 01:41:04 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:01:38 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**envp_generator(t_node *env)
 		tmp[0] = kvp->key;
 		tmp[1] = kvp->value;
 		tmp[2] = NULL;
-		*arr_iter = array_to_str(tmp, "=");
+		*arr_iter = join_arr(tmp, "=");
 		ll_iter = ll_iter->next;
 		arr_iter++;
 	}
@@ -76,7 +76,7 @@ t_node	*init_env(char **env)
 	while (*env)
 	{
 		arr = ft_split(*env, '=');
-		tmp_str = array_to_str(arr + 1, "");
+		tmp_str = join_arr(arr + 1, "");
 		tmp_dict = new_kvp(arr[0], tmp_str);
 		if (tmp_dict)
 			ll_push(&head, ll_new(tmp_dict));
