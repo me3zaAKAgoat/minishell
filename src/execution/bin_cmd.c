@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:26:18 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 09:56:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:15:57 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	handle_bin_cmd(char **args, char **envp)
 	cmd_path = get_cmdpath(paths, args[0]);
 	if (!cmd_path)
 	{
-		write(2, "Minishell: Command not found: ", ft_strlen("Minishell: Command not found: "));
+		write(2, "Minishell: Command not found: ",
+			ft_strlen("Minishell: Command not found: "));
 		write(2, args[0], ft_strlen(args[0]));
 		write(2, "\n", 1);
 		split_clear(paths);

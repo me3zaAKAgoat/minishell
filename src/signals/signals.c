@@ -6,15 +6,14 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 23:56:41 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 08:11:03 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:23:18 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
+void	handle_sigint(void)
 {
-	(void)sig;
 	if (ll_size(g_meta.pids))
 	{
 		while (ll_size(g_meta.pids))
@@ -31,10 +30,11 @@ void	handle_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	g_meta.status = 130;
 }
 
 void	redirect_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
+	signal(SIGINT, (__sighandler_t)handle_sigint);
 }

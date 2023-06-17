@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 10:33:36 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:10:49 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	}
 	else if (*pid < 0)
 	{
-		//error handling
+		perror("Minishell:");
+		close_pipes(first_pipe, second_pipe);
 	}
 	else
 	{
