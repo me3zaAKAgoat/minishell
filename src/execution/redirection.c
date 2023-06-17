@@ -33,11 +33,9 @@ void	input_redirection(t_command *cmd)
 {
 	int		fd;
 
+	fd = -1;
 	if (!cmd->infile && !cmd->delim)
-	{
-		fd = 0;
 		return ;
-	}
 	if (cmd->infile)
 		fd = open(cmd->infile, O_RDONLY);
 	else if (cmd->delim)
@@ -55,11 +53,9 @@ void	out_redirection(t_command *cmd)
 {
 	int	fd;
 
+	fd = -1;
 	if (!cmd->appendfile && !cmd->truncfile)
-	{
-		fd = 0;
 		return ;
-	}
 	if (cmd->truncfile)
 		fd = open(cmd->truncfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->appendfile)
