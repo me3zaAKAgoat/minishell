@@ -63,6 +63,25 @@ void	free_envp(char **envp)
 	free(envp);
 }
 
+void	update_shlvl(t_node **head)
+{
+	t_node	*iterator;
+	t_dict	*kvp;
+
+	iterator = (*head);
+	while (iterator)
+	{
+		kvp = iterator->content;
+		if (!ft_strcmp(kvp->key, "SHLVL"))
+		{
+			int i = ft_atoi(kvp->value);
+			kvp->value = ft_itoa(i + 1);
+			break;
+		}
+		iterator = iterator->next;
+	}
+}
+
 t_node	*init_env(char **env)
 {
 	t_node	*head;
@@ -84,5 +103,6 @@ t_node	*init_env(char **env)
 		split_clear(arr);
 		env++;
 	}
+	update_shlvl(&head);
 	return (head);
 }
