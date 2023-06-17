@@ -35,3 +35,6 @@
 - find an elegant way to manage pipes
 - make a dict function that returns the value of a key
 - update global exit status
+- handle export without arguments
+- **when checking with strncmp which of the s1 and s2 strings should I take the length of, it seems to be the lengthier string but I'm not sure !**
+- get_cmd and get_path_env are extremely vulnerable and untested functions!!

@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/16 00:01:38 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 02:50:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**envp_generator(t_node *env)
 	t_dict	*kvp;
 	char	*tmp[3];
 
-	envp = malloc((sizeof(char *) + 1) * ll_size(env));
+	envp = malloc((sizeof(char *)) * (ll_size(env) + 1));
 	if (!envp)
 		return (NULL);
 	arr_iter = envp;
