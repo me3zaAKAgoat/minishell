@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-# CFLAGS = -Wall -Wextra -Werror 
+# CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 READLINE = -lreadline
 
@@ -57,7 +57,7 @@ $(NAME) : $(OBJECTS)
 	@make -C $(GET_NEXT_LINE) --no-print-directory
 	@make -C $(LIBFT) --no-print-directory
 	@printf "${GREEN}Done Making Minishell files.                        ${COLOR_OFF}\n"
-	$(CC) $(CFLAGS) -o -L /goinfre/ekenane/.brew/opt/readline/lib $@ $(OBJECTS) $(LDLFLAGS)
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS) -L /goinfre/ekenane/.brew/opt/readline/lib
 
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
