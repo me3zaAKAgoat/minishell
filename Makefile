@@ -27,6 +27,9 @@ SOURCES = src/main.c\
 	src/parsing/parse.c\
 	src/parsing/create_command.c\
 	src/execution/execution.c\
+	src/execution/redirection.c\
+	src/execution/pipe.c\
+	src/execution/bin_cmd.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 

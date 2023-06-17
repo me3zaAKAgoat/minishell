@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/16 19:51:50 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 05:12:22 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	prompt_loop(void)
 		prompt = prompt_string();
 		cmd_line = readline(prompt);
 		free(prompt);
+		add_history(cmd_line);
 		parse(cmd_line);
 		free(cmd_line);
 	}

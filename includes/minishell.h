@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 02:07:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 05:39:41 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,16 @@ extern	void		clear_command(t_command *cmd);
 extern	void		join_command_args(t_node *tokens, t_command *cmd);
 extern	t_command	*create_command(t_node *tokens);
 extern	void		execute_commands(t_node *cmds);
+extern	void		setup_pipes(int first_pipe[2], int second_pipe[2]);
+extern	void		close_pipes(int first_pipe[2], int second_pipe[2]);
+extern	void		cmd_wrapper(t_command *cmd,
+						int first_pipe[2], int second_pipe[2]);
+extern	void		pipeline(t_node *cmds);
+extern	void		input_redirection(t_command *cmd);
+extern	void		out_redirection(t_command *cmd);
+extern	char		**get_pathenv(char	*envp[]);
+extern	char		*get_cmdpath(char	**paths, char	*cmd);
+extern	void		handle_bin_cmd(char **args, char **envp);
 
 extern t_meta	g_meta;
 

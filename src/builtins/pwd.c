@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:30:57 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 00:19:12 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 05:37:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,6 @@ void	pwd(char **args)
 	wd = getcwd(NULL, 0);
 	write(1, wd, ft_strlen(wd));
 	free(wd);
+	write(1, "\n", 1);
+	exit(0);
 }

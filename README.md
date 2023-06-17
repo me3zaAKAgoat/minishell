@@ -38,3 +38,4 @@
 - handle export without arguments
 - **when checking with strncmp which of the s1 and s2 strings should I take the length of, it seems to be the lengthier string but I'm not sure !**
 - get_cmd and get_path_env are extremely vulnerable and untested functions!!
+- handle exit that should not be inside of a fork
