@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 08:11:49 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 10:33:36 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	exec_cmd(t_command *cmd)
 	}
 	else
 	{
-		handle_builtin(args);
+		handle_non_redirectable_builtin(args);
+		handle_redirectable_builtin(args);
 		handle_bin_cmd(args, envp);
 	}
 	split_clear(args);
@@ -62,16 +63,26 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	}
 }
 
+void	one_command(t_node *cmds)
+{
+	char	**args;
+
+	args = ft_split(((t_command *)cmds->content)->args, ' ');
+	if (!handle_non_redirectable_builtin(args))
+		cmd_wrapper(cmds->content, NULL, NULL);
+	split_clear(args);
+}
+
 /*
 the break in the loop is a check
 for whether the sigint handler has killed all the pids already
 */
 void	execute_commands(t_node *cmds)
 {
-	int	status;
+	int		status;
 
 	if (ll_size(cmds) == 1)
-		cmd_wrapper(cmds->content, NULL, NULL);
+		one_command(cmds);
 	else if (ll_size(cmds) > 1)
 		pipeline(cmds);
 	while (ll_size(g_meta.pids))

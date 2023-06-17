@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 05:36:56 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 08:52:38 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,4 @@ void	cd(char **args)
 	chdir(args[1]);
 	// handle removal of directories when deeply nested inside of a child
 	// handle setting PWD and OLDPWD
-	exit(0);
 }

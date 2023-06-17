@@ -6,33 +6,39 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:19:14 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 08:36:29 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:25:51 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	open_heredoc(char *delim)
+{
+	char	*heredoc_filename;
+	int		fd;
+
+	heredoc_filename = here_doc(delim);
+	if (!heredoc_filename)
+		fd = -1;
+	else
+	{
+		fd = open(heredoc_filename, O_RDONLY);
+		unlink(heredoc_filename);
+		free(heredoc_filename);
+	}
+	return (fd);
+}
+
 void	input_redirection(t_command *cmd)
 {
 	int		fd;
-	char	*heredoc_filename;
 
 	if (!cmd->infile && !cmd->delim)
 		return ;
 	if (cmd->infile)
 		fd = open(cmd->infile, O_RDONLY);
 	else if (cmd->delim)
-	{
-		heredoc_filename = here_doc(cmd->delim);
-		if (!heredoc_filename)
-			fd = -1;
-		else
-		{
-			fd = open(heredoc_filename, O_RDONLY);
-			unlink(heredoc_filename);
-			free(heredoc_filename);
-		}
-	}
+		fd = open_heredoc(cmd->delim);
 	if (fd == -1)
 	{
 		perror("Minishell");

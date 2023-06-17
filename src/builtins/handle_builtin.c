@@ -6,24 +6,32 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 03:44:59 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 07:50:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:08:29 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_builtin(char **args)
+int	handle_redirectable_builtin(char **args)
+{
+	(void)args;
+// echo
+	return (0);
+}
+
+int	handle_non_redirectable_builtin(char **args)
 {
 	if (!ft_strcmp(args[0], "exit"))
-		shell_exit(args);
+		return (shell_exit(args), 1);
 	else if (!ft_strcmp(args[0], "cd"))
-		cd(args);
+		return (cd(args), 1);
 	else if (!ft_strcmp(args[0], "env"))
-		print_env(args);
+		return (print_env(args), 1);
 	else if (!ft_strcmp(args[0], "export"))
-		export(args);
+		return (export(args), 1);
 	else if (!ft_strcmp(args[0], "unset"))
-		unset(args);
+		return (unset(args), 1);
 	else if (!ft_strcmp(args[0], "pwd"))
-		pwd(args);
+		return (pwd(args), 1);
+	return (0);
 }
