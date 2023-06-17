@@ -33,11 +33,11 @@ $(NAME) : $(OBJECTS)
 
 clean :
 	@rm -f $(OBJECTS)
-	@printf "${RED}Removed object files${COLOR_OFF}\n"
+	@printf "${RED}Removed libft object files.${COLOR_OFF}\n"
 
 fclean :
 	@rm -f $(OBJECTS) $(NAME)
-	@printf "${RED}Removed object files and library file.${COLOR_OFF}\n"
+	@printf "${RED}Removed libft object files and libft library file.${COLOR_OFF}\n"
 
 re : fclean all
 
