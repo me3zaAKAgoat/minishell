@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 05:39:41 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 08:33:42 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(void);
 extern	void		parse(char *cmd_line);
 extern	char		*strip(char *str);
-extern	int		here_doc(char *eof);
+extern	char	*here_doc(char *eof);
 extern	char		*expand_env(t_node *env, char *key);
 extern	int		ft_isspace(char c);
 extern	t_node	*tokenize(char *cmd_line);
@@ -117,6 +117,7 @@ extern	void		out_redirection(t_command *cmd);
 extern	char		**get_pathenv(char	*envp[]);
 extern	char		*get_cmdpath(char	**paths, char	*cmd);
 extern	void		handle_bin_cmd(char **args, char **envp);
+extern	int		ft_strcmp(const char *s1, const char *s2);
 
 extern t_meta	g_meta;
 

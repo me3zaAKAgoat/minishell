@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:19:14 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 05:19:22 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 08:36:29 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,25 @@
 
 void	input_redirection(t_command *cmd)
 {
-	int	fd;
+	int		fd;
+	char	*heredoc_filename;
 
 	if (!cmd->infile && !cmd->delim)
 		return ;
 	if (cmd->infile)
 		fd = open(cmd->infile, O_RDONLY);
 	else if (cmd->delim)
-		fd = here_doc(cmd->delim);
+	{
+		heredoc_filename = here_doc(cmd->delim);
+		if (!heredoc_filename)
+			fd = -1;
+		else
+		{
+			fd = open(heredoc_filename, O_RDONLY);
+			unlink(heredoc_filename);
+			free(heredoc_filename);
+		}
+	}
 	if (fd == -1)
 	{
 		perror("Minishell");
@@ -38,9 +49,9 @@ void	out_redirection(t_command *cmd)
 	if (!cmd->appendfile && !cmd->truncfile)
 		return ;
 	if (cmd->truncfile)
-		fd = open(cmd->truncfile, O_WRONLY | O_TRUNC);
+		fd = open(cmd->truncfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->appendfile)
-		fd = open(cmd->appendfile, O_WRONLY | O_APPEND);
+		fd = open(cmd->appendfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		perror("Minishell");
