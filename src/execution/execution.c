@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 06:53:15 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 08:11:49 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 		input_redirection(cmd);
 		out_redirection(cmd);
 		setup_pipes(first_pipe, second_pipe);
-		exec_cmd(cmd);
+		if (cmd->args)
+			exec_cmd(cmd);
+		exit(0);
 	}
 	else if (*pid < 0)
 	{

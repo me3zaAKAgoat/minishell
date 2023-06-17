@@ -20,7 +20,6 @@
 
 - how to handle error codes to color prompt
 - implement a dynamic tmp file for heredoc
-- should cleanup cmds and heredoc when they're not longer needed
 - lexing
   - handle env expansions
   - handle unclosed quotes
