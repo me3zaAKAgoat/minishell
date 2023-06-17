@@ -57,13 +57,11 @@ $(NAME) : $(OBJECTS)
 	@make -C $(GET_NEXT_LINE) --no-print-directory
 	@make -C $(LIBFT) --no-print-directory
 	@printf "${GREEN}Done Making Minishell files.                        ${COLOR_OFF}\n"
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS)
-
-bonus : $(BONUS_NAME)
+	$(CC) $(CFLAGS) -o -L /goinfre/ekenane/.brew/opt/readline/lib $@ $(OBJECTS) $(LDLFLAGS)
 
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -I./includes -c $< -o $@
+	@$(CC) $(CFLAGS) -I./includes -I /goinfre/ekenane/.brew/opt/readline/include -c $< -o $@
 
 
 clean :
