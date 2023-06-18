@@ -35,10 +35,7 @@ void	update_pwd(char *old_pwd)
 					kvp_old_pwd->value = old_pwd;
 					pwd = getcwd(NULL, 0);
 					if (!pwd)
-					{
-						printf("getcwd error\n");
-						exit(1);
-					}
+						return(write(2, "getcwd error\n", ft_strlen("getcwd error\n")));
 					kvp_pwd->value = pwd;
 					return ;
 				}
@@ -52,13 +49,10 @@ void	update_pwd(char *old_pwd)
 void	cd(char **args)
 {
 	char	*old_pwd;
-	// return of getcwd func should freed
+
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
-	{
-		printf("getcwd error\n");
-		exit(1);
-	}
+		return(write(2, "getcwd error\n", ft_strlen("getcwd error\n")));
 	chdir(args[1]);
 	update_pwd(old_pwd);
 	// handle removal of directories when deeply nested inside of a child
