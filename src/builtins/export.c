@@ -95,7 +95,8 @@ void	export(char **args)
 	{
 		write(2, "Minishell: export: `", ft_strlen("Minishell: export: `"));
 		write(2, args[1], ft_strlen(args[1]));
-		write(2, "': not a valid identifier\n", ft_strlen("': not a valid identifier\n"));
+		write(2, "': not a valid identifier\n",
+			ft_strlen("': not a valid identifier\n"));
 		split_clear(arr);
 		return ;
 	}
