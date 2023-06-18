@@ -81,6 +81,7 @@ typedef struct s_token {
 /* DECLARATIONS */
 extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
+extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
 extern	t_node	*init_env(char **env);
 extern	void		cd(char **args);
 extern	void		print_env(char **args);
