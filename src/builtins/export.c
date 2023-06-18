@@ -100,10 +100,10 @@ void	export(char **args)
 		split_clear(arr);
 		return ;
 	}
-	// key without value
+	// key without value (exprot key | export key=)
 	else if (!arr[1])
 	{
-		// key without value & without equal '=' should not added to the env
+		// key without value & without equal '=' should added to the env but don't print it
 		if (!equal_is_exist(args[1]))
 			return ;
 		value = ft_strdup("");
