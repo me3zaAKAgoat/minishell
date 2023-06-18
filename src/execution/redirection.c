@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:19:14 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 09:25:51 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:04:23 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	input_redirection(t_command *cmd)
 {
 	int		fd;
 
+	fd = -1;
 	if (!cmd->infile && !cmd->delim)
 		return ;
 	if (cmd->infile)
@@ -41,7 +42,7 @@ void	input_redirection(t_command *cmd)
 		fd = open_heredoc(cmd->delim);
 	if (fd == -1)
 	{
-		perror("Minishell");
+		perror("Minishell: Input Redirection:");
 		exit(1);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -52,6 +53,7 @@ void	out_redirection(t_command *cmd)
 {
 	int	fd;
 
+	fd = -1;
 	if (!cmd->appendfile && !cmd->truncfile)
 		return ;
 	if (cmd->truncfile)
@@ -60,7 +62,7 @@ void	out_redirection(t_command *cmd)
 		fd = open(cmd->appendfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("Minishell");
+		perror("Minishell: Output Redirection:");
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);

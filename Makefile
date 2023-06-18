@@ -55,8 +55,9 @@ $(NAME) : $(OBJECTS)
 	@make -C $(LINKED_LIST) --no-print-directory
 	@make -C $(GET_NEXT_LINE) --no-print-directory
 	@make -C $(LIBFT) --no-print-directory
-	@printf "${GREEN}Done Making Minishell files.                        ${COLOR_OFF}\n"
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS)
+	@printf "${BLUE}Linking\r${COLOR_OFF}"
+	@$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS)
+	@printf "${GREEN}Done Making Minishell.                        ${COLOR_OFF}\n"
 
 bonus :
 
