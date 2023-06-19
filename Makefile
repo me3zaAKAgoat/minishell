@@ -1,24 +1,43 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-# CFLAGS = -Wall -Wextra -Werror 
 NAME = minishell
-READLINE = -lreadline -L/goinfre/ekenane/.brew/opt/readline/lib
+READLINE = -lreadline
 
 HEADER = includes/minishell.h
 
-SOURCES = src/main.c src/builtins/pwd.c src/builtins/unset.c\
-	src/builtins/export.c src/builtins/env.c src/builtins/cd.c src/builtins/exit.c\
-	src/util/dict.c src/util/array_to_str.c src/util/prompt.c src/util/strip.c\
-	src/util/here_doc.c src/lexing/lexer.c src/lexing/token.c src/env/env.c\
-	src/signals/signals.c src/parsing/parse.c
+SOURCES = src/main.c\
+	src/builtins/pwd.c\
+	src/builtins/unset.c\
+	src/builtins/export.c\
+	src/builtins/env.c\
+	src/builtins/cd.c\
+	src/builtins/exit.c\
+	src/builtins/handle_builtin.c\
+	src/util/dict.c\
+	src/util/join_arr.c\
+	src/util/prompt.c\
+	src/util/strip.c\
+	src/util/here_doc.c\
+	src/util/cmd.c\
+	src/util/ft_strcmp.c\
+	src/lexing/lexer.c\
+	src/lexing/token.c\
+	src/env/env.c\
+	src/signals/signals.c\
+	src/parsing/parse.c\
+	src/parsing/create_command.c\
+	src/execution/execution.c\
+	src/execution/redirection.c\
+	src/execution/pipe.c\
+	src/execution/bin_cmd.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 
 LINKED_LIST = libraries/linked_list
-
 GET_NEXT_LINE = libraries/get_next_line
-
 LIBFT = libraries/libft
+
+LDLFLAGS = -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE) $(READLINE)
 
 COLOR_OFF=\033[0m
 BLACK=\033[1;30m
@@ -32,42 +51,31 @@ WHITE=\033[1;37m
 
 all : $(NAME)
 
-$(NAME) : linked_list libft get_next_line $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(READLINE) -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE)
+$(NAME) : $(OBJECTS)
+	@make -C $(LINKED_LIST) --no-print-directory
+	@make -C $(GET_NEXT_LINE) --no-print-directory
+	@make -C $(LIBFT) --no-print-directory
+	@printf "${GREEN}Done Making Minishell files.                        ${COLOR_OFF}\n"
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS) -L /goinfre/ekenane/.brew/opt/readline/lib
 
-bonus : $(BONUS_NAME)
+%.o : %.c $(HEADER)
+	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
+	@$(CC) $(CFLAGS) -I./includes -I /goinfre/ekenane/.brew/opt/readline/include -c $< -o $@
 
-%.o : %.c $(HEADERS)
-	$(CC) $(CFLAGS) -I/goinfre/ekenane/.brew/opt/readline/include -I./includes -c $< -o $@
-
-linked_list :
-	@echo "${YELLOW}Making linked list library...${COLOR_OFF}"
-	@make -C $(LINKED_LIST) > /dev/null
-	@echo "${GREEN}Done.${COLOR_OFF}"
-
-get_next_line :
-	@echo "${YELLOW}Making get next line library...${COLOR_OFF}"
-	@make -C $(GET_NEXT_LINE) > /dev/null
-	@echo "${GREEN}Done.${COLOR_OFF}"
-	
-libft :
-	@echo "${YELLOW}Making libft library...${COLOR_OFF}"
-	@make -C $(LIBFT) > /dev/null
-	@echo "${GREEN}Done.${COLOR_OFF}"
 
 clean :
-	rm -f $(OBJECTS)
-	@echo "${RED}Make clean libraries${COLOR_OFF}"
-	@make -C $(LIBFT) clean > /dev/null 
-	@make -C $(LINKED_LIST) clean > /dev/null 
-	@make -C $(GET_NEXT_LINE) clean > /dev/null 
+	@rm -f $(OBJECTS)
+	@printf "${RED}Removed Minishell binary.${COLOR_OFF}\n"
+	@make -C $(LIBFT) clean --no-print-directory 
+	@make -C $(LINKED_LIST) clean --no-print-directory 
+	@make -C $(GET_NEXT_LINE) clean --no-print-directory 
 
 fclean :
-	rm -f $(OBJECTS) $(NAME) 
-	@echo "${RED}Make fclean libraries${COLOR_OFF}"
-	@make -C $(LIBFT) fclean > /dev/null 
-	@make -C $(LINKED_LIST) fclean > /dev/null 
-	@make -C $(GET_NEXT_LINE) fclean > /dev/null 
+	@rm -f $(OBJECTS) $(NAME) 
+	@printf "${RED}Removed object files and Minishell binary.${COLOR_OFF}\n"
+	@make -C $(LIBFT) fclean --no-print-directory 
+	@make -C $(LINKED_LIST) fclean --no-print-directory 
+	@make -C $(GET_NEXT_LINE) fclean --no-print-directory 
 
 re : fclean all
 

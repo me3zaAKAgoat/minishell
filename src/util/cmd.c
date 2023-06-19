@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 10:30:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 08:53:03 by echoukri         ###   ########.fr       */
+/*   Created: 2023/06/16 02:33:58 by echoukri          #+#    #+#             */
+/*   Updated: 2023/06/16 03:10:08 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset(char **args)
+t_command	*init_command(void)
 {
-	t_node	*iterator;
-	t_dict	*kvp;
+	t_command	*cmd;
 
-	iterator = g_meta.env;
-	while (iterator)
-	{
-		kvp = iterator->content;
-		if (!ft_strcmp(args[1], kvp->key))
-		{
-			ll_del_one(ll_pop(&g_meta.env,
-					ll_get_index(g_meta.env, iterator)), (void*)clear_kvp);
-			break ;
-		}
-		iterator = iterator->next;
-	}
+	cmd = malloc(sizeof(t_command));
+	if (!cmd)
+		return (NULL);
+	cmd->args = NULL;
+	cmd->appendfile = NULL;
+	cmd->delim = NULL;
+	cmd->truncfile = NULL;
+	cmd->infile = NULL;
+	return (cmd);
+}
+
+void	clear_command(t_command *cmd)
+{
+	free(cmd->args);
+	free(cmd->appendfile);
+	free(cmd->delim);
+	free(cmd->truncfile);
+	free(cmd->infile);
+	free(cmd);
 }

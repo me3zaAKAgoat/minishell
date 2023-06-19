@@ -23,6 +23,26 @@ void	clear_kvp(t_dict *kvp)
 }
 
 /**
+ * get a key from dictionary 
+*/
+t_dict *get_kvp(t_node *kvp_list, char *key)
+{
+	t_dict	*kvp;
+	t_node	*iterator;
+
+	iterator = kvp_list;
+	while (iterator)
+	{
+		kvp = iterator->content;
+		if (!ft_strcmp(kvp->key, key))
+			return (kvp);
+		iterator = iterator->next;
+	}
+	return (NULL);
+}
+
+
+/**
  * sets a key value pair of dictionary type
 */
 t_dict	*new_kvp(char *key, char *val)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_to_str.c                                     :+:      :+:    :+:   */
+/*   join_arr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 15:23:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/04 01:08:18 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:00:59 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*joined_string(char **words, char *sep, size_t result_size)
 	return (result);
 }
 
-char	*array_to_str(char **words, char *sep)
+char	*join_arr(char **words, char *sep)
 {
 	size_t	size;
 

@@ -6,13 +6,14 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/02 22:08:10 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:08:02 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_exit(t_meta *meta)
+void	shell_exit(char **args)
 {
-	exit(meta->status);
+	(void)args;
+	exit(g_meta.status);
 }

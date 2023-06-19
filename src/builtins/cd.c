@@ -6,15 +6,54 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/01 04:17:33 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 08:52:38 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd(t_meta *meta, const char *path)
+void	update_pwd(char *old_pwd)
 {
-	chdir(path);
-	unset(meta, "PWD");
-	export(meta, "PWD", (char *)path);
+	char	*pwd;
+	t_node	*iterator_old_pwd;
+	t_node	*iterator_pwd;
+	t_dict	*kvp_pwd;
+	t_dict	*kvp_old_pwd;
+
+	iterator_pwd = g_meta.env;
+	while (iterator_pwd)
+	{
+		kvp_pwd = iterator_pwd->content;
+		if (!ft_strcmp(kvp_pwd->key, "PWD"))
+		{
+			iterator_old_pwd = g_meta.env;
+			while (iterator_old_pwd)
+			{
+				kvp_old_pwd = iterator_old_pwd->content;
+				if (!ft_strcmp(kvp_old_pwd->key, "OLDPWD"))
+				{
+					kvp_old_pwd->value = old_pwd;
+					pwd = getcwd(NULL, 0);
+					if (!pwd)
+						return(write(2, "getcwd error\n", ft_strlen("getcwd error\n")));
+					kvp_pwd->value = pwd;
+					return ;
+				}
+				iterator_old_pwd = iterator_old_pwd->next;
+			}
+		}
+		iterator_pwd = iterator_pwd->next;
+	}
+}
+
+void	cd(char **args)
+{
+	char	*old_pwd;
+
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return(write(2, "getcwd error\n", ft_strlen("getcwd error\n")));
+	chdir(args[1]);
+	update_pwd(old_pwd);
+	// handle removal of directories when deeply nested inside of a child
 }

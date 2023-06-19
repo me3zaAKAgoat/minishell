@@ -6,18 +6,20 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/03 20:54:13 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 02:12:31 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_meta	g_meta;
+
 int	main(int ac, char **av, char **env)
 {
-	t_meta	meta;
-
 	(void)ac, (void)av;
 	redirect_signals();
-	meta.env = init_env(env);
-	prompt_loop(&meta);
+	g_meta.env = init_env(env);
+	g_meta.status = 0;
+	g_meta.pids = NULL;
+	prompt_loop();
 }

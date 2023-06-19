@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/04 02:35:37 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 08:11:37 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ char	*prompt_string(void)
 	words[7] = " ► ";
 	words[8] = COLOR_OFF;
 	words[9] = NULL;
-	prompt = array_to_str(words, "");
+	prompt = join_arr(words, "");
 	free(relative_path);
 	return (prompt);
 }
 
-void	prompt_loop(t_meta *meta)
+void	prompt_loop(void)
 {
 	char	*cmd_line;
 	char	*prompt;
@@ -62,7 +62,8 @@ void	prompt_loop(t_meta *meta)
 		prompt = prompt_string();
 		cmd_line = readline(prompt);
 		free(prompt);
-		parse(meta, cmd_line);
+		add_history(cmd_line);
+		parse(cmd_line);
 		free(cmd_line);
 	}
 }

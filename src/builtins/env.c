@@ -6,18 +6,19 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 13:38:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/01 02:58:11 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:12:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(t_meta *meta)
+void	print_env(char **args)
 {
 	t_node	*iterator;
 	t_dict	*kvp;
 
-	iterator = meta->env;
+	(void)args;
+	iterator = g_meta.env;
 	while (iterator)
 	{
 		kvp = iterator->content;

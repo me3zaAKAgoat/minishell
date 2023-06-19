@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/05 15:00:45 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 04:33:41 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static char	*lex_string(char *cmd_line)
 
 static t_token	*get_next_token(char *cmd_line)
 {
-	if (*cmd_line == '\0')
-		return (new_token(ft_strdup(""), END));
-	else if (!ft_strncmp("<<", cmd_line, 2))
+	if (!ft_strncmp("<<", cmd_line, 2))
 		return (new_token(ft_strdup("<<"), HEREDOC));
 	else if (!ft_strncmp(">>", cmd_line, 2))
 		return (new_token(ft_strdup(">>"), APPEND));
@@ -64,7 +62,7 @@ static int	check_lexing_errors(t_node	*tokens)
 	while (iterator)
 	{
 		current = iterator->content;
-		if (current->type == OUT || current->type == IN || current->type == HEREDOC || current->type == APPEND)
+		if (IN <= current->type && current->type == APPEND)
 		{
 			if (!iterator->next)
 				return (printf("parsing error near '%s'\n", current->value), 1);
@@ -100,7 +98,8 @@ t_node	*tokenize(char *cmd_line)
 		ll_push(&tokens, ll_new(token));
 		i += ft_strlen(token->value);
 	}
+	ll_push(&tokens, ll_new(new_token(NULL, END)));
 	if (check_lexing_errors(tokens))
-		return (ll_clear(&tokens, clear_token), NULL);
+		return (ll_clear(&tokens, (void *)(void *)clear_token), NULL);
 	return (tokens);
 }
