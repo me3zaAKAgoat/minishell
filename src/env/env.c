@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 02:50:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 03:37:04 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,17 @@ void	free_envp(char **envp)
 	free(envp);
 }
 
-void	update_shlvl(t_node **head)
+void	update_shlvl(t_node *head)
 {
-	t_node	*iterator;
 	t_dict	*kvp;
+	int		old_shlvl;
 
-	iterator = (*head);
-	while (iterator)
+	kvp = get_kvp(head, "SHLVL");
+	if (kvp)
 	{
-		kvp = iterator->content;
-		if (!ft_strcmp(kvp->key, "SHLVL"))
-		{
-			int i = ft_atoi(kvp->value);
-			kvp->value = ft_itoa(i + 1);
-			break;
-		}
-		iterator = iterator->next;
+		old_shlvl = ft_atoi(kvp->value);
+		free(kvp->value);
+		kvp->value = ft_itoa(old_shlvl + 1);
 	}
 }
 
@@ -103,6 +98,6 @@ t_node	*init_env(char **env)
 		split_clear(arr);
 		env++;
 	}
-	update_shlvl(&head);
+	update_shlvl(head);
 	return (head);
 }

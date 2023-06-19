@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 09:26:31 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 03:09:28 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ extern	char		**get_pathenv(char	*envp[]);
 extern	char		*get_cmdpath(char	**paths, char	*cmd);
 extern	void		handle_bin_cmd(char **args, char **envp);
 extern	int		ft_strcmp(const char *s1, const char *s2);
+extern	t_dict		*get_kvp(t_node *kvp_list, char *key);
+extern	void		werror(char *msg);
 
 extern t_meta	g_meta;
 

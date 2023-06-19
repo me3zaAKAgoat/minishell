@@ -20,6 +20,7 @@ SOURCES = src/main.c\
 	src/util/strip.c\
 	src/util/here_doc.c\
 	src/util/cmd.c\
+	src/util/werror.c\
 	src/util/ft_strcmp.c\
 	src/lexing/lexer.c\
 	src/lexing/token.c\

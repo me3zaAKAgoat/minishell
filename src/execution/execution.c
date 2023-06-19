@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 00:37:03 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:54:46 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ void	exec_cmd(t_command *cmd)
 	}
 	else
 	{
-		handle_non_redirectable_builtin(args);
-		handle_redirectable_builtin(args);
-		handle_bin_cmd(args, envp);
+		if (!handle_non_redirectable_builtin(args) && !handle_redirectable_builtin(args))
+			handle_bin_cmd(args, envp);
 	}
 	split_clear(args);
 	free_envp(envp);
