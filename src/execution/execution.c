@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 10:33:36 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 00:37:03 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_cmd(t_command *cmd)
 	if (ft_strnstr(args[0], "/", ft_strlen(args[0])) && !access(args[0], F_OK))
 	{
 		execve(args[0], args, envp);
-		perror("Minishell");
+		perror("Minishell: Script execution:");
 		exit(1);
 	}
 	else
@@ -54,7 +54,8 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	}
 	else if (*pid < 0)
 	{
-		//error handling
+		perror("Minishell: Command execution:");
+		close_pipes(first_pipe, second_pipe);
 	}
 	else
 	{
@@ -90,6 +91,8 @@ void	execute_commands(t_node *cmds)
 		waitpid(*((pid_t *)g_meta.pids->content), &status, 0);
 		if (WIFEXITED(status))
 			g_meta.status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			g_meta.status = 127 + WTERMSIG(status);
 		if (!ll_size(g_meta.pids))
 			break ;
 		ll_del_one(ll_shift(&g_meta.pids), free);

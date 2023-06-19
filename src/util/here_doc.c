@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:48:13 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 08:35:46 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:50:41 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*prompt_heredoc(void)
 {
-	write(1, "heredoc>", ft_strlen("heredoc>"));
+	write(1, "> ", ft_strlen("> "));
 	return (get_next_line(0));
 }
 
@@ -38,6 +38,11 @@ static char	*unique_tmp_name(void)
 	return (NULL);
 }
 
+static void	handle_sigint(void)
+{
+	exit(EXIT_FAILURE);
+}
+
 char	*here_doc(char *eof)
 {
 	char	*read_buf;
@@ -45,6 +50,7 @@ char	*here_doc(char *eof)
 	char	*unique_filename;
 	int		fd;
 
+	signal(SIGINT, (__sighandler_t)handle_sigint);
 	unique_filename = unique_tmp_name();
 	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
 	if (fd == -1)

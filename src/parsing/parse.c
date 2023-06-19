@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 07:57:30 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:06:16 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	parse(char *cmd_line)
 	t_node		*cmds;
 
 	if (!cmd_line)
-		exit(0); // this should be status of last executed command instead of 0
+		exit(g_meta.status);
 	tokens = tokenize(cmd_line);
 	if (!tokens)
 		return ;

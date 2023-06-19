@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:26:18 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 09:56:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:48:39 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**get_pathenv(char	*envp[])
 	char	**paths;
 	char	**tmp;
 
-	while (*envp)
+	while (envp && *envp)
 	{
 		if (!ft_strncmp(*envp, "PATH", ft_strlen("PATH")))
 		{
@@ -57,20 +57,21 @@ void	handle_bin_cmd(char **args, char **envp)
 	paths = get_pathenv(envp);
 	if (!paths)
 	{
-		write(2, "error handling bin command.\n",
-			ft_strlen("error handling bin command.\n"));
+		write(2, "Minishell: Could not get command paths.\n",
+			ft_strlen("Minishell: Could not get command paths.\n"));
 		exit(1);
 	}
 	cmd_path = get_cmdpath(paths, args[0]);
 	if (!cmd_path)
 	{
-		write(2, "Minishell: Command not found: ", ft_strlen("Minishell: Command not found: "));
+		write(2, "Minishell: Command not found: ",
+			ft_strlen("Minishell: Command not found: "));
 		write(2, args[0], ft_strlen(args[0]));
 		write(2, "\n", 1);
 		split_clear(paths);
 		exit(CMD_UNKNOWN);
 	}
 	execve(cmd_path, args, envp);
-	perror("Minishell");
+	perror("Minishell: Bin command:");
 	exit(1);
 }
