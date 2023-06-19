@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 14:39:05 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:10:48 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	print_export(void)
 			write(1, "=\"", ft_strlen("=\""));
 			write(1, kvp->value, ft_strlen(kvp->value));
 			write(1, "\"", ft_strlen("\""));
-			write(1, "\n", ft_strlen("\n"));
 		}
+		write(1, "\n", ft_strlen("\n"));
 		iterator = iterator->next;
 	}
 }
