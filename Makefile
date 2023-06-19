@@ -63,7 +63,7 @@ bonus :
 
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -I./includes -I /goinfre/ekenane/.brew/opt/readline/include -c $< -o $@
+	@$(CC) $(CFLAGS) -I./includes -c $< -o $@
 
 clean :
 	@rm -f $(OBJECTS)

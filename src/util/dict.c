@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:55:15 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/01 02:59:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:36:06 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,14 @@ void	clear_kvp(t_dict *kvp)
 */
 t_dict *get_kvp(t_node *kvp_list, char *key)
 {
-	t_dict	*kvp;
-	t_node	*iterator;
-
-	iterator = kvp_list;
-	while (iterator)
+	while (kvp_list)
 	{
-		kvp = iterator->content;
-		if (!ft_strcmp(kvp->key, key))
-			return (kvp);
-		iterator = iterator->next;
+		if (!ft_strcmp(((t_dict *)kvp_list->content)->key, key))
+			return (((t_dict *)kvp_list->content));
+		kvp_list = kvp_list->next;
 	}
 	return (NULL);
 }
-
 
 /**
  * sets a key value pair of dictionary type
@@ -48,19 +42,13 @@ t_dict *get_kvp(t_node *kvp_list, char *key)
 t_dict	*new_kvp(char *key, char *val)
 {
 	t_dict	*kvp;
-	char	*h_key;
-	char	*h_val;
 
-	if (!key || !val)
+	if (!key)
 		return (NULL);
 	kvp = malloc(sizeof(t_dict));
-	h_key = malloc(ft_strlen(key) + 1);
-	h_val = malloc(ft_strlen(val) + 1);
-	if (!kvp || !h_key || !h_val)
+	if (!kvp)
 		return (NULL);
-	ft_strlcpy(h_key, key, ft_strlen(key) + 1);
-	ft_strlcpy(h_val, val, ft_strlen(val) + 1);
-	kvp->key = h_key;
-	kvp->value = h_val;
+	kvp->key = ft_strdup(key);
+	kvp->value = ft_strdup(val);
 	return (kvp);
 }
