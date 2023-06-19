@@ -6,31 +6,50 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 03:44:59 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 03:09:48 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:42:18 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_redirectable_builtin(char **args)
+int	is_builtin(t_command *cmd)
 {
-	if (!ft_strcmp(args[0], "export"))
-		return (export(args), 1);
+	char	**args;
+
+	if (!cmd->args)
+		return (0);
+	args = ft_split(cmd->args, ' ');
+	if (!ft_strcmp(args[0], "exit"))
+		return (split_clear(args), 1);
+	else if (!ft_strcmp(args[0], "cd"))
+		return (split_clear(args), 1);
+	else if (!ft_strcmp(args[0], "pwd"))
+		return (split_clear(args), 1);
+	else if (!ft_strcmp(args[0], "export"))
+		return (split_clear(args), 1);
 	else if (!ft_strcmp(args[0], "env"))
-		return (print_env(args), 1);
+		return (split_clear(args), 1);
 	else if (!ft_strcmp(args[0], "unset"))
-		return (unset(args), 1);
-// echo
-	return (0);
+		return (split_clear(args), 1);
+	return (split_clear(args), 0);
 }
 
-int	handle_non_redirectable_builtin(char **args)
+void	handle_builtin(t_command *cmd)
 {
+	char	**args;
+
+	args = ft_split(cmd->args, ' ');
 	if (!ft_strcmp(args[0], "exit"))
-		return (shell_exit(args), 1);
+		shell_exit(args);
 	else if (!ft_strcmp(args[0], "cd"))
-		return (cd(args), 1);
+		cd(args);
 	else if (!ft_strcmp(args[0], "pwd"))
-		return (pwd(args), 1);
-	return (0);
+		pwd(args);
+	else if (!ft_strcmp(args[0], "export"))
+		export(args);
+	else if (!ft_strcmp(args[0], "env"))
+		print_env(args);
+	else if (!ft_strcmp(args[0], "unset"))
+		unset(args);
+	split_clear(args);
 }

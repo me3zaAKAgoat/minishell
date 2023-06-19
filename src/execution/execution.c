@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 13:54:46 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:52:37 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	exec_cmd(t_command *cmd)
 	}
 	else
 	{
-		if (!handle_non_redirectable_builtin(args) && !handle_redirectable_builtin(args))
+		if (is_builtin(cmd))
+			handle_builtin(cmd);
+		else
 			handle_bin_cmd(args, envp);
 	}
 	split_clear(args);
@@ -63,14 +65,23 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	}
 }
 
-void	one_command(t_node *cmds)
+void	single_command(t_node *cmd)
 {
-	char	**args;
+	int	original_stdin;
+	int	original_stdout;
 
-	args = ft_split(((t_command *)cmds->content)->args, ' ');
-	if (!handle_non_redirectable_builtin(args))
-		cmd_wrapper(cmds->content, NULL, NULL);
-	split_clear(args);
+	if (is_builtin(cmd->content))
+	{
+		original_stdin = dup(0);
+		original_stdout = dup(1);
+		input_redirection(cmd->content);
+		out_redirection(cmd->content);
+		handle_builtin(cmd->content);
+		dup2(original_stdin, 0);
+		dup2(original_stdout, 1);
+	}
+	else
+		cmd_wrapper(cmd->content, NULL, NULL);	
 }
 
 /*
@@ -82,7 +93,7 @@ void	execute_commands(t_node *cmds)
 	int		status;
 
 	if (ll_size(cmds) == 1)
-		one_command(cmds);
+		single_command(cmds);
 	else if (ll_size(cmds) > 1)
 		pipeline(cmds);
 	while (ll_size(g_meta.pids))
@@ -91,7 +102,7 @@ void	execute_commands(t_node *cmds)
 		if (WIFEXITED(status))
 			g_meta.status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			g_meta.status = 127 + WTERMSIG(status);
+			g_meta.status = CMD_FAIL + WTERMSIG(status);
 		if (!ll_size(g_meta.pids))
 			break ;
 		ll_del_one(ll_shift(&g_meta.pids), free);

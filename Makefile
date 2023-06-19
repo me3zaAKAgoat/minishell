@@ -13,7 +13,6 @@ SOURCES = src/main.c\
 	src/builtins/env.c\
 	src/builtins/cd.c\
 	src/builtins/exit.c\
-	src/builtins/handle_builtin.c\
 	src/util/dict.c\
 	src/util/join_arr.c\
 	src/util/prompt.c\
@@ -28,6 +27,7 @@ SOURCES = src/main.c\
 	src/signals/signals.c\
 	src/parsing/parse.c\
 	src/parsing/create_command.c\
+	src/execution/handle_builtin.c\
 	src/execution/execution.c\
 	src/execution/redirection.c\
 	src/execution/pipe.c\

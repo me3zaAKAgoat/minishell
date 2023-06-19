@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 03:09:28 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:52:25 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 /* MACROS */
 # define READ_END 0
 # define WRITE_END 1
-# define CMD_FAIL 126
+# define CMD_FAIL 127
 # define CMD_UNKNOWN 126
 
 # define COLOR_OFF "\033[0m"
@@ -89,8 +89,8 @@ extern	void		shell_exit(char **args);
 extern	void		export(char **args);
 extern	void		pwd(char **args);
 extern	void		unset(char **args);
-extern	int		handle_redirectable_builtin(char **args);
-extern	int		handle_non_redirectable_builtin(char **args);
+extern	void	handle_builtin(t_command *cmd);
+extern	int		is_builtin(t_command *cmd);
 extern	void		redirect_signals(void);
 extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(void);

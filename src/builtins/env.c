@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 13:38:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 14:00:45 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:38:57 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void	print_env(char **args)
 		}
 		iterator = iterator->next;
 	}
-	exit(0);
 }
