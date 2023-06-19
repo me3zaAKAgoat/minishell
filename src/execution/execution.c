@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 15:52:37 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:46:39 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	exec_cmd(t_command *cmd)
 	free_envp(envp);
 }
 
+
+/*
+redirections have priority over pipes that's why the pipes get nullifyed if
+there's a redirection
+*/
 void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 {
 	pid_t	*pid;
@@ -48,6 +53,10 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	{
 		input_redirection(cmd);
 		out_redirection(cmd);
+		if (cmd->appendfile || cmd->truncfile)
+			first_pipe = NULL;
+		if (cmd->delim || cmd->infile)
+			second_pipe = NULL;
 		setup_pipes(first_pipe, second_pipe);
 		if (cmd->args)
 			exec_cmd(cmd);
