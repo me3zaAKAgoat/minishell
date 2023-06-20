@@ -6,31 +6,11 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 04:33:41 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 03:14:50 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*lex_quotes(char *cmd_line, char delim)
-{
-	int		end;
-
-	end = 0;
-	while ((cmd_line + 1)[end] && (cmd_line + 1)[end] != delim)
-		end++;
-	return (ft_substr(cmd_line, 0, end + 2));
-}
-
-static char	*lex_string(char *cmd_line)
-{
-	int	end;
-
-	end = 0;
-	while (cmd_line[end] && !ft_isspace(cmd_line[end]))
-		end++;
-	return (ft_substr(cmd_line, 0, end));
-}
 
 static t_token	*get_next_token(char *cmd_line)
 {
@@ -45,38 +25,33 @@ static t_token	*get_next_token(char *cmd_line)
 	else if (!ft_strncmp("|", cmd_line, 1))
 		return (new_token(ft_strdup("|"), PIPE));
 	else if (!ft_strncmp("\'", cmd_line, 1))
-		return (new_token(lex_quotes(cmd_line, '\''), STRING));
+		return (new_token(lex_single_quotes(cmd_line), STRING));
 	else if (!ft_strncmp("\"", cmd_line, 1))
-		return (new_token(lex_quotes(cmd_line, '\"'), STRING));
+		return (new_token(lex_double_quotes(cmd_line), STRING));
 	else
 		return (new_token(lex_string(cmd_line), STRING));
 }
 
-static int	check_lexing_errors(t_node	*tokens)
+static void	remove_string_quotations(t_node *tokens)
 {
-	t_node	*iterator;
-	t_token	*current;
-	t_token	*next;
+	t_token	*token;
+	char	*tmp;
 
-	iterator = tokens;
-	while (iterator)
+	while (tokens)
 	{
-		current = iterator->content;
-		if (IN <= current->type && current->type == APPEND)
+		token = tokens->content;
+		if (token->type == STRING
+			&& ((token->value[0] == '\'' || token->value[0] == '\"')))
 		{
-			if (!iterator->next)
-				return (printf("parsing error near '%s'\n", current->value), 1);
-			else
-			{
-				next = iterator->next->content;
-				if (next->type != STRING)
-					return (printf("parsing error near '%s'\n",
-							current->value), 1);
-			}
+			if (token->value[0] == '\'')
+				tmp = ft_strtrim(token->value, "\'");
+			else if (token->value[0] == '\"')
+				tmp = ft_strtrim(token->value, "\"");
+			free(token->value);
+			token->value = tmp;
 		}
-		iterator = iterator->next;
+		tokens = tokens->next;
 	}
-	return (0);
 }
 
 t_node	*tokenize(char *cmd_line)
@@ -99,7 +74,8 @@ t_node	*tokenize(char *cmd_line)
 		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
-	if (check_lexing_errors(tokens))
+	if (lexical_errors(tokens))
 		return (ll_clear(&tokens, (void *)(void *)clear_token), NULL);
+	remove_string_quotations(tokens);
 	return (tokens);
 }

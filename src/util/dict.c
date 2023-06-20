@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:55:15 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 13:36:06 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 02:54:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	clear_kvp(t_dict *kvp)
 /**
  * get a key from dictionary 
 */
-t_dict *get_kvp(t_node *kvp_list, char *key)
+t_dict	*get_kvp(t_node *kvp_list, char *key)
 {
 	while (kvp_list)
 	{

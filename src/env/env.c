@@ -6,25 +6,11 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 03:37:04 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 02:26:04 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*expand_env(t_node *env, char *key)
-{
-	t_dict	*kvp;
-
-	while (env)
-	{
-		kvp = env->content;
-		if (!ft_strncmp(key, kvp->key, ft_strlen(kvp->key)))
-			return (kvp->value);
-		env = env->next;
-	}
-	return (NULL);
-}
 
 char	**envp_generator(t_node *env)
 {

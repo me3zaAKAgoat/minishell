@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 16:10:48 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 02:54:42 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	update_env(char **args)
 {
 	char	**key_value_arr;
 	t_dict	*existing_pair;
-	char	*joined_val;
+	char	*new_val;
 
 	key_value_arr = ft_split(args[1], '=');
 	if (!key_is_valid(key_value_arr[0]))
@@ -66,16 +66,18 @@ void	update_env(char **args)
 		split_clear(key_value_arr);
 		return ;
 	}
-	joined_val = join_arr(key_value_arr + 1, "=");
+	new_val = join_arr(key_value_arr + 1, "=");
+	if (ft_strchr(args[1], '=') && !new_val)
+		new_val = ft_strdup("");
 	existing_pair = get_kvp(g_meta.env, key_value_arr[0]);
 	if (existing_pair)
 	{
-		free(existing_pair->value); 
-		existing_pair->value = ft_strdup(joined_val); 
+		free(existing_pair->value);
+		existing_pair->value = ft_strdup(new_val);
 	}
 	else
-		ll_push(&g_meta.env, ll_new(new_kvp(key_value_arr[0], joined_val)));
-	free(joined_val);
+		ll_push(&g_meta.env, ll_new(new_kvp(key_value_arr[0], new_val)));
+	free(new_val);
 	split_clear(key_value_arr);
 }
 
