@@ -17,9 +17,9 @@ int	echo_without_args(char **args)
 	if (!args[1])
 	{
 		printf("\n");
-		return(1);
+		return (1);
 	}
-	return(0);
+	return (0);
 }
 
 int	new_line_option(char **args, int *i)
@@ -33,7 +33,7 @@ int	new_line_option(char **args, int *i)
 		if (!ft_strcmp(args[(*i)], "-n"))
 			print_new_line = 0;
 		else
-			break;
+			break ;
 		(*i)++;
 	}
 	return (print_new_line);
@@ -41,7 +41,9 @@ int	new_line_option(char **args, int *i)
 
 void	print_args(char **args)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (args[i])
 	{
 		printf("%s", args[i]);
