@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 03:44:59 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 15:42:18 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:57:03 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	is_builtin(t_command *cmd)
 	if (!ft_strcmp(args[0], "exit"))
 		return (split_clear(args), 1);
 	else if (!ft_strcmp(args[0], "cd"))
+		return (split_clear(args), 1);
+	else if (!ft_strcmp(args[0], "echo"))
 		return (split_clear(args), 1);
 	else if (!ft_strcmp(args[0], "pwd"))
 		return (split_clear(args), 1);
@@ -43,6 +45,8 @@ void	handle_builtin(t_command *cmd)
 		shell_exit(args);
 	else if (!ft_strcmp(args[0], "cd"))
 		cd(args);
+	else if (!ft_strcmp(args[0], "echo"))
+		echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
 		pwd(args);
 	else if (!ft_strcmp(args[0], "export"))

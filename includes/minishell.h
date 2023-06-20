@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 03:16:13 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:56:46 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
 extern	t_node	*init_env(char **env);
 extern	void		cd(char **args);
+extern	void		echo(char **args);
 extern	void		print_env(char **args);
 extern	void		shell_exit(char **args);
 extern	void		export(char **args);

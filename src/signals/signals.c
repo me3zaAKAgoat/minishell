@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void	handle_sigint(void)
+void	handle_sigint(int i)
 {
+	(void)i;
 	if (ll_size(g_meta.pids))
 	{
 		while (ll_size(g_meta.pids))
@@ -35,5 +36,5 @@ void	handle_sigint(void)
 void	redirect_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, (__sighandler_t)handle_sigint);
+	signal(SIGINT, handle_sigint);
 }

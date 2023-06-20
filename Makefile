@@ -12,6 +12,7 @@ SOURCES = src/main.c\
 	src/builtins/export.c\
 	src/builtins/env.c\
 	src/builtins/cd.c\
+	src/builtins/echo.c\
 	src/builtins/exit.c\
 	src/util/dict.c\
 	src/util/join_arr.c\
@@ -58,14 +59,14 @@ $(NAME) : $(OBJECTS)
 	@make -C $(GET_NEXT_LINE) --no-print-directory
 	@make -C $(LIBFT) --no-print-directory
 	@printf "${BLUE}Linking\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS)
+	@$(CC) $(CFLAGS) -L/goinfre/ekenane/.brew/opt/readline/lib -o $@ $(OBJECTS) $(LDLFLAGS)
 	@printf "${GREEN}Done Making Minishell.                        ${COLOR_OFF}\n"
 
 bonus :
 
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -I./includes -c $< -o $@
+	@$(CC) $(CFLAGS) -I./includes -I/goinfre/ekenane/.brew/opt/readline/include -c $< -o $@
 
 clean :
 	@rm -f $(OBJECTS)
