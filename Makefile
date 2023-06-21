@@ -11,6 +11,7 @@ SOURCES = src/main.c\
 	src/builtins/unset.c\
 	src/builtins/export.c\
 	src/builtins/env.c\
+	src/builtins/echo.c\
 	src/builtins/cd.c\
 	src/builtins/exit.c\
 	src/util/dict.c\

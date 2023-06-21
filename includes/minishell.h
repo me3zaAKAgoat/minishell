@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/21 17:36:22 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 19:01:17 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
 extern	t_node	*init_env(char **env);
 extern	void		cd(char **args);
+extern	void		echo(char **args);
 extern	void		print_env(char **args);
 extern	void		shell_exit(char **args);
 extern	void		export(char **args);
@@ -97,7 +98,6 @@ extern	void		redirect_signals(void);
 extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(void);
 extern	void		parse(char *cmd_line);
-extern	char		*strip(char *str);
 extern	char		*here_doc(char *eof);
 extern	int		ft_isspace(char c);
 extern	t_node	*tokenize(char *cmd_line);
