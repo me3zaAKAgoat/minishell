@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/21 14:52:54 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:36:22 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define WRITE_END 1
 # define CMD_FAIL 126
 # define CMD_UNKNOWN 127
+# define BUILTIN_INCORRECT_USAGE 2
+# define BUILTIN_FAIL 1
 
 # define COLOR_OFF "\033[0m"
 # define BLACK "\033[1;30m"
@@ -125,6 +127,8 @@ extern	char		*lex_double_quotes(char *cmd_line);
 extern	char		*lex_single_quotes(char *cmd_line);
 extern	char		*lex_string(char *cmd_line);
 extern	int		lexical_errors(t_node	*tokens);
+extern	int		is_number(char *str);
+extern	long long	ft_atoul(const char *str);
 
 extern t_meta	g_meta;
 
