@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 13:23:36 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/21 21:50:18 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 23:10:55 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	size_t	s2_len;
 
 	if (s1 && !s2)
-		return (ft_strdup(s1));
+		return (ft_strdup((char *)s1));
 	if (!s1 && s2)
-		return (ft_strdup(s2));
+		return (ft_strdup((char *)s2));
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	ptr = malloc(s1_len + s2_len + 1);
