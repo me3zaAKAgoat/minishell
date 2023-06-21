@@ -6,25 +6,11 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 02:50:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 02:26:04 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*expand_env(t_node *env, char *key)
-{
-	t_dict	*kvp;
-
-	while (env)
-	{
-		kvp = env->content;
-		if (!ft_strncmp(key, kvp->key, ft_strlen(kvp->key)))
-			return (kvp->value);
-		env = env->next;
-	}
-	return (NULL);
-}
 
 char	**envp_generator(t_node *env)
 {
@@ -63,22 +49,17 @@ void	free_envp(char **envp)
 	free(envp);
 }
 
-void	update_shlvl(t_node **head)
+void	update_shlvl(t_node *head)
 {
-	t_node	*iterator;
 	t_dict	*kvp;
+	int		old_shlvl;
 
-	iterator = (*head);
-	while (iterator)
+	kvp = get_kvp(head, "SHLVL");
+	if (kvp)
 	{
-		kvp = iterator->content;
-		if (!ft_strcmp(kvp->key, "SHLVL"))
-		{
-			int i = ft_atoi(kvp->value);
-			kvp->value = ft_itoa(i + 1);
-			break;
-		}
-		iterator = iterator->next;
+		old_shlvl = ft_atoi(kvp->value);
+		free(kvp->value);
+		kvp->value = ft_itoa(old_shlvl + 1);
 	}
 }
 
@@ -103,6 +84,6 @@ t_node	*init_env(char **env)
 		split_clear(arr);
 		env++;
 	}
-	update_shlvl(&head);
+	update_shlvl(head);
 	return (head);
 }

@@ -18,10 +18,8 @@
 
 # **concerns**
 
-- how to handle error codes to color prompt
-- implement a dynamic tmp file for heredoc
 - lexing
-  - handle env expansions
+  - handle env variable expansions
   - handle unclosed quotes
   - handle pipes at the end of the input
 - handle cd when directories are removed
@@ -29,13 +27,6 @@
 - have echo handle its arguments in a fluent manner (-nnnnn -nnnnss -ss) etc
 - have the lexer raise syntax errors for when heredoc append trunc and inputredir are not followed by strings/ when pipe is an end token/ when quotes are unclosed
 - have the pre parser/ lexer expand environment variables
-- store pids of all forks somewhere for them to get killed by CTRL-C
-- make a dict function that returns the value of a key
 - update global exit status
-- handle export without arguments
-- **when checking with strncmp which of the s1 and s2 strings should I take the length of, it seems to be the lengthier string but I'm not sure !**
-- handle exit that should not be inside of a fork
 - echo builtin is missing
-- export builtin
-  - no value envs
-  - updating existing envs
+- fix wildcard \*

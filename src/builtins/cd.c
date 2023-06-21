@@ -6,54 +6,41 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 08:52:38 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 02:06:00 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_pwd(char *old_pwd)
+void	update_env_wd(char *key)
 {
-	char	*pwd;
-	t_node	*iterator_old_pwd;
-	t_node	*iterator_pwd;
-	t_dict	*kvp_pwd;
-	t_dict	*kvp_old_pwd;
+	t_dict	*kvp;
+	char	*cwd;
 
-	iterator_pwd = g_meta.env;
-	while (iterator_pwd)
-	{
-		kvp_pwd = iterator_pwd->content;
-		if (!ft_strcmp(kvp_pwd->key, "PWD"))
-		{
-			iterator_old_pwd = g_meta.env;
-			while (iterator_old_pwd)
-			{
-				kvp_old_pwd = iterator_old_pwd->content;
-				if (!ft_strcmp(kvp_old_pwd->key, "OLDPWD"))
-				{
-					kvp_old_pwd->value = old_pwd;
-					pwd = getcwd(NULL, 0);
-					if (!pwd)
-						return(write(2, "getcwd error\n", ft_strlen("getcwd error\n")));
-					kvp_pwd->value = pwd;
-					return ;
-				}
-				iterator_old_pwd = iterator_old_pwd->next;
-			}
-		}
-		iterator_pwd = iterator_pwd->next;
-	}
+	kvp = get_kvp(g_meta.env, key);
+	free(kvp->value);
+	cwd = getcwd(NULL, 0);
+	kvp->value = ft_strdup(cwd);
+	free(cwd);
 }
 
 void	cd(char **args)
 {
-	char	*old_pwd;
+	char	*dir;
+	t_dict	*kvp;
 
-	old_pwd = getcwd(NULL, 0);
-	if (!old_pwd)
-		return(write(2, "getcwd error\n", ft_strlen("getcwd error\n")));
-	chdir(args[1]);
-	update_pwd(old_pwd);
-	// handle removal of directories when deeply nested inside of a child
+	if (!args[1])
+	{
+		kvp = get_kvp(g_meta.env, "HOME");
+		if (!kvp)
+			return ;
+		dir = kvp->value;
+	}
+	else
+		dir = args[1];
+	update_env_wd("OLDPWD");
+	if (chdir(dir) == -1)
+		perror("Minishell: cd");
+	else
+		update_env_wd("PWD");
 }

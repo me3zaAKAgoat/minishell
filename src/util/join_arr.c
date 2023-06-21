@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 15:23:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/16 00:00:59 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:10:06 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ static char	*joined_string(char **words, char *sep, size_t result_size)
 
 char	*join_arr(char **words, char *sep)
 {
-	size_t	size;
-
-	if (!words || !sep)
+	if (!words || !*words || !sep)
 		return (NULL);
-	size = result_size(words, sep);
-	return (joined_string(words, sep, size));
+	return (joined_string(words, sep, result_size(words, sep)));
 }

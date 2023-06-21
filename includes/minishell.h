@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 09:26:31 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:56:46 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 /* MACROS */
 # define READ_END 0
 # define WRITE_END 1
-# define CMD_FAIL 126
+# define CMD_FAIL 127
 # define CMD_UNKNOWN 126
 
 # define COLOR_OFF "\033[0m"
@@ -84,20 +84,20 @@ extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
 extern	t_node	*init_env(char **env);
 extern	void		cd(char **args);
+extern	void		echo(char **args);
 extern	void		print_env(char **args);
 extern	void		shell_exit(char **args);
 extern	void		export(char **args);
 extern	void		pwd(char **args);
 extern	void		unset(char **args);
-extern	int		handle_redirectable_builtin(char **args);
-extern	int		handle_non_redirectable_builtin(char **args);
+extern	void		handle_builtin(t_command *cmd);
+extern	int		is_builtin(t_command *cmd);
 extern	void		redirect_signals(void);
 extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(void);
 extern	void		parse(char *cmd_line);
 extern	char		*strip(char *str);
 extern	char		*here_doc(char *eof);
-extern	char		*expand_env(t_node *env, char *key);
 extern	int		ft_isspace(char c);
 extern	t_node	*tokenize(char *cmd_line);
 extern	void		clear_token(t_token *token);
@@ -120,6 +120,12 @@ extern	char		**get_pathenv(char	*envp[]);
 extern	char		*get_cmdpath(char	**paths, char	*cmd);
 extern	void		handle_bin_cmd(char **args, char **envp);
 extern	int		ft_strcmp(const char *s1, const char *s2);
+extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
+extern	void		werror(char *msg);
+extern	char		*lex_double_quotes(char *cmd_line);
+extern	char		*lex_single_quotes(char *cmd_line);
+extern	char		*lex_string(char *cmd_line);
+extern	int		lexical_errors(t_node	*tokens);
 
 extern t_meta	g_meta;
 
