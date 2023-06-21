@@ -15,10 +15,7 @@
 int	echo_without_args(char **args)
 {
 	if (!args[1])
-	{
-		printf("\n");
-		return (1);
-	}
+		return (printf("\n"), 1);
 	return (0);
 }
 
@@ -57,6 +54,26 @@ int	new_line_option(char **args, int *i)
 	return (print_new_line);
 }
 
+void	print_arg(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '$' && arg[i + 1] == '?')
+		{
+			printf("%d", g_meta.status);
+			i += 2;
+		}
+		else
+		{
+			printf("%c", arg[i]);
+			i++;
+		}
+	}
+}
+
 void	print_args(char **args)
 {
 	int	i;
@@ -64,7 +81,7 @@ void	print_args(char **args)
 	i = 0;
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		print_arg(args[i]);
 		if (args[i + 1])
 			printf(" ");
 		i++;
@@ -76,9 +93,9 @@ void	echo(char **args)
 	int	i;
 	int	print_new_line;
 
+	// NB: [-n option] should be outside a double/single quotes to works
 	if (echo_without_args(args))
 		return ;
-	// NB: [-n option] should be outside a double/single quotes to works
 	print_new_line = new_line_option(args, &i);
 	print_args(args + i);
 	if (print_new_line)
