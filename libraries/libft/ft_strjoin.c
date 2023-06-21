@@ -6,32 +6,29 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 13:23:36 by echoukri          #+#    #+#             */
-/*   Updated: 2022/10/25 18:55:20 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:50:18 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*ptr;
-	int		i;
-	int		j;
+	size_t	s1_len;
+	size_t	s2_len;
 
-	if (!s1 || !s2)
-		return (NULL);
-	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (s1 && !s2)
+		return (ft_strdup(s1));
+	if (!s1 && s2)
+		return (ft_strdup(s2));
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	ptr = malloc(s1_len + s2_len + 1);
 	if (!ptr)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		ptr[i++] = s2[j++];
-	ptr[i] = '\0';
+	ptr[0] = '\0';
+	ft_strlcpy(ptr, s1, s1_len + 1);
+	ft_strlcat(ptr, s2, s1_len + s2_len + 1);
 	return (ptr);
 }
