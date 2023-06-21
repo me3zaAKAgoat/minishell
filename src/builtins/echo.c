@@ -3,67 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:54:19 by ekenane           #+#    #+#             */
-/*   Updated: 2023/06/20 16:03:39 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:35:12 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo_without_args(char **args)
-{
-	if (!args[1])
-	{
-		printf("\n");
-		return (1);
-	}
-	return (0);
-}
-
-int	new_line_option(char **args, int *i)
-{
-	int	print_new_line;
-
-	(*i) = 1;
-	print_new_line = 1;
-	while (args[(*i)])
-	{
-		if (!ft_strcmp(args[(*i)], "-n"))
-			print_new_line = 0;
-		else
-			break ;
-		(*i)++;
-	}
-	return (print_new_line);
-}
-
-void	print_args(char **args)
+int	print_newline(char *arg)
 {
 	int	i;
 
 	i = 0;
-	while (args[i])
+	if (arg[i] == '-')
+		i += 1;
+	else
+		return (0);
+	while (arg[i])
 	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
+		if (arg[i] != 'n')
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
 void	echo(char **args)
 {
-	int	i;
-	int	print_new_line;
+	int	nline;
 
-	if (echo_without_args(args))
-		return ;
-	// NB: -n should be outside a double/single quotes to works
-	print_new_line = new_line_option(args, &i);
-	print_args(args + i);
-	if (print_new_line)
+	nline = 1;
+	args++;
+	while (args && (*args)[0] == '-')
+	{
+		if (print_newline(*args))
+			nline = 0;
+		else
+			break ;
+		args++;
+	}
+	while (*args)
+	{
+		printf("%s", *args);
+		if (*(args + 1))
+			printf(" ");
+		args++;
+	}
+	if (nline)
 		printf("\n");
-	return ;
 }
