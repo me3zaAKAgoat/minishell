@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 03:16:13 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:52:54 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 /* MACROS */
 # define READ_END 0
 # define WRITE_END 1
-# define CMD_FAIL 127
-# define CMD_UNKNOWN 126
+# define CMD_FAIL 126
+# define CMD_UNKNOWN 127
 
 # define COLOR_OFF "\033[0m"
 # define BLACK "\033[1;30m"

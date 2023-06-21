@@ -30,3 +30,4 @@
 - update global exit status
 - echo builtin is missing
 - fix wildcard \*
+- handle exit status of shell builtins 0 success 1 failure 2 invalid options
