@@ -61,6 +61,7 @@ void	print_arg(char *arg)
 	i = 0;
 	while (arg[i])
 	{
+		// if there's '$' and '?' (Consecutive) in the begin/middle/end of string should be expanded
 		if (arg[i] == '$' && arg[i + 1] == '?')
 		{
 			printf("%d", g_meta.status);
@@ -94,8 +95,10 @@ void	echo(char **args)
 	int	print_new_line;
 
 	// NB: [-n option] should be outside a double/single quotes to works
+	// echo only without any args
 	if (echo_without_args(args))
 		return ;
+	// check the new-line option [-n] if exist
 	print_new_line = new_line_option(args, &i);
 	print_args(args + i);
 	if (print_new_line)
