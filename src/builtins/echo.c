@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:54:19 by ekenane           #+#    #+#             */
-/*   Updated: 2023/06/21 20:06:14 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:17:39 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	echo(char **args)
 
 	args++;
 	suppress_newline = should_suppress_newline(*args);
-	while (*args && (*args)[0] == '-' && should_suppress_newline(*args))
+	while (*args && should_suppress_newline(*args))
 		args++;
 	while (*args)
 	{
