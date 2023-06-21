@@ -22,6 +22,24 @@ int	echo_without_args(char **args)
 	return (0);
 }
 
+int	new_line_option_valid(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (arg[i] == '-')
+		i += 1;
+	else
+		return (0);
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	new_line_option(char **args, int *i)
 {
 	int	print_new_line;
@@ -30,7 +48,7 @@ int	new_line_option(char **args, int *i)
 	print_new_line = 1;
 	while (args[(*i)])
 	{
-		if (!ft_strcmp(args[(*i)], "-n"))
+		if (new_line_option_valid(args[(*i)]))
 			print_new_line = 0;
 		else
 			break ;
@@ -60,7 +78,7 @@ void	echo(char **args)
 
 	if (echo_without_args(args))
 		return ;
-	// NB: -n should be outside a double/single quotes to works
+	// NB: [-n option] should be outside a double/single quotes to works
 	print_new_line = new_line_option(args, &i);
 	print_args(args + i);
 	if (print_new_line)
