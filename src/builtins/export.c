@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 02:54:42 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:06:07 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	update_env(char **args)
 		werror(args[1]);
 		werror("': not a valid identifier\n");
 		split_clear(key_value_arr);
+		g_meta.status = 2;
 		return ;
 	}
 	new_val = join_arr(key_value_arr + 1, "=");
@@ -86,4 +87,5 @@ void	export(char **args)
 	if (!args[1])
 		return (print_export());
 	update_env(args);
+	g_meta.status = 0;
 }

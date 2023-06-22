@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:54:19 by ekenane           #+#    #+#             */
-/*   Updated: 2023/06/21 20:17:39 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:04:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	echo(char **args)
 	}
 	if (!suppress_newline)
 		printf("\n");
+	g_meta.status = 0;
 }
