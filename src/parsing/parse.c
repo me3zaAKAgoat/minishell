@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 02:29:07 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:34:07 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	parse(char *cmd_line)
 	if (!tokens)
 		return ;
 	cmds = get_cmds(tokens);
-	// expand_tokens(cmds);
 	if (!cmds)
 	{
 		ll_clear(&tokens, (void *)(void *)clear_token);

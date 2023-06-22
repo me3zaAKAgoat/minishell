@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   strutil.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 02:33:58 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 18:47:08 by echoukri         ###   ########.fr       */
+/*   Created: 2023/06/22 18:53:21 by echoukri          #+#    #+#             */
+/*   Updated: 2023/06/22 18:53:31 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	*init_command(void)
+size_t	strarr_len(char **arr)
 {
-	t_command	*cmd;
+	size_t	len;
 
-	cmd = malloc(sizeof(t_command));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->appendfile = NULL;
-	cmd->delim = NULL;
-	cmd->truncfile = NULL;
-	cmd->infile = NULL;
-	return (cmd);
-}
-
-void	clear_command(t_command *cmd)
-{
-	split_clear(cmd->args);
-	free(cmd->appendfile);
-	free(cmd->delim);
-	free(cmd->truncfile);
-	free(cmd->infile);
-	free(cmd);
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
 }

@@ -23,6 +23,7 @@ SOURCES = src/main.c\
 	src/util/werror.c\
 	src/util/number.c\
 	src/util/ft_strcmp.c\
+	src/util/strutil.c\
 	src/lexing/lexer.c\
 	src/lexing/token.c\
 	src/lexing/env_expansions.c\

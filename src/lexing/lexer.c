@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 03:40:40 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:36:10 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,38 +53,6 @@ static void	remove_string_quotations(t_node *tokens)
 	}
 }
 
-static char	*concat_quotes(char *str, char *quote)
-{
-	char *arr[4];
-
-	arr[0] = quote; 
-	arr[1] = str;
-	arr[2] = quote;
-	arr[3] = NULL;
-	return (join_arr(arr, ""));
-}
-
-static void	return_string_quotations(t_node *tokens)
-{
-	t_token	*token;
-	char	*tmp;
-
-	while (tokens)
-	{
-		token = tokens->content;
-		if (token->type == DQUOTE || token->type == SQUOTE)
-		{
-			if (token->type == DQUOTE)
-				tmp = concat_quotes(token->value, "\"");
-			else if (token->type == SQUOTE)
-				tmp = concat_quotes(token->value, "\'");
-			free(token->value);
-			token->value = tmp;
-		}
-		tokens = tokens->next;
-	}
-}
-
 t_node	*tokenize(char *cmd_line)
 {
 	t_node	*tokens;
@@ -111,6 +79,5 @@ t_node	*tokenize(char *cmd_line)
 		return (ll_clear(&tokens, (void *)(void *)clear_token), NULL);
 	remove_string_quotations(tokens);
 	expand_envs(tokens);
-	return_string_quotations(tokens);
 	return (tokens);
 }

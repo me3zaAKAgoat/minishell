@@ -6,28 +6,27 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 02:30:26 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:33:54 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	join_command_args(t_node *tokens, t_command *cmd)
+void	join_command_args(t_node *token, t_command *cmd)
 {
-	char	*tmp;
-	char	*args[3];
+	char	**tmp;
+	size_t	arr_len;
 
-	tmp = cmd->args;
-	if (!tmp)
-		cmd->args = ft_strdup(((t_token *)tokens->content)->value);
+	if (cmd->args)
+		arr_len = strarr_len(cmd->args);
 	else
-	{
-		args[0] = tmp;
-		args[1] = ((t_token *)tokens->content)->value;
-		args[2] = NULL;
-		cmd->args = join_arr(args, " ");
-	}
-	free(tmp);
+		arr_len = 0;
+	tmp = malloc((arr_len + 2) * sizeof(char *));
+	ft_memcpy(tmp, cmd->args, arr_len * sizeof(char *));
+	tmp[arr_len] = ft_strdup(((t_token *)token->content)->value);
+	tmp[arr_len + 1] = NULL;
+	free(cmd->args);
+	cmd->args = tmp;
 }
 
 void	output_redirections(t_node *tokens, t_command *cmd)

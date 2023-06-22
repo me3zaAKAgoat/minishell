@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 03:32:02 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:37:49 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ char	*expanded_string(char	*initial_str)
 				while (initial_str[i] && !ft_isspace(initial_str[i]))
 					i++;
 				key = ft_substr(initial_str, j, i - j);
-				str = append_to_result(str,
-						ft_strdup(get_kvp(g_meta.env, key)->value));
+				if (get_kvp(g_meta.env, key))
+					str = append_to_result(str,
+							ft_strdup(get_kvp(g_meta.env, key)->value));
 				free(key);
 			}
 			j = i;
