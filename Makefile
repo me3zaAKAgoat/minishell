@@ -11,8 +11,8 @@ SOURCES = src/main.c\
 	src/builtins/unset.c\
 	src/builtins/export.c\
 	src/builtins/env.c\
-	src/builtins/cd.c\
 	src/builtins/echo.c\
+	src/builtins/cd.c\
 	src/builtins/exit.c\
 	src/util/dict.c\
 	src/util/join_arr.c\
@@ -21,9 +21,12 @@ SOURCES = src/main.c\
 	src/util/here_doc.c\
 	src/util/cmd.c\
 	src/util/werror.c\
+	src/util/number.c\
 	src/util/ft_strcmp.c\
+	src/util/strutil.c\
 	src/lexing/lexer.c\
 	src/lexing/token.c\
+	src/lexing/env_expansions.c\
 	src/lexing/util.c\
 	src/env/env.c\
 	src/signals/signals.c\
@@ -59,14 +62,14 @@ $(NAME) : $(OBJECTS)
 	@make -C $(GET_NEXT_LINE) --no-print-directory
 	@make -C $(LIBFT) --no-print-directory
 	@printf "${BLUE}Linking\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -L/goinfre/ekenane/.brew/opt/readline/lib -o $@ $(OBJECTS) $(LDLFLAGS)
+	@$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS)
 	@printf "${GREEN}Done Making Minishell.                        ${COLOR_OFF}\n"
 
 bonus :
 
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -I./includes -I/goinfre/ekenane/.brew/opt/readline/include -c $< -o $@
+	@$(CC) $(CFLAGS) -I./includes -c $< -o $@
 
 clean :
 	@rm -f $(OBJECTS)

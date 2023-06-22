@@ -3,105 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:54:19 by ekenane           #+#    #+#             */
-/*   Updated: 2023/06/20 16:03:39 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/06/22 20:04:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo_without_args(char **args)
-{
-	if (!args[1])
-		return (printf("\n"), 1);
-	return (0);
-}
+/**
+ * skip the first arg, always "echo"
+ * handle first option (only one that matters)
+ * skip all other valid options
+ * while there are non option arguments, print them,
+ *  if there's an additional argument, print space
+ * check newline
+*/
 
-int	new_line_option_valid(char *arg)
+int	should_suppress_newline(char *arg)
 {
 	int	i;
 
+	if (!arg)
+		return (0);
 	i = 0;
 	if (arg[i] == '-')
-		i += 1;
-	else
-		return (0);
-	while (arg[i])
 	{
-		if (arg[i] != 'n')
-			return (0);
 		i++;
-	}
-	return (1);
-}
-
-int	new_line_option(char **args, int *i)
-{
-	int	print_new_line;
-
-	(*i) = 1;
-	print_new_line = 1;
-	while (args[(*i)])
-	{
-		if (new_line_option_valid(args[(*i)]))
-			print_new_line = 0;
-		else
-			break ;
-		(*i)++;
-	}
-	return (print_new_line);
-}
-
-void	print_arg(char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		// if there's '$' and '?' (Consecutive) in the begin/middle/end of string should be expanded
-		if (arg[i] == '$' && arg[i + 1] == '?')
+		if (!arg[i])
+			return (0);
+		while (arg[i])
 		{
-			printf("%d", g_meta.status);
-			i += 2;
-		}
-		else
-		{
-			printf("%c", arg[i]);
+			if (arg[i] != 'n')
+				return (0);
 			i++;
 		}
+		return (1);
 	}
-}
-
-void	print_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		print_arg(args[i]);
-		if (args[i + 1])
-			printf(" ");
-		i++;
-	}
+	return (0);
 }
 
 void	echo(char **args)
 {
-	int	i;
-	int	print_new_line;
+	int	suppress_newline;
 
-	// NB: [-n option] should be outside a double/single quotes to works
-	// echo only without any args
-	if (echo_without_args(args))
-		return ;
-	// check the new-line option [-n] if exist
-	print_new_line = new_line_option(args, &i);
-	print_args(args + i);
-	if (print_new_line)
+	args++;
+	suppress_newline = should_suppress_newline(*args);
+	while (*args && should_suppress_newline(*args))
+		args++;
+	while (*args)
+	{
+		printf("%s", *args);
+		if (*(args + 1))
+			printf(" ");
+		args++;
+	}
+	if (!suppress_newline)
 		printf("\n");
-	return ;
+	g_meta.status = 0;
 }

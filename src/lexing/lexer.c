@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 03:14:50 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:36:10 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static t_token	*get_next_token(char *cmd_line)
 	else if (!ft_strncmp("|", cmd_line, 1))
 		return (new_token(ft_strdup("|"), PIPE));
 	else if (!ft_strncmp("\'", cmd_line, 1))
-		return (new_token(lex_single_quotes(cmd_line), STRING));
+		return (new_token(lex_single_quotes(cmd_line), SQUOTE));
 	else if (!ft_strncmp("\"", cmd_line, 1))
-		return (new_token(lex_double_quotes(cmd_line), STRING));
+		return (new_token(lex_double_quotes(cmd_line), DQUOTE));
 	else
 		return (new_token(lex_string(cmd_line), STRING));
 }
@@ -40,13 +40,12 @@ static void	remove_string_quotations(t_node *tokens)
 	while (tokens)
 	{
 		token = tokens->content;
-		if (token->type == STRING
-			&& ((token->value[0] == '\'' || token->value[0] == '\"')))
+		if (token->type == DQUOTE || token->type == SQUOTE)
 		{
-			if (token->value[0] == '\'')
-				tmp = ft_strtrim(token->value, "\'");
-			else if (token->value[0] == '\"')
-				tmp = ft_strtrim(token->value, "\"");
+			if (token->type == DQUOTE)
+				tmp = ft_substr(token->value, 1, ft_strlen(token->value) - 2);
+			else if (token->type == SQUOTE)
+				tmp = ft_substr(token->value, 1, ft_strlen(token->value) - 2);
 			free(token->value);
 			token->value = tmp;
 		}
@@ -71,11 +70,14 @@ t_node	*tokenize(char *cmd_line)
 		}
 		token = get_next_token(cmd_line + i);
 		ll_push(&tokens, ll_new(token));
+		if (token->type == ERR)
+			break ;
 		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
 	if (lexical_errors(tokens))
 		return (ll_clear(&tokens, (void *)(void *)clear_token), NULL);
 	remove_string_quotations(tokens);
+	expand_envs(tokens);
 	return (tokens);
 }

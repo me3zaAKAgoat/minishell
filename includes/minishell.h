@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 15:56:46 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/06/22 19:35:40 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@
 /* MACROS */
 # define READ_END 0
 # define WRITE_END 1
-# define CMD_FAIL 127
-# define CMD_UNKNOWN 126
+# define CMD_FAIL 126
+# define CMD_UNKNOWN 127
+# define BUILTIN_INCORRECT_USAGE 2
+# define BUILTIN_FAIL 1
 
 # define COLOR_OFF "\033[0m"
 # define BLACK "\033[1;30m"
@@ -56,7 +58,7 @@ typedef struct s_meta {
 }	t_meta;
 
 typedef struct s_command {
-	char	*args;
+	char	**args;
 	char	*infile;
 	char	*truncfile;
 	char	*delim;
@@ -69,8 +71,11 @@ typedef enum e_token_type {
 	HEREDOC,
 	APPEND,
 	STRING,
+	DQUOTE,
+	SQUOTE,
 	PIPE,
-	END
+	ERR,
+	END,
 }	t_token_type;
 
 typedef struct s_token {
@@ -96,7 +101,6 @@ extern	void		redirect_signals(void);
 extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(void);
 extern	void		parse(char *cmd_line);
-extern	char		*strip(char *str);
 extern	char		*here_doc(char *eof);
 extern	int		ft_isspace(char c);
 extern	t_node	*tokenize(char *cmd_line);
@@ -126,6 +130,10 @@ extern	char		*lex_double_quotes(char *cmd_line);
 extern	char		*lex_single_quotes(char *cmd_line);
 extern	char		*lex_string(char *cmd_line);
 extern	int		lexical_errors(t_node	*tokens);
+extern	int		is_number(char *str);
+extern	long long	ft_atoll(const char *str);
+extern	void		expand_envs(t_node *tokens);
+extern	size_t	strarr_len(char **arr);
 
 extern t_meta	g_meta;
 

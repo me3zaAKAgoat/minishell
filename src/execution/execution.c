@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 03:06:49 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:35:24 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 void	exec_cmd(t_command *cmd)
 {
-	char	**args;
 	char	**envp;
 
-	args = ft_split(cmd->args, ' ');
 	envp = envp_generator(g_meta.env);
-	if (ft_strnstr(args[0], "/", ft_strlen(args[0])) && !access(args[0], F_OK))
+	if (ft_strnstr(cmd->args[0], "/",
+			ft_strlen(cmd->args[0])) && !access(cmd->args[0], F_OK))
 	{
-		execve(args[0], args, envp);
+		execve(cmd->args[0], cmd->args, envp);
 		perror("Minishell: Script execution:");
 		exit(1);
 	}
@@ -30,9 +29,8 @@ void	exec_cmd(t_command *cmd)
 		if (is_builtin(cmd))
 			handle_builtin(cmd);
 		else
-			handle_bin_cmd(args, envp);
+			handle_bin_cmd(cmd->args, envp);
 	}
-	split_clear(args);
 	free_envp(envp);
 }
 
@@ -64,7 +62,6 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 		setup_pipes(first_pipe, second_pipe);
 		if (cmd->args)
 			exec_cmd(cmd);
-		exit(0);
 	}
 	else
 	{

@@ -24,9 +24,12 @@
   - handle pipes at the end of the input
 - handle cd when directories are removed
 - have cd handle PWD and OLDPWD
-- have echo handle its arguments in a fluent manner (-nnnnn -nnnnss -ss) etc
 - have the lexer raise syntax errors for when heredoc append trunc and inputredir are not followed by strings/ when pipe is an end token/ when quotes are unclosed
 - have the pre parser/ lexer expand environment variables
 - update global exit status
 - echo builtin is missing
 - fix wildcard \*
+- handle exit status of shell builtins 0 success 1 failure 2 invalid options
+- handle += in export
+- handle delim of heredoc being inside of quotes -> dont expand (maybe have two types of delim tokens)
+- does the fucking lexer and parser remove quotes or is that handle execution level
