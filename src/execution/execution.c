@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 19:35:24 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:08:30 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exec_cmd(t_command *cmd)
 			ft_strlen(cmd->args[0])) && !access(cmd->args[0], F_OK))
 	{
 		execve(cmd->args[0], cmd->args, envp);
-		perror("Minishell: Script execution:");
+		perror("Minishell: Script execution");
 		exit(1);
 	}
 	else
@@ -54,8 +54,9 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	if (!pid)
 		return ;
 	*pid = fork();
-	if (!*pid)
+	if (*pid == 0)
 	{
+		execution_signals();
 		input_redirection(cmd);
 		out_redirection(cmd);
 		handle_priority(cmd, &first_pipe, &second_pipe);
@@ -114,6 +115,5 @@ void	execute_commands(t_node *cmds)
 		if (!ll_size(g_meta.pids))
 			break ;
 		ll_del_one(ll_shift(&g_meta.pids), free);
-		continue ;
 	}
 }

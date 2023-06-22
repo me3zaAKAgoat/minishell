@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 20:19:55 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:03:23 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	prompt_loop(void)
 	char	*cmd_line;
 	char	*prompt;
 
+	prompt_signals();
 	while (1)
 	{
 		prompt = prompt_string();
