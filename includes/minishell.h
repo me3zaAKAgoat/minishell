@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/21 19:01:17 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 02:07:20 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ typedef enum e_token_type {
 	HEREDOC,
 	APPEND,
 	STRING,
+	DQUOTE,
+	SQUOTE,
 	PIPE,
-	END
+	ERR,
+	END,
 }	t_token_type;
 
 typedef struct s_token {
@@ -128,7 +131,8 @@ extern	char		*lex_single_quotes(char *cmd_line);
 extern	char		*lex_string(char *cmd_line);
 extern	int		lexical_errors(t_node	*tokens);
 extern	int		is_number(char *str);
-extern	long long	ft_atoul(const char *str);
+extern	long long	ft_atoll(const char *str);
+extern	void		expand_envs(t_node *tokens);
 
 extern t_meta	g_meta;
 

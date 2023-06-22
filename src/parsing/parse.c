@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 02:50:48 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 02:29:07 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,6 @@ t_node	*get_cmds(t_node *tokens)
 	}
 	return (cmds);
 }
-
-// void	expand_tokens(t_node	*cmds)
-// {
-// 	int	i;
-
-// 	while (cmds)
-// 	{
-// 		if (((t_token *)cmds->content)->type == STRING && ft_strchr())
-// 		{
-// 			i = 0;
-// 			while ()
-// 		}
-// 		cmds = cmds->next;
-// 	}
-// }
 
 void	parse(char *cmd_line)
 {

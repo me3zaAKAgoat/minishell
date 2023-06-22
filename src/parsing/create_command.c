@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/16 22:27:40 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/22 02:30:26 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ t_command	*create_command(t_node *tokens)
 			tokens = tokens->next->next;
 		}
 		while (((t_token *)tokens->content)->type != END
-			&& (((t_token *)tokens->content)->type == STRING))
+			&& STRING <= (((t_token *)tokens->content)->type)
+			&& (((t_token *)tokens->content)->type <= SQUOTE))
 		{
 			join_command_args(tokens, cmd);
 			tokens = tokens->next;

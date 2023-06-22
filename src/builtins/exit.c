@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/21 20:14:33 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:27:50 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	shell_exit(char **args)
 	else if (args[2])
 		werror("Minishell: exit: too many arguments.\n");
 	else if (!is_number(args[1])
-		|| ft_atoul(args[1]) < LONG_MAX || LONG_MIN < ft_atoul(args[1]))
+		|| ft_atoll(args[1]) < LONG_MAX || LONG_MIN < ft_atoll(args[1]))
 	{
 		werror("exit\n");
 		werror("Minishell: exit: ");
@@ -29,5 +29,5 @@ void	shell_exit(char **args)
 		exit(BUILTIN_INCORRECT_USAGE);
 	}
 	else
-		exit(ft_atoul(args[1]));
+		exit(ft_atoll(args[1]));
 }

@@ -32,3 +32,4 @@
 - handle exit status of shell builtins 0 success 1 failure 2 invalid options
 - handle += in export
 - handle delim of heredoc being inside of quotes -> dont expand (maybe have two types of delim tokens)
+- does the fucking lexer and parser remove quotes or is that handle execution level

@@ -25,6 +25,7 @@ SOURCES = src/main.c\
 	src/util/ft_strcmp.c\
 	src/lexing/lexer.c\
 	src/lexing/token.c\
+	src/lexing/env_expansions.c\
 	src/lexing/util.c\
 	src/env/env.c\
 	src/signals/signals.c\

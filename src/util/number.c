@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:12:33 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/21 17:35:27 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:27:50 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_number(char *str)
 	return (1);
 }
 
-long long	ft_atoul(const char *str)
+long long	ft_atoll(const char *str)
 {
 	long long	return_number;
 	int			i;
