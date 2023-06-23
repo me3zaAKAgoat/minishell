@@ -19,13 +19,10 @@
 # **concerns**
 
 - lexing
-  - handle env variable expansions
   - handle unclosed quotes
-  - handle pipes at the end of the input
 - handle cd when directories are removed
 - have cd handle PWD and OLDPWD
 - have the lexer raise syntax errors for when heredoc append trunc and inputredir are not followed by strings/ when pipe is an end token/ when quotes are unclosed
-- have the pre parser/ lexer expand environment variables
 - update global exit status
 - echo builtin is missing
 - fix wildcard \*

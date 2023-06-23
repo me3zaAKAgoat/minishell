@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 23:08:30 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:08:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ void	exec_cmd(t_command *cmd)
 	char	**envp;
 
 	envp = envp_generator(g_meta.env);
-	if (ft_strnstr(cmd->args[0], "/",
-			ft_strlen(cmd->args[0])) && !access(cmd->args[0], F_OK))
+	if (ft_strchr(cmd->args[0], '/'))
 	{
 		execve(cmd->args[0], cmd->args, envp);
-		perror("Minishell: Script execution");
+		werror("Minishell: ");
+		werror(cmd->args[0]);
+		perror(" ");
 		exit(1);
 	}
 	else
@@ -30,6 +31,7 @@ void	exec_cmd(t_command *cmd)
 			handle_builtin(cmd);
 		else
 			handle_bin_cmd(cmd->args, envp);
+		exit(0);
 	}
 	free_envp(envp);
 }
