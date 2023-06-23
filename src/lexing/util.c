@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 19:57:18 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:12:31 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	lexical_errors(t_node	*tokens)
 			else
 			{
 				next = iterator->next->content;
-				if (STRING <= next->type && next->type <= SQUOTE)
+				if (!(STRING <= next->type && next->type <= SQUOTE))
 					return (werror("Minishell: Parsing error near '"),
 						werror(current->value), werror("'\n"), 1);
 			}
