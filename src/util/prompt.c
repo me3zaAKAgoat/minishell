@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 22:03:23 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:56:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*relative_wd(void)
 
 	wd = getcwd(NULL, 0);
 	if (!wd)
-		return (NULL);
+		return (ft_strdup("(nil)"));
 	relative_path = wd;
 	while (*relative_path)
 	{
@@ -36,22 +36,19 @@ char	*prompt_string(void)
 {
 	char	*relative_path;
 	char	*prompt;
-	char	*words[10];
+	char	*words[7];
 
 	relative_path = relative_wd();
-	words[0] = YELLOW;
-	words[1] = "$- ";
+	words[0] = BLUE;
+	words[1] = relative_path;
 	words[2] = COLOR_OFF;
-	words[3] = PURPLE;
-	if (relative_path)
-		words[4] = relative_path;
+	if (g_meta.status)
+		words[3] = RED;
 	else
-		words[4] = "(nil)";
+		words[3] = GREEN;
+	words[4] = " ► ";
 	words[5] = COLOR_OFF;
-	words[6] = YELLOW;
-	words[7] = " ► ";
-	words[8] = COLOR_OFF;
-	words[9] = NULL;
+	words[6] = NULL;
 	prompt = join_arr(words, "");
 	free(relative_path);
 	return (prompt);
