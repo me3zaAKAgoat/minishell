@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:54:19 by ekenane           #+#    #+#             */
-/*   Updated: 2023/06/22 20:04:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:54:59 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	should_suppress_newline(char *arg)
 	return (0);
 }
 
-void	echo(char **args)
+void	ft_echo(char **args)
 {
 	int	suppress_newline;
 

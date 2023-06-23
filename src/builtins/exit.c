@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 22:21:08 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:54:45 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	bad_argument_exit(char **args)
 	exit(BUILTIN_INCORRECT_USAGE);
 }
 
-void	shell_exit(char **args)
+void	ft_exit(char **args)
 {
 	(void)args;
 	if (!args[1])
