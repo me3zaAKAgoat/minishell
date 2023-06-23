@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:19:14 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 21:04:23 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:06:40 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,42 +29,38 @@ int	open_heredoc(char *delim)
 	return (fd);
 }
 
-void	input_redirection(t_command *cmd)
+int	input_redirection(t_command *cmd)
 {
 	int		fd;
 
 	fd = -1;
 	if (!cmd->infile && !cmd->delim)
-		return ;
+		return (0);
 	if (cmd->infile)
 		fd = open(cmd->infile, O_RDONLY);
 	else if (cmd->delim)
 		fd = open_heredoc(cmd->delim);
 	if (fd == -1)
-	{
-		perror("Minishell: Input Redirection:");
-		exit(1);
-	}
+		return (perror("Minishell: Input Redirection"), -1);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+	return (0);
 }
 
-void	out_redirection(t_command *cmd)
+int	out_redirection(t_command *cmd)
 {
 	int	fd;
 
 	fd = -1;
 	if (!cmd->appendfile && !cmd->truncfile)
-		return ;
+		return (0);
 	if (cmd->truncfile)
 		fd = open(cmd->truncfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->appendfile)
 		fd = open(cmd->appendfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-	{
-		perror("Minishell: Output Redirection:");
-		exit(1);
-	}
+		return (perror("Minishell: Output Redirection"), -1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (0);
 }

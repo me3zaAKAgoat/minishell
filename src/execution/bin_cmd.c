@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:26:18 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/19 02:23:01 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:37:01 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,11 @@ void	handle_bin_cmd(char **args, char **envp)
 
 	paths = get_pathenv(envp);
 	if (!paths)
-	{
-		werror("Minishell: Could not get command paths.\n");
-		exit(1);
-	}
+		(werror("Minishell: Could not get command paths.\n"), exit(1));
 	cmd_path = get_cmdpath(paths, args[0]);
 	if (!cmd_path)
-	{
-		werror("Minishell: Command not found: ");
-		werror(args[0]);
-		werror("\n");
-		split_clear(paths);
-		exit(CMD_UNKNOWN);
-	}
+		(werror("Minishell: Command not found: "), werror(args[0]),
+		werror("\n"), split_clear(paths), exit(CMD_UNKNOWN));
 	execve(cmd_path, args, envp);
-	perror("Minishell: Bin command:");
-	exit(1);
+	(perror("Minishell: Bin command:"), exit(CMD_FAIL));
 }

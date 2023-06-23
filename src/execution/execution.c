@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 02:08:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:36:48 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,17 @@ void	exec_cmd(t_command *cmd)
 	envp = envp_generator(g_meta.env);
 	if (ft_strchr(cmd->args[0], '/'))
 	{
+		if (access(cmd->args[0], F_OK))
+			(perror("Minishell"), exit(CMD_UNKNOWN));
 		execve(cmd->args[0], cmd->args, envp);
-		werror("Minishell: ");
-		werror(cmd->args[0]);
-		perror(" ");
-		exit(1);
+		(werror("Minishell: "), werror(cmd->args[0]), perror(" "), exit(CMD_FAIL));
 	}
 	else
 	{
 		if (is_builtin(cmd))
-			handle_builtin(cmd);
+			(handle_builtin(cmd), exit(0));
 		else
 			handle_bin_cmd(cmd->args, envp);
-		exit(0);
 	}
 	free_envp(envp);
 }
@@ -59,8 +57,8 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	if (*pid == 0)
 	{
 		execution_signals();
-		input_redirection(cmd);
-		out_redirection(cmd);
+		if (input_redirection(cmd) < 0 || out_redirection(cmd) < 0)
+			exit(1);
 		handle_priority(cmd, &first_pipe, &second_pipe);
 		setup_pipes(first_pipe, second_pipe);
 		if (cmd->args)
@@ -85,9 +83,10 @@ void	single_command(t_node *cmd)
 	{
 		original_stdin = dup(0);
 		original_stdout = dup(1);
-		input_redirection(cmd->content);
-		out_redirection(cmd->content);
-		handle_builtin(cmd->content);
+		if (!input_redirection(cmd->content) && !out_redirection(cmd->content))
+			handle_builtin(cmd->content);
+		else
+			g_meta.status = 1;
 		dup2(original_stdin, 0);
 		dup2(original_stdout, 1);
 	}
@@ -110,12 +109,10 @@ void	execute_commands(t_node *cmds)
 	while (ll_size(g_meta.pids))
 	{
 		waitpid(*((pid_t *)g_meta.pids->content), &status, 0);
-		if (WIFEXITED(status))
-			g_meta.status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 			g_meta.status = CMD_FAIL + WTERMSIG(status);
-		if (!ll_size(g_meta.pids))
-			break ;
+		else if (WIFEXITED(status))
+			g_meta.status = WEXITSTATUS(status);
 		ll_del_one(ll_shift(&g_meta.pids), free);
 	}
 }

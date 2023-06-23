@@ -21,12 +21,12 @@
 - lexing
   - handle unclosed quotes
 - handle cd when directories are removed
-- have cd handle PWD and OLDPWD
-- have the lexer raise syntax errors for when heredoc append trunc and inputredir are not followed by strings/ when pipe is an end token/ when quotes are unclosed
-- update global exit status
-- echo builtin is missing
 - fix wildcard \*
 - handle exit status of shell builtins 0 success 1 failure 2 invalid options
 - handle += in export
 - handle delim of heredoc being inside of quotes -> dont expand (maybe have two types of delim tokens)
-- does the fucking lexer and parser remove quotes or is that handle execution level
+- pipeline should stop if a command fails
+  this would mean that I might have to change the way things are being waited for, not sure tho
+- redirections might have to get moved up to parsing and have the command structure only return a file descriptor
+- handle cases where a string is : "hello"world
+  it should not become hello world

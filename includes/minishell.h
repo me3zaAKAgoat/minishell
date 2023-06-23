@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 01:56:14 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:41:40 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define WRITE_END 1
 # define CMD_FAIL 126
 # define CMD_UNKNOWN 127
+# define CMD_INT 130
 # define BUILTIN_INCORRECT_USAGE 2
 # define BUILTIN_FAIL 1
 
@@ -93,7 +94,7 @@ extern	void		ft_echo(char **args);
 extern	void		ft_env(char **args);
 extern	void		ft_exit(char **args);
 extern	void		ft_export(char **args);
-extern	void		ft_pwd(char **args);
+extern	void		ft_pwd(void);
 extern	void		ft_unset(char **args);
 extern	void		handle_builtin(t_command *cmd);
 extern	int		is_builtin(t_command *cmd);
@@ -119,8 +120,8 @@ extern	void		close_pipes(int first_pipe[2], int second_pipe[2]);
 extern	void		cmd_wrapper(t_command *cmd,
 						int first_pipe[2], int second_pipe[2]);
 extern	void		pipeline(t_node *cmds);
-extern	void		input_redirection(t_command *cmd);
-extern	void		out_redirection(t_command *cmd);
+extern	int		input_redirection(t_command *cmd);
+extern	int		out_redirection(t_command *cmd);
 extern	char		**get_pathenv(char	*envp[]);
 extern	char		*get_cmdpath(char	**paths, char	*cmd);
 extern	void		handle_bin_cmd(char **args, char **envp);
