@@ -6,13 +6,13 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 13:38:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 20:05:02 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:54:35 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(char **args)
+void	ft_env(char **args)
 {
 	t_node	*iterator;
 	t_dict	*kvp;

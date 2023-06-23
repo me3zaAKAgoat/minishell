@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 20:06:07 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:55:50 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	update_env(char **args)
 	split_clear(key_value_arr);
 }
 
-void	export(char **args)
+void	ft_export(char **args)
 {
 	if (!args[1])
 		return (print_export());

@@ -6,13 +6,13 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:30:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 20:05:17 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:56:14 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset(char **args)
+void	ft_unset(char **args)
 {
 	t_node	*iterator;
 	t_dict	*kvp;

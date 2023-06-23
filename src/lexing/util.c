@@ -6,28 +6,18 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 02:12:30 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:12:31 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*lex_double_quotes(char *cmd_line)
+char	*lex_quotes(char *cmd_line, char delim)
 {
 	int		end;
 
 	end = 1;
-	while (cmd_line[end] && cmd_line[end] != '\"')
-		end++;
-	return (ft_substr(cmd_line, 0, end + 1));
-}
-
-char	*lex_single_quotes(char *cmd_line)
-{
-	int		end;
-
-	end = 1;
-	while (cmd_line[end] && cmd_line[end] != '\'')
+	while (cmd_line[end] && cmd_line[end] != delim)
 		end++;
 	return (ft_substr(cmd_line, 0, end + 1));
 }
@@ -70,7 +60,7 @@ int	lexical_errors(t_node	*tokens)
 			else
 			{
 				next = iterator->next->content;
-				if (STRING <= next->type && next->type <= SQUOTE)
+				if (!(STRING <= next->type && next->type <= SQUOTE))
 					return (werror("Minishell: Parsing error near '"),
 						werror(current->value), werror("'\n"), 1);
 			}

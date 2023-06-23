@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 19:35:40 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:56:14 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,17 @@ extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
 extern	t_node	*init_env(char **env);
-extern	void		cd(char **args);
-extern	void		echo(char **args);
-extern	void		print_env(char **args);
-extern	void		shell_exit(char **args);
-extern	void		export(char **args);
-extern	void		pwd(char **args);
-extern	void		unset(char **args);
+extern	void		ft_cd(char **args);
+extern	void		ft_echo(char **args);
+extern	void		ft_env(char **args);
+extern	void		ft_exit(char **args);
+extern	void		ft_export(char **args);
+extern	void		ft_pwd(char **args);
+extern	void		ft_unset(char **args);
 extern	void		handle_builtin(t_command *cmd);
 extern	int		is_builtin(t_command *cmd);
-extern	void		redirect_signals(void);
+extern	void		prompt_signals(void);
+extern	void		execution_signals(void);
 extern	char		*join_arr(char **words, char *sep);
 extern	void		prompt_loop(void);
 extern	void		parse(char *cmd_line);
@@ -126,8 +127,7 @@ extern	void		handle_bin_cmd(char **args, char **envp);
 extern	int		ft_strcmp(const char *s1, const char *s2);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
 extern	void		werror(char *msg);
-extern	char		*lex_double_quotes(char *cmd_line);
-extern	char		*lex_single_quotes(char *cmd_line);
+extern	char		*lex_quotes(char *cmd_line, char delim);
 extern	char		*lex_string(char *cmd_line);
 extern	int		lexical_errors(t_node	*tokens);
 extern	int		is_number(char *str);

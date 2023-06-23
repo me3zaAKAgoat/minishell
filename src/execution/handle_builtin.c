@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 03:44:59 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 18:47:16 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 01:56:14 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	is_builtin(t_command *cmd)
 void	handle_builtin(t_command *cmd)
 {
 	if (!ft_strcmp(cmd->args[0], "exit"))
-		shell_exit(cmd->args);
+		ft_exit(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "cd"))
-		cd(cmd->args);
+		ft_cd(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "echo"))
-		echo(cmd->args);
+		ft_echo(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		pwd(cmd->args);
+		ft_pwd(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "export"))
-		export(cmd->args);
+		ft_export(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "env"))
-		print_env(cmd->args);
+		ft_env(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "unset"))
-		unset(cmd->args);
+		ft_unset(cmd->args);
 }
