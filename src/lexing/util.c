@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 02:12:31 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:56:22 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	*lex_string(char *cmd_line)
 	int	end;
 
 	end = 0;
-	while (cmd_line[end] && !ft_isspace(cmd_line[end]))
+	while (cmd_line[end] && cmd_line[end] != '\''
+		&& cmd_line[end] != '\"' && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
 }

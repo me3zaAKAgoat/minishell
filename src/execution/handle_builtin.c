@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 03:44:59 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 01:56:14 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:57:53 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	handle_builtin(t_command *cmd)
 	else if (!ft_strcmp(cmd->args[0], "echo"))
 		ft_echo(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		ft_pwd(cmd->args);
+		ft_pwd();
 	else if (!ft_strcmp(cmd->args[0], "export"))
 		ft_export(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "env"))

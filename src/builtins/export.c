@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 01:55:50 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:31:02 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	key_is_valid(char *key)
 {
 	int	i;
 
+	if (!key)
+		return (0);
 	i = 0;
 	if (!ft_isalpha(key[i]) && key[i] != '_')
 		return (0);
@@ -51,7 +53,7 @@ void	print_export(void)
 	}
 }
 
-void	update_env(char **args)
+int	update_env(char **args)
 {
 	char	**key_value_arr;
 	t_dict	*existing_pair;
@@ -59,33 +61,26 @@ void	update_env(char **args)
 
 	key_value_arr = ft_split(args[1], '=');
 	if (!key_is_valid(key_value_arr[0]))
-	{
-		werror("Minishell: export: `");
-		werror(args[1]);
-		werror("': not a valid identifier\n");
-		split_clear(key_value_arr);
-		g_meta.status = 2;
-		return ;
-	}
+		return (werror("Minishell: export: `"), werror(args[1]),
+			werror("': not a valid identifier\n"), split_clear(key_value_arr),
+			g_meta.status = BUILTIN_FAIL, -1);
 	new_val = join_arr(key_value_arr + 1, "=");
 	if (ft_strchr(args[1], '=') && !new_val)
 		new_val = ft_strdup("");
 	existing_pair = get_kvp(g_meta.env, key_value_arr[0]);
 	if (existing_pair)
-	{
-		free(existing_pair->value);
-		existing_pair->value = ft_strdup(new_val);
-	}
+		(free(existing_pair->value), existing_pair->value = ft_strdup(new_val));
 	else
 		ll_push(&g_meta.env, ll_new(new_kvp(key_value_arr[0], new_val)));
 	free(new_val);
 	split_clear(key_value_arr);
+	return (0);
 }
 
 void	ft_export(char **args)
 {
 	if (!args[1])
 		return (print_export());
-	update_env(args);
-	g_meta.status = 0;
+	if (update_env(args) != -1)
+		g_meta.status = 0;
 }

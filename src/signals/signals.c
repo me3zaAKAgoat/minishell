@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 23:56:41 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 02:50:21 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:57:20 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void	handle_sigint(void)
 {
+	g_meta.status = CMD_INT;
 	if (!ll_size(g_meta.pids))
 	{
-		write(1, "\n", 1);
-		g_meta.status = 130;
-		rl_on_new_line();
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_on_new_line();
 	}
 }
 
