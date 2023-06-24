@@ -36,11 +36,13 @@ char	*prompt_string(void)
 {
 	char	*relative_path;
 	char	*prompt;
+	char	*tmp;
 	char	*words[7];
 
 	relative_path = relative_wd();
 	words[0] = BLUE;
-	words[1] = relative_path;
+	tmp = ft_strjoin("/", relative_path);
+	words[1] = tmp;
 	words[2] = COLOR_OFF;
 	if (g_meta.status)
 		words[3] = RED;
@@ -51,6 +53,7 @@ char	*prompt_string(void)
 	words[6] = NULL;
 	prompt = join_arr(words, "");
 	free(relative_path);
+	free(tmp);
 	return (prompt);
 }
 
