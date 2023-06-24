@@ -38,8 +38,9 @@ static char	*unique_tmp_name(void)
 	return (NULL);
 }
 
-static void	handle_sigint(void)
+static void	handle_sigint(int i)
 {
+	(void)i;
 	exit(EXIT_FAILURE);
 }
 
@@ -50,7 +51,7 @@ char	*here_doc(char *eof)
 	char	*unique_filename;
 	int		fd;
 
-	signal(SIGINT, (__sighandler_t)handle_sigint);
+	signal(SIGINT, handle_sigint);
 	unique_filename = unique_tmp_name();
 	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
 	if (fd == -1)

@@ -2,6 +2,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 NAME = minishell
 LDLFLAGS = -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE) $(READLINE)
+LIB_READLINE = -L/goinfre/ekenane/.brew/opt/readline/lib
+INCLUDE_READLINE = -I/goinfre/ekenane/.brew/opt/readline/include
 READLINE = -lreadline
 
 HEADER = includes/minishell.h
@@ -62,14 +64,14 @@ $(NAME) : $(OBJECTS)
 	@make -C $(GET_NEXT_LINE) --no-print-directory
 	@make -C $(LIBFT) --no-print-directory
 	@printf "${BLUE}Linking\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDLFLAGS)
+	@$(CC) $(CFLAGS) -o $@ $(LIB_READLINE) $(OBJECTS) $(LDLFLAGS)
 	@printf "${GREEN}Done Making Minishell.                        ${COLOR_OFF}\n"
 
 bonus :
 
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
-	@$(CC) $(CFLAGS) -I./includes -c $< -o $@
+	@$(CC) $(CFLAGS) -I./includes $(INCLUDE_READLINE) -c $< -o $@
 
 clean :
 	@rm -f $(OBJECTS)

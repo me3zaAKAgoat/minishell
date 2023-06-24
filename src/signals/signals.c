@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void	handle_sigint(void)
+void	handle_sigint(int i)
 {
+	(void)i;
 	g_meta.status = CMD_INT;
 	if (!ll_size(g_meta.pids))
 	{
@@ -26,7 +27,7 @@ void	handle_sigint(void)
 void	prompt_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, (__sighandler_t)handle_sigint);
+	signal(SIGINT, handle_sigint);
 }
 
 void	execution_signals(void)
