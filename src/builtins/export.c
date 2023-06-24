@@ -24,13 +24,14 @@ int	key_is_valid(char *key)
 	if (!ft_isalpha(key[i]) && key[i] != '_')
 		return (0);
 	i++;
-	while (key[i])
+	while (i < len)
 	{
-		printf("key[%d] = %c\n", i, key[i]);
-		if ((!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i])) || key[len] != '+')
+		if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]))
 			return (0);
 		i++;
 	}
+	if (!ft_isalpha(key[len]) && key[len] != '_' && !ft_isdigit(key[len]) && key[len] != '+')
+		return (0);
 	return (1);
 }
 
