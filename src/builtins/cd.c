@@ -41,14 +41,24 @@ void	too_many_args(void)
 void	ft_cd(char **args)
 {
 	char	*dir;
+	char	*tmp_without_home;
+	char	*tmp_with_home;
 	t_dict	*kvp;
 
-	if (!args[1] || !ft_strcmp(args[1], "~"))
+	if (!args[1] || !ft_strncmp(args[1], "~", 1))
 	{
 		kvp = get_kvp(g_meta.env, "HOME");
 		if (!kvp)
 			return ;
-		dir = kvp->value;
+		if (ft_strcmp(args[1], "~"))
+		{
+			tmp_without_home = ft_strtrim(args[1], "~");
+			tmp_with_home = ft_strjoin(kvp->value, tmp_without_home);
+			dir = tmp_with_home;
+			free(tmp_without_home);
+		}
+		else
+			dir = kvp->value;
 	}
 	else if (args[2])
 		return (too_many_args());
@@ -57,6 +67,7 @@ void	ft_cd(char **args)
 	update_env_dirs("OLDPWD");
 	if (chdir(dir) == -1)
 	{
+		free(tmp_with_home);
 		perror("Minishell: cd");
 		g_meta.status = BUILTIN_FAIL;
 	}
