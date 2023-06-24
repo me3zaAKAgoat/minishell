@@ -30,3 +30,11 @@
 - redirections might have to get moved up to parsing and have the command structure only return a file descriptor
 - handle cases where a string is : "hello"world
   it should not become hello world
+- if an env expansion amounts to NULL dont concatenate it/ pop the token
+- export xd="" should work like export xd=
+- add append in export
+
+- description of redirections
+  > redirections should happen at parsing stage, when creating the command structure, the files should get opened and the file descriptors for these opened files should be saved as output and input files.
+  > if there are two redirections the previous file descriptor should be closed and then replaced by the newer one
+  > what happens if an input redirection fails??

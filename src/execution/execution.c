@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 20:36:48 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/24 08:00:11 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	exec_cmd(t_command *cmd)
 		if (access(cmd->args[0], F_OK))
 			(perror("Minishell"), exit(CMD_UNKNOWN));
 		execve(cmd->args[0], cmd->args, envp);
-		(werror("Minishell: "), werror(cmd->args[0]), perror(" "), exit(CMD_FAIL));
+		(werror("Minishell: "), werror(cmd->args[0]),
+			perror(" "), exit(CMD_FAIL));
 	}
 	else
 	{
@@ -36,10 +37,10 @@ void	exec_cmd(t_command *cmd)
 
 void	handle_priority(t_command *cmd, int **first_pipe, int **second_pipe)
 {
-	if (cmd->appendfile || cmd->truncfile)
-		*first_pipe = NULL;
-	if (cmd->delim || cmd->infile)
+	if (cmd->infile >= 0)
 		*second_pipe = NULL;
+	if (cmd->outfile >= 0)
+		*first_pipe = NULL;
 }
 
 /*
@@ -57,10 +58,12 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	if (*pid == 0)
 	{
 		execution_signals();
-		if (input_redirection(cmd) < 0 || out_redirection(cmd) < 0)
-			exit(1);
+		input_redirection(cmd);
+		out_redirection(cmd);
 		handle_priority(cmd, &first_pipe, &second_pipe);
 		setup_pipes(first_pipe, second_pipe);
+		if (cmd->io_error)
+			exit(EXIT_FAILURE);
 		if (cmd->args)
 			exec_cmd(cmd);
 	}
@@ -83,10 +86,9 @@ void	single_command(t_node *cmd)
 	{
 		original_stdin = dup(0);
 		original_stdout = dup(1);
-		if (!input_redirection(cmd->content) && !out_redirection(cmd->content))
-			handle_builtin(cmd->content);
-		else
-			g_meta.status = 1;
+		input_redirection(cmd->content);
+		out_redirection(cmd->content);
+		handle_builtin(cmd->content);
 		dup2(original_stdin, 0);
 		dup2(original_stdout, 1);
 	}

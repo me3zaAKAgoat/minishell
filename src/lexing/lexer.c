@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/22 19:58:01 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:06:55 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,13 @@ t_node	*tokenize(char *cmd_line)
 		{
 			token = get_next_token(cmd_line + i);
 			ll_push(&tokens, ll_new(token));
-			if (token->type == ERR)
-				break ;
 			i += ft_strlen(token->value);
 		}
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
 	if (lexical_errors(tokens))
-		return (ll_clear(&tokens, (void *)(void *)clear_token), NULL);
+		return (ll_clear(&tokens, (void *)(void *)clear_token),
+			g_meta.status = 1, NULL);
 	remove_string_quotations(tokens);
 	expand_envs(tokens);
 	return (tokens);

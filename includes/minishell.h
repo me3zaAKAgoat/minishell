@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 20:41:40 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:10:01 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ typedef struct s_meta {
 
 typedef struct s_command {
 	char	**args;
-	char	*infile;
-	char	*truncfile;
-	char	*delim;
-	char	*appendfile;
+	int		infile;
+	int		outfile;
+	int		io_error;
 }	t_command;
 
 typedef enum e_token_type {
@@ -120,8 +119,8 @@ extern	void		close_pipes(int first_pipe[2], int second_pipe[2]);
 extern	void		cmd_wrapper(t_command *cmd,
 						int first_pipe[2], int second_pipe[2]);
 extern	void		pipeline(t_node *cmds);
-extern	int		input_redirection(t_command *cmd);
-extern	int		out_redirection(t_command *cmd);
+extern	void		input_redirection(t_command *cmd);
+extern	void		out_redirection(t_command *cmd);
 extern	char		**get_pathenv(char	*envp[]);
 extern	char		*get_cmdpath(char	**paths, char	*cmd);
 extern	void		handle_bin_cmd(char **args, char **envp);

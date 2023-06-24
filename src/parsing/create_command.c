@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 17:14:14 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/24 07:23:30 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,21 @@ void	join_command_args(t_node *token, t_command *cmd)
 	cmd->args = tmp;
 }
 
-void	output_redirections(t_node *tokens, t_command *cmd)
+int	open_heredoc(char *delim)
 {
-	if (((t_token *)tokens->content)->type == OUT)
+	char	*heredoc_filename;
+	int		fd;
+
+	heredoc_filename = here_doc(delim);
+	if (!heredoc_filename)
+		fd = -1;
+	else
 	{
-		tokens = tokens->next;
-		free(cmd->truncfile);
-		free(cmd->appendfile);
-		cmd->appendfile = NULL;
-		cmd->truncfile = ft_strdup(((t_token *)tokens->content)->value);
+		fd = open(heredoc_filename, O_RDONLY);
+		unlink(heredoc_filename);
+		free(heredoc_filename);
 	}
-	else if (((t_token *)tokens->content)->type == APPEND)
-	{
-		tokens = tokens->next;
-		free(cmd->appendfile);
-		free(cmd->truncfile);
-		cmd->truncfile = NULL;
-		cmd->appendfile = ft_strdup(((t_token *)tokens->content)->value);
-	}
+	return (fd);
 }
 
 void	input_redirections(t_node *tokens, t_command *cmd)
@@ -54,18 +51,53 @@ void	input_redirections(t_node *tokens, t_command *cmd)
 	if (((t_token *)tokens->content)->type == IN)
 	{
 		tokens = tokens->next;
-		free(cmd->infile);
-		free(cmd->delim);
-		cmd->delim = NULL;
-		cmd->infile = ft_strdup(((t_token *)tokens->content)->value);
+		if (cmd->infile >= 0)
+			close(cmd->infile);
+		cmd->infile = open(((t_token *)tokens->content)->value, O_RDONLY);
+		if (cmd->infile == -1 && !cmd->io_error)
+			(werror("Minshell: "),
+				werror(((t_token *)tokens->content)->value),
+				perror(" "), cmd->io_error = 1);
 	}
-	else if (((t_token *)tokens->content)->type == HEREDOC)
+	else
+	if (((t_token *)tokens->content)->type == HEREDOC)
 	{
 		tokens = tokens->next;
-		free(cmd->delim);
-		free(cmd->infile);
-		cmd->infile = NULL;
-		cmd->delim = ft_strdup(((t_token *)tokens->content)->value);
+		if (cmd->infile >= 0)
+			close(cmd->infile);
+		cmd->infile = open_heredoc(((t_token *)tokens->content)->value);
+		if (cmd->infile == -1 && !cmd->io_error)
+			(werror("Minshell: "),
+				werror(((t_token *)tokens->content)->value),
+				perror(" "), cmd->io_error = 1);
+	}
+}
+
+void	output_redirections(t_node *tokens, t_command *cmd)
+{
+	if (((t_token *)tokens->content)->type == OUT)
+	{
+		tokens = tokens->next;
+		if (cmd->outfile >= 0)
+			close(cmd->outfile);
+		cmd->outfile = open(((t_token *)tokens->content)->value,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (cmd->outfile == -1 && !cmd->io_error)
+			(werror("Minshell: "),
+				werror(((t_token *)tokens->content)->value),
+				perror(" "), cmd->io_error = 1);
+	}
+	else if (((t_token *)tokens->content)->type == APPEND)
+	{
+		tokens = tokens->next;
+		if (cmd->outfile >= 0)
+			close(cmd->outfile);
+		cmd->outfile = open(((t_token *)tokens->content)->value,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (cmd->outfile == -1 && !cmd->io_error)
+			(werror("Minshell: "),
+				werror(((t_token *)tokens->content)->value),
+				perror(" "), cmd->io_error = 1);
 	}
 }
 
