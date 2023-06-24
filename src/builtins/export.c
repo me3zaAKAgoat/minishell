@@ -26,7 +26,8 @@ int	key_is_valid(char *key)
 	i++;
 	while (key[i])
 	{
-		if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]) && key[len] != '+')
+		printf("key[%d] = %c\n", i, key[i]);
+		if ((!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i])) || key[len] != '+')
 			return (0);
 		i++;
 	}
@@ -64,23 +65,23 @@ void	concatenate_values(t_dict *concatenate_pair, char *new_val)
 	free(concatenate_val);
 }
 
-char	*set_new_value(char **key_value_arr, char **args)
+char	*set_new_value(char **key_value_arr, char *args)
 {
 	char	*new_val;
 
 	new_val = join_arr(key_value_arr + 1, "=");
-	if (ft_strchr(args[1], '=') && !new_val)
+	if (ft_strchr(args, '=') && !new_val)
 		new_val = ft_strdup("");
 	return (new_val);
 }
 
 void	replace_value(t_dict **existing_pair, char *new_val)
 {
-		free((*existing_pair)->value);
-		(*existing_pair)->value = ft_strdup(new_val);
+	free((*existing_pair)->value);
+	(*existing_pair)->value = ft_strdup(new_val);
 }
 
-int	update_env(char **args)
+int	update_env(char *arg)
 {
 	char	**key_value_arr;
 	t_dict	*existing_pair;
@@ -88,12 +89,12 @@ int	update_env(char **args)
 	char	*new_val;
 	char	*tmp_key;
 
-	key_value_arr = ft_split(args[1], '=');
+	key_value_arr = ft_split(arg, '=');
 	if (!key_is_valid(key_value_arr[0]))
-		return (werror("Minishell: export: `"), werror(args[1]),
+		return (werror("Minishell: export: `"), werror(arg),
 			werror("': not a valid identifier\n"), split_clear(key_value_arr),
-			g_meta.status = BUILTIN_FAIL, -1);
-	new_val = set_new_value(key_value_arr, args);
+			-1);
+	new_val = set_new_value(key_value_arr, arg);
 	existing_pair = get_kvp(g_meta.env, key_value_arr[0]);
 	tmp_key = ft_strtrim(key_value_arr[0], "+");
 	concatenate_pair = get_kvp(g_meta.env, tmp_key);
@@ -111,8 +112,20 @@ int	update_env(char **args)
 
 void	ft_export(char **args)
 {
-	if (!args[1])
+	int	i;
+	int	status;
+
+	i = 1;
+	status = 0;
+	if (!args[i])
 		return (print_export());
-	if (update_env(args) != -1)
-		g_meta.status = 0;
+	while (args[i])
+	{
+		if (update_env(args[i]) == -1)
+			status = 1;
+		i++;
+	}
+	g_meta.status = 0;
+	if (status)
+		g_meta.status = 1;
 }
