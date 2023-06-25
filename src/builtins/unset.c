@@ -16,14 +16,16 @@ void	ft_unset(char **args)
 {
 	t_node	*iterator;
 	t_dict	*kvp;
+	int		i;
 
-	if (args[1])
+	i = 1;
+	while (args[i])
 	{
 		iterator = g_meta.env;
 		while (iterator)
 		{
 			kvp = iterator->content;
-			if (!ft_strcmp(args[1], kvp->key))
+			if (!ft_strcmp(args[i], kvp->key))
 			{
 				ll_del_one(ll_pop(&g_meta.env,
 						ll_get_index(g_meta.env, iterator)), (void*)clear_kvp);
@@ -31,8 +33,7 @@ void	ft_unset(char **args)
 			}
 			iterator = iterator->next;
 		}
-		g_meta.status = 0;
+		i++;
 	}
-	else
-		g_meta.status = BUILTIN_FAIL;
+	g_meta.status = 0;
 }
