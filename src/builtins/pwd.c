@@ -15,18 +15,21 @@
 void	ft_pwd(void)
 {
 	char	*wd;
+	t_dict	*kvp;
 		
 	wd = getcwd(NULL, 0);
+	// if (wd = NULL) print the PWD
 	if (!wd)
 	{
-		perror("Minishell: pwd");	
-		g_meta.status = BUILTIN_FAIL;
+		kvp = get_kvp(g_meta.env, "PWD");
+		write(1, kvp->value, ft_strlen(kvp->value));
+		write(1, "\n", 1);
 	}
 	else
 	{
 		write(1, wd, ft_strlen(wd));
 		free(wd);
 		write(1, "\n", 1);
-		g_meta.status = 0;	
 	}
+		g_meta.status = 0;
 }
