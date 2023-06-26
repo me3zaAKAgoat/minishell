@@ -88,6 +88,7 @@ void	ft_cd(char **args)
 	update_env_dirs("OLDPWD", dir);
 	if (chdir(dir) == -1)
 	{
+		// should print name of this dir (bash: cd: 3t5536: No such file or directory)
 		perror("Minishell: cd");
 		g_meta.status = BUILTIN_FAIL;
 	}
