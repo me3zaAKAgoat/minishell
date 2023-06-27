@@ -6,22 +6,44 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 18:54:38 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:15:04 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/errno.h>
 
-void	update_env_dirs(char *key)
+void	update_env_dirs(char *key, char *dir)
 {
 	t_dict	*kvp;
+	t_dict	*kvp_pwd;
 	char	*cwd;
+	char	*tmp;
 
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		perror("Minishell: cd ");
 	kvp = get_kvp(g_meta.env, key);
-	if (!kvp)
+	if (!cwd && kvp && !ft_strcmp(key, "PWD"))
 	{
-		kvp->value = ft_strdup(cwd);
+		tmp = kvp->value;
+		kvp->value = ft_strjoin(tmp, "/");
+		free(tmp);
+		tmp = kvp->value;
+		kvp->value = ft_strjoin(tmp, dir);
+		free(tmp);
+	}
+	else if (!cwd && kvp && !ft_strcmp(key, "OLDPWD"))
+	{
+		kvp_pwd = get_kvp(g_meta.env, "PWD");
+		if (!kvp_pwd)
+			return ;
+		free(kvp->value);
+		kvp->value = ft_strdup(kvp_pwd->value);
+	}
+	else if (!kvp)
+	{
+		kvp = new_kvp(key, ft_strdup(cwd));
 		ll_push(&g_meta.env, ll_new(kvp));
 	}
 	else
@@ -32,34 +54,40 @@ void	update_env_dirs(char *key)
 	free(cwd);
 }
 
-void	too_many_args(void)
+char	*next_dir(char *arg)
 {
-	werror("Minishell: cd: too many arguments\n");
-	g_meta.status = BUILTIN_FAIL;
+	t_dict	*kvp;
+	char	*home;
+
+	if (!arg || arg[0] == '~')
+	{
+		kvp = get_kvp(g_meta.env, "HOME");
+		if (kvp)
+			home = kvp->value;
+		else
+			return (g_meta.status = BUILTIN_FAIL,
+				werror("Minishell: cd: HOME not set"), NULL);
+	}
+	if (!arg || (arg[0] == '~' && ft_strlen(arg) == 1))
+		return (ft_strdup(home));
+	else if (arg[0] == '~' && ft_strlen(arg) > 1)
+		return (ft_strjoin(home, arg + 1));
+	else
+		return (ft_strdup(arg));
 }
 
 void	ft_cd(char **args)
 {
 	char	*dir;
-	t_dict	*kvp;
 
-	if (!args[1] || !ft_strcmp(args[1], "~"))
-	{
-		kvp = get_kvp(g_meta.env, "HOME");
-		if (!kvp)
-			return ;
-		dir = kvp->value;
-	}
-	else if (args[2])
-		return (too_many_args());
+	g_meta.status = 0;
+	dir = next_dir(args[1]);
+	if (!dir)
+		return ;
+	update_env_dirs("OLDPWD", dir);
+	if (chdir(dir) == 0)
+		update_env_dirs("PWD", dir);
 	else
-		dir = args[1];
-	update_env_dirs("OLDPWD");
-	if (chdir(dir) == -1)
-	{
-		perror("Minishell: cd");
-		g_meta.status = BUILTIN_FAIL;
-	}
-	else
-		update_env_dirs("PWD");
+		(g_meta.status = BUILTIN_FAIL, perror("Minishell: cd"));
+	free(dir);
 }

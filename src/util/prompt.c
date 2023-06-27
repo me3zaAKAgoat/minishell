@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 20:56:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:07:04 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,20 @@
 char	*relative_wd(void)
 {
 	char	*wd;
+	t_dict	*kvp;
 	char	*relative_path;
 
 	wd = getcwd(NULL, 0);
 	if (!wd)
-		return (ft_strdup("(nil)"));
-	relative_path = wd;
+	{
+		kvp = get_kvp(g_meta.env, "PWD");
+		if (kvp)
+			relative_path = kvp->value;
+		else
+			relative_path = ft_strdup("unknown-dir");
+	}
+	else
+		relative_path = wd;
 	while (*relative_path)
 	{
 		if (!ft_strchr(relative_path, '/'))

@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:30:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 23:20:26 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:31:14 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,17 @@ void	ft_unset(char **args)
 {
 	t_node	*iterator;
 	t_dict	*kvp;
+	int		i;
 
-	if (args[1])
+	g_meta.status = 0;
+	i = 1;
+	while (args[i])
 	{
 		iterator = g_meta.env;
 		while (iterator)
 		{
 			kvp = iterator->content;
-			if (!ft_strcmp(args[1], kvp->key))
+			if (!ft_strcmp(args[i], kvp->key))
 			{
 				ll_del_one(ll_pop(&g_meta.env,
 						ll_get_index(g_meta.env, iterator)), (void*)clear_kvp);
@@ -31,6 +34,6 @@ void	ft_unset(char **args)
 			}
 			iterator = iterator->next;
 		}
+		i++;
 	}
-	g_meta.status = 0;
 }
