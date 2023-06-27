@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 18:54:38 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:15:04 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	update_env_dirs(char *key, char *dir)
 	char	*tmp;
 
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		perror("Minishell: cd ");
 	kvp = get_kvp(g_meta.env, key);
 	if (!cwd && kvp && !ft_strcmp(key, "PWD"))
 	{
-		g_meta.status = 0;
-		perror("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory");
 		tmp = kvp->value;
 		kvp->value = ft_strjoin(tmp, "/");
 		free(tmp);
@@ -54,44 +54,40 @@ void	update_env_dirs(char *key, char *dir)
 	free(cwd);
 }
 
-void	ft_cd(char **args)
+char	*next_dir(char *arg)
 {
-	(void)args;
-	char	*dir;
-	char	*tmp_without_home;
-	char	*tmp_with_home;
 	t_dict	*kvp;
+	char	*home;
 
-	if (!args[1] || !ft_strncmp(args[1], "~", 1))
+	if (!arg || arg[0] == '~')
 	{
 		kvp = get_kvp(g_meta.env, "HOME");
-		if (!kvp)
-		{
-			write (1, "bash: cd: HOME not set", ft_strlen("bash: cd: HOME not set"));
-			write(1, "\n", 1);
-			g_meta.status = BUILTIN_FAIL;
-			return ;
-		}
-		else if (args[1] && ft_strcmp(args[1], "~"))
-		{
-			tmp_without_home = ft_strtrim(args[1], "~");
-			tmp_with_home = ft_strjoin(kvp->value, tmp_without_home);
-			dir = tmp_with_home;
-			free(tmp_without_home);
-			free(tmp_with_home);
-		}
+		if (kvp)
+			home = kvp->value;
 		else
-			dir = kvp->value;
+			return (g_meta.status = BUILTIN_FAIL,
+				werror("Minishell: cd: HOME not set"), NULL);
 	}
+	if (!arg || (arg[0] == '~' && ft_strlen(arg) == 1))
+		return (ft_strdup(home));
+	else if (arg[0] == '~' && ft_strlen(arg) > 1)
+		return (ft_strjoin(home, arg + 1));
 	else
-		dir = args[1];
+		return (ft_strdup(arg));
+}
+
+void	ft_cd(char **args)
+{
+	char	*dir;
+
+	g_meta.status = 0;
+	dir = next_dir(args[1]);
+	if (!dir)
+		return ;
 	update_env_dirs("OLDPWD", dir);
-	if (chdir(dir) == -1)
-	{
-		// should print name of this dir (bash: cd: 3t5536: No such file or directory)
-		perror("Minishell: cd");
-		g_meta.status = BUILTIN_FAIL;
-	}
-	else
+	if (chdir(dir) == 0)
 		update_env_dirs("PWD", dir);
+	else
+		(g_meta.status = BUILTIN_FAIL, perror("Minishell: cd"));
+	free(dir);
 }
