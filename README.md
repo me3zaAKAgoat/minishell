@@ -35,6 +35,10 @@
 - add append in export
 
 - description of redirections
+
   > redirections should happen at parsing stage, when creating the command structure, the files should get opened and the file descriptors for these opened files should be saved as output and input files.
   > if there are two redirections the previous file descriptor should be closed and then replaced by the newer one
   > what happens if an input redirection fails??
+
+- fix the disgusting code for updating PWD and OLDPWD in cd
+- add += in export

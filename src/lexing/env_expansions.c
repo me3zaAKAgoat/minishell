@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 18:16:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 06:31:03 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*expanded_string(char	*initial_str)
 	i = 0;
 	while (initial_str[i])
 	{
-		if (initial_str[i] == '$' && initial_str[i + 1])
+		if (initial_str[i] == '$' && initial_str[i + 1] && !ft_isspace(initial_str[i + 1]))
 		{
 			str = append_to_result(str, ft_substr(initial_str, j, i - j));
 			if (initial_str[i + 1] == '?')

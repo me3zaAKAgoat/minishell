@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/24 07:23:30 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 06:46:00 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,24 @@ int	open_heredoc(char *delim)
 
 void	input_redirections(t_node *tokens, t_command *cmd)
 {
-	if (((t_token *)tokens->content)->type == IN)
+	if (((t_token *)tokens->content)->type == IN && !cmd->io_error)
 	{
 		tokens = tokens->next;
 		if (cmd->infile >= 0)
 			close(cmd->infile);
 		cmd->infile = open(((t_token *)tokens->content)->value, O_RDONLY);
-		if (cmd->infile == -1 && !cmd->io_error)
+		if (cmd->infile == -1)
 			(werror("Minshell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
-	else
-	if (((t_token *)tokens->content)->type == HEREDOC)
+	else if (((t_token *)tokens->content)->type == HEREDOC && !cmd->io_error)
 	{
 		tokens = tokens->next;
 		if (cmd->infile >= 0)
 			close(cmd->infile);
 		cmd->infile = open_heredoc(((t_token *)tokens->content)->value);
-		if (cmd->infile == -1 && !cmd->io_error)
+		if (cmd->infile == -1)
 			(werror("Minshell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
@@ -75,26 +74,26 @@ void	input_redirections(t_node *tokens, t_command *cmd)
 
 void	output_redirections(t_node *tokens, t_command *cmd)
 {
-	if (((t_token *)tokens->content)->type == OUT)
+	if (((t_token *)tokens->content)->type == OUT && !cmd->io_error)
 	{
 		tokens = tokens->next;
 		if (cmd->outfile >= 0)
 			close(cmd->outfile);
 		cmd->outfile = open(((t_token *)tokens->content)->value,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (cmd->outfile == -1 && !cmd->io_error)
+		if (cmd->outfile == -1)
 			(werror("Minshell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
-	else if (((t_token *)tokens->content)->type == APPEND)
+	else if (((t_token *)tokens->content)->type == APPEND && !cmd->io_error)
 	{
 		tokens = tokens->next;
 		if (cmd->outfile >= 0)
 			close(cmd->outfile);
 		cmd->outfile = open(((t_token *)tokens->content)->value,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (cmd->outfile == -1 && !cmd->io_error)
+		if (cmd->outfile == -1)
 			(werror("Minshell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);

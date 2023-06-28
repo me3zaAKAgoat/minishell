@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/27 20:29:08 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 06:47:15 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	ft_exit(char **args)
 		|| ft_atoll(args[1]) < LONG_MIN || LONG_MAX < ft_atoll(args[1]))
 		bad_argument_exit(args);
 	else if (args[2])
-		(g_meta.status = BUILTIN_FAIL, werror("Minishell: exit: too many arguments\n"));
+	{
+		g_meta.status = BUILTIN_FAIL;
+		werror("Minishell: exit: too many arguments\n");
+	}
 	else
 		(printf("exit\n"), exit(ft_atoll(args[1])));
 }

@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/20 02:26:04 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 06:27:13 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ t_node	*init_env(char **env)
 	while (*env)
 	{
 		arr = ft_split(*env, '=');
-		tmp_str = join_arr(arr + 1, "");
+		tmp_str = join_arr(arr + 1, "=");
+		if (!tmp_str)
+			tmp_str = ft_strdup("");
 		tmp_dict = new_kvp(arr[0], tmp_str);
 		if (tmp_dict)
 			ll_push(&head, ll_new(tmp_dict));

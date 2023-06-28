@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:30:57 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/27 20:26:54 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 06:47:29 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_pwd(void)
 {
 	char	*wd;
 	t_dict	*kvp;
-		
+
 	g_meta.status = 0;
 	wd = getcwd(NULL, 0);
 	if (!wd)
