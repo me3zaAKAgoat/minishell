@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 06:47:15 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 20:03:32 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	bad_argument_exit(char **args)
 {
-	werror("exit\n");
+	printf("exit\n");
 	werror("Minishell: exit: ");
 	werror(args[1]);
 	werror(": numeric argument required\n");
@@ -22,11 +22,11 @@ void	bad_argument_exit(char **args)
 }
 
 void	ft_exit(char **args)
-{
+{	
 	if (!args[1])
 		(printf("exit\n"), exit(g_meta.status));
 	else if (!is_number(args[1])
-		|| ft_atoll(args[1]) < LONG_MIN || LONG_MAX < ft_atoll(args[1]))
+		|| ((ft_atoll(args[1]) && !ft_atoll(args[1])) || errno == EOVERFLOW))
 		bad_argument_exit(args);
 	else if (args[2])
 	{

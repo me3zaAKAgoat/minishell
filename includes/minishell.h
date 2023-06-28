@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 23:10:01 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:19:38 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/ioctl.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
