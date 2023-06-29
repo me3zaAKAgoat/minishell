@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/27 20:07:04 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:08:13 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*relative_wd(void)
 		if (kvp)
 			relative_path = kvp->value;
 		else
-			relative_path = ft_strdup("unknown-dir");
+			relative_path = ".";
 	}
 	else
 		relative_path = wd;
@@ -44,19 +44,25 @@ char	*prompt_string(void)
 {
 	char	*relative_path;
 	char	*prompt;
-	char	*words[7];
+	char	*words[10];
 
 	relative_path = relative_wd();
-	words[0] = BLUE;
-	words[1] = relative_path;
-	words[2] = COLOR_OFF;
 	if (g_meta.status)
-		words[3] = RED;
+		words[0] = RED;
 	else
-		words[3] = GREEN;
-	words[4] = " ► ";
+		words[0] = GREEN;
+	words[1] = "$ ";
+	words[2] = COLOR_OFF;
+	words[3] = PURPLE;
+	words[4] = relative_path;
 	words[5] = COLOR_OFF;
-	words[6] = NULL;
+	if (g_meta.status)
+		words[6] = RED;
+	else
+		words[6] = GREEN;
+	words[7] = " ► ";
+	words[8] = COLOR_OFF;
+	words[9] = NULL;
 	prompt = join_arr(words, "");
 	free(relative_path);
 	return (prompt);

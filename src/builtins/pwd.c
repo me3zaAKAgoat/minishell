@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:30:57 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 06:47:29 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/06/28 21:33:48 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	ft_pwd(void)
 		if (kvp)
 			write(1, kvp->value, ft_strlen(kvp->value));
 		else
+		{
 			g_meta.status = BUILTIN_FAIL;
+			werror("error retrieving current directory");
+		}
 	}
 	else
 	{
