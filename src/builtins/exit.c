@@ -18,6 +18,7 @@ void	bad_argument_exit(char **args)
 	werror("Minishell: exit: ");
 	werror(args[1]);
 	werror(": numeric argument required\n");
+	// should be exit with 255 not 2
 	exit(BUILTIN_INCORRECT_USAGE);
 }
 
