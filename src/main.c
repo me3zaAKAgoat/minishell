@@ -17,6 +17,10 @@ t_meta	g_meta;
 int	main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
+	if (env == NULL || *env == NULL)
+	{
+		printf("vars should be added manually\n");
+	}
 	g_meta.env = init_env(env);
 	g_meta.status = 0;
 	g_meta.pids = NULL;
