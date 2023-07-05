@@ -15,19 +15,26 @@
 int	key_is_valid(char *key)
 {
 	int	i;
+	int	len;
 
 	if (!key)
 		return (0);
 	i = 0;
+	len = ft_strlen(key) - 1;
 	if (!ft_isalpha(key[i]) && key[i] != '_')
 		return (0);
 	i++;
-	while (key[i])
+	while (i < len)
 	{
 		if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]))
 			return (0);
 		i++;
 	}
+	if (!ft_isalpha(key[len]) && key[len] != '_' && !ft_isdigit(key[len])
+		&& key[len] != '+')
+		return (0);
+	if (key[len] == '+')
+		return (2);
 	return (1);
 }
 
@@ -53,34 +60,123 @@ void	print_export(void)
 	}
 }
 
-int	update_env(char **args)
+char	*get_key(char *arg)
 {
-	char	**key_value_arr;
-	t_dict	*existing_pair;
-	char	*new_val;
+	int		len;
+	int		i;
+	char	*key;
 
-	key_value_arr = ft_split(args[1], '=');
-	if (!key_is_valid(key_value_arr[0]))
-		return (werror("Minishell: export: `"), werror(args[1]),
-			werror("': not a valid identifier\n"), split_clear(key_value_arr),
-			g_meta.status = BUILTIN_FAIL, -1);
-	new_val = join_arr(key_value_arr + 1, "=");
-	if (ft_strchr(args[1], '=') && !new_val)
-		new_val = ft_strdup("");
-	existing_pair = get_kvp(g_meta.env, key_value_arr[0]);
-	if (existing_pair)
-		(free(existing_pair->value), existing_pair->value = ft_strdup(new_val));
+	len = 0;
+	while (arg[len] && arg[len] != '=')
+		len++;
+	key = malloc(sizeof(char) * (len + 1));
+	if (!key)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		key[i] = arg[i];
+		i++;
+	}
+	key[i] = '\0';
+	return (key);
+}
+
+char	*get_value(char *arg)
+{
+	char	*value;
+	int		len;
+	int		i;
+	char	*tmp;
+
+	tmp = ft_strchr(arg, '=');
+	if (!tmp)
+		return (NULL);
+	len = ft_strlen(tmp + 1);
+	value = malloc(sizeof(char) * (len + 1));
+	if (!value)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		value[i] = tmp[i + 1];
+		i++;
+	}
+	value[i] = '\0';
+	if (!value)
+		return (NULL);
+	return (value);
+}
+
+void	concatenate_values(t_dict *existing_pair, char *new_value)
+{
+	char	*concatenate_value;
+
+	concatenate_value = ft_strjoin(existing_pair->value, new_value);
+	free(existing_pair->value);
+	existing_pair->value = concatenate_value;
+}
+
+void	modify_environment(char *key, char *value, int check)
+{
+	char	*tmp;
+	t_dict	*exist_pair;
+
+	tmp = key;
+	key = ft_strtrim(tmp, "+");
+	free(tmp);
+	exist_pair = get_kvp(g_meta.env, key);
+	if (check == 2)
+	{
+		if (exist_pair)
+			concatenate_values(exist_pair, value);
+		else
+			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
+	}
 	else
-		ll_push(&g_meta.env, ll_new(new_kvp(key_value_arr[0], new_val)));
-	free(new_val);
-	split_clear(key_value_arr);
+	{
+		if (exist_pair)
+			(free(exist_pair->value), exist_pair->value = ft_strdup(value));
+		else
+			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
+	}
+	free(value);
+	free(key);
+}
+
+int	update_env(char *arg)
+{
+	char	*key;
+	char	*value;
+	int		check;
+
+	key = get_key(arg);
+	value = get_value(arg);
+	if (!value[0])
+		(free(value), value = NULL);
+	if (ft_strchr(arg, '=') && !value)
+		value = ft_strdup("");
+	check = key_is_valid(key);
+	if (!check)
+		return (werror("Minishell: export: `"), werror(arg),
+			free(value), free(key),
+			werror("': not a valid identifier\n"),
+			g_meta.status = BUILTIN_FAIL, -1);
+	modify_environment(key, value, check);
 	return (0);
 }
 
 void	ft_export(char **args)
 {
+	int	i;
+
 	if (!args[1])
 		return (print_export());
-	if (update_env(args) != -1)
-		g_meta.status = 0;
+	i = 1;
+	while (args[i])
+	{
+		if (update_env(args[i]) != -1)
+			g_meta.status = 0;
+		i++;
+	}
 }
