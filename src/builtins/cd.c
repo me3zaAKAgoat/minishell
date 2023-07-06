@@ -13,45 +13,57 @@
 #include "minishell.h"
 #include <sys/errno.h>
 
-void	update_env_dirs(char *key, char *dir)
+void	update_old_pwd(char *cwd)
 {
-	t_dict	*kvp;
+	t_dict	*kvp_old_pwd;
 	t_dict	*kvp_pwd;
-	char	*cwd;
-	char	*tmp;
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		perror("Minishell: cd ");
-	kvp = get_kvp(g_meta.env, key);
-	if (!cwd && kvp && !ft_strcmp(key, "PWD"))
-	{
-		tmp = kvp->value;
-		kvp->value = ft_strjoin(tmp, "/");
-		free(tmp);
-		tmp = kvp->value;
-		kvp->value = ft_strjoin(tmp, dir);
-		free(tmp);
-	}
-	else if (!cwd && kvp && !ft_strcmp(key, "OLDPWD"))
+	kvp_old_pwd = get_kvp(g_meta.env, "OLDPWD");
+	if (kvp_old_pwd)
 	{
 		kvp_pwd = get_kvp(g_meta.env, "PWD");
+		free(kvp_old_pwd->value);
 		if (!kvp_pwd)
-			return ;
-		free(kvp->value);
-		kvp->value = ft_strdup(kvp_pwd->value);
+			kvp_old_pwd->value = ft_strdup("");
+		else
+			kvp_old_pwd->value = ft_strdup(kvp_pwd->value);
 	}
-	else if (!kvp)
+	else if (!kvp_old_pwd)
 	{
-		kvp = new_kvp(key, ft_strdup(cwd));
-		ll_push(&g_meta.env, ll_new(kvp));
+		kvp_old_pwd = new_kvp("OLDPWD", ft_strdup(cwd));
+		ll_push(&g_meta.env, ll_new(kvp_old_pwd));
 	}
 	else
 	{
-		free(kvp->value);
-		kvp->value = ft_strdup(cwd);
+		free(kvp_old_pwd->value);
+		kvp_old_pwd->value = ft_strdup(cwd);
 	}
-	free(cwd);
+}
+
+void	update_pwd(char *dir, char *cwd)
+{
+	t_dict	*kvp_pwd;
+	char	*tmp;
+
+	if (!cwd)
+		perror("Minishell: cd ");
+	kvp_pwd = get_kvp(g_meta.env, "PWD");
+	if (!kvp_pwd)
+		return ;
+	else if (!cwd && kvp_pwd)
+	{
+		tmp = kvp_pwd->value;
+		kvp_pwd->value = ft_strjoin(tmp, "/");
+		free(tmp);
+		tmp = kvp_pwd->value;
+		kvp_pwd->value = ft_strjoin(tmp, dir);
+		free(tmp);
+	}
+	else
+	{
+		free(kvp_pwd->value);
+		kvp_pwd->value = ft_strdup(cwd);
+	}
 }
 
 char	*next_dir(char *arg)
@@ -79,15 +91,20 @@ char	*next_dir(char *arg)
 void	ft_cd(char **args)
 {
 	char	*dir;
+	char	*cwd;
 
 	g_meta.status = 0;
 	dir = next_dir(args[1]);
 	if (!dir)
 		return ;
-	update_env_dirs("OLDPWD", dir);
+	cwd = getcwd(NULL, 0);
+	update_old_pwd(cwd);
 	if (chdir(dir) == 0)
-		update_env_dirs("PWD", dir);
+		update_pwd(dir, cwd);
 	else
-		(g_meta.status = BUILTIN_FAIL, perror("Minishell: cd"));
+	{
+		g_meta.status = BUILTIN_FAIL;
+		perror("Minishell: cd");
+	}
 	free(dir);
 }
