@@ -56,6 +56,7 @@ typedef struct s_dict {
 typedef struct s_meta {
 	t_node	*env;
 	int		status;
+	int		set_old_pwd;
 	t_node	*pids;
 }	t_meta;
 
@@ -74,6 +75,7 @@ typedef enum e_token_type {
 	STRING,
 	DQUOTE,
 	SQUOTE,
+	SPACEE,
 	PIPE,
 	ERR,
 	END,
