@@ -152,9 +152,12 @@ int	update_env(char *arg)
 
 	key = get_key(arg);
 	value = get_value(arg);
-	if (!value[0])
-		(free(value), value = NULL);
-	if (ft_strchr(arg, '=') && !value)
+	if (value && value[0] == '\0')
+	{
+		free(value);
+		value = NULL;
+	}
+	if (!value)
 		value = ft_strdup("");
 	check = key_is_valid(key);
 	if (!check)
