@@ -21,6 +21,7 @@ int	main(int ac, char **av, char **env)
 	{
 		printf("vars should be added manually\n");
 	}
+	g_meta.set_old_pwd = 0;
 	g_meta.env = init_env(env);
 	g_meta.status = 0;
 	g_meta.pids = NULL;
