@@ -19,7 +19,8 @@ void	bad_argument_exit(char **args)
 	werror(args[1]);
 	werror(": numeric argument required\n");
 	// should be exit with 255 not 2
-	exit(BUILTIN_INCORRECT_USAGE);
+	// exit(BUILTIN_INCORRECT_USAGE);
+	exit(255);
 }
 
 void	ft_exit(char **args)
