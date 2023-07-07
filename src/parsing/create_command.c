@@ -55,7 +55,7 @@ void	input_redirections(t_node *tokens, t_command *cmd)
 			close(cmd->infile);
 		cmd->infile = open(((t_token *)tokens->content)->value, O_RDONLY);
 		if (cmd->infile == -1)
-			(werror("Minshell: "),
+			(werror("Minishell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
@@ -66,7 +66,7 @@ void	input_redirections(t_node *tokens, t_command *cmd)
 			close(cmd->infile);
 		cmd->infile = open_heredoc(((t_token *)tokens->content)->value);
 		if (cmd->infile == -1)
-			(werror("Minshell: "),
+			(werror("Minishell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
@@ -82,7 +82,7 @@ void	output_redirections(t_node *tokens, t_command *cmd)
 		cmd->outfile = open(((t_token *)tokens->content)->value,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (cmd->outfile == -1)
-			(werror("Minshell: "),
+			(werror("Minishell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
@@ -94,7 +94,7 @@ void	output_redirections(t_node *tokens, t_command *cmd)
 		cmd->outfile = open(((t_token *)tokens->content)->value,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (cmd->outfile == -1)
-			(werror("Minshell: "),
+			(werror("Minishell: "),
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
