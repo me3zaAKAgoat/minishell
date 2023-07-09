@@ -18,7 +18,11 @@ char	*lex_quotes(char *cmd_line, char delim)
 
 	end = 1;
 	while (cmd_line[end] && cmd_line[end] != delim)
+	{
 		end++;
+		if (!cmd_line[end])
+			return (NULL);
+	}
 	return (ft_substr(cmd_line, 0, end + 1));
 }
 

@@ -56,44 +56,86 @@ static void	remove_string_quotations(t_node *tokens)
 	}
 }
 
-void remove_space_tokens(t_node **head) 
+void	remove_one_space(t_node **head, t_node **previous, t_node **current)
 {
-    t_node* current_token = *head;
-    // t_node* tokens = *head;
-    t_node* previous_token = NULL;
-    // t_node* next_token = NULL;
+	t_token	*current_token;
 
-    while (current_token)
+	current_token = (*current)->content;
+	if ((*previous) == NULL)
 	{
-        t_token* token = current_token->content;
-        if (token->type == SPACEE)
-		{
-            if (previous_token == NULL)
-			{
-                *head = current_token->next;
-                free(current_token);
-                current_token = *head;
-            }
-			else
-			{
-                previous_token->next = current_token->next;
-                free(current_token);
-                current_token = previous_token->next;
-            }
-        }
+		*head = (*current)->next;
+		free(current_token->value);
+		free((*current)->content);
+		free((*current));
+		(*current) = *head;
+	}
+	else
+	{
+		(*previous)->next = (*current)->next;
+		free(current_token->value);
+		free((*current)->content);
+		free((*current));
+		(*current) = (*previous)->next;
+	}
+}
+
+void	remove_space_tokens(t_node **head)
+{
+	t_node	*current_node;
+	t_node	*previous_node;
+	t_token	*current_token;
+
+	current_node = *head;
+	previous_node = NULL;
+	while (current_node)
+	{
+		current_token = current_node->content;
+		if (current_token->type == SPACEE)
+			remove_one_space(head, &previous_node, &current_node);
 		else
 		{
-            previous_token = current_token;
-            current_token = current_token->next;
-        }
-    }
-	// printf("After DELETE!\n");
-    // while (tokens)
-	// {
-    //     t_token* token = tokens->content;
-    //     printf("[%s]\n", token->value);
-	// 	tokens = tokens->next;
-	// }
+			previous_node = current_node;
+			current_node = current_node->next;
+		}
+	}
+}
+
+void	join_two_strings(t_node **current_node, t_node **next_node)
+{
+	char		*concatenate_value;
+	t_token		*current_token;
+	t_token		*next_token;
+
+	current_token = (*current_node)->content;
+	next_token = (*next_node)->content;
+	concatenate_value = ft_strjoin(current_token->value, next_token->value);
+	free(current_token->value);
+	free(next_token->value);
+	free(next_token);
+	(*current_node)->next = (*next_node)->next;
+	current_token->value = concatenate_value;
+	(*current_node)->content = current_token;
+}
+
+void	join_string_tokens(t_node **tokens)
+{
+	t_node		*current_node;
+	t_node		*next_node;
+	t_token		*current_token;
+	t_token		*next_token;
+
+	current_node = (*tokens);
+	next_node = current_node->next;
+	while (next_node)
+	{
+		current_token = current_node->content;
+		next_token = next_node->content;
+		if (current_token->type == STRING && next_token->type == STRING)
+			join_two_strings(&current_node, &current_node->next);
+		else
+			current_node = current_node->next;
+		next_node = next_node->next;
+	}
 }
 
 t_node	*tokenize(char *cmd_line)
@@ -106,51 +148,22 @@ t_node	*tokenize(char *cmd_line)
 	i = 0;
 	while (cmd_line[i])
 	{
-		// if (ft_isspace(cmd_line[i]))
-		// 	i++;
-		// else
-		// {
-			token = get_next_token(cmd_line + i);
-			ll_push(&tokens, ll_new(token));
-			i += ft_strlen(token->value);
-		// }
+		token = get_next_token(cmd_line + i);
+		if (token->value == NULL)
+		{
+			return (ll_clear(&tokens, (void *)(void *)clear_token),
+				werror("Unclosed Quotes!\n"), g_meta.status = 1, NULL);
+		}
+		ll_push(&tokens, ll_new(token));
+		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
 	if (lexical_errors(tokens))
 		return (ll_clear(&tokens, (void *)(void *)clear_token),
 			g_meta.status = 1, NULL);
 	remove_string_quotations(tokens);
-	// joining tokens
-	t_node	*current_token = tokens;
-	t_node	*next_token = current_token->next;
-	while (next_token)
-	{
-		char		*concatenate_value;
-		t_token		*cu_token = current_token->content;
-		t_token		*ne_token = next_token->content;
-		if (cu_token->type == STRING && ne_token->type == STRING)
-		{
-			concatenate_value = ft_strjoin(cu_token->value, ne_token->value);
-			// free(cu_token->value);
-			current_token->next = next_token->next;
-			free(ne_token);
-			// free(current_token->content);
-			cu_token->value = concatenate_value;
-			current_token->content = cu_token;
-		}
-		else
-			current_token = current_token->next;
-		next_token = next_token->next;
-	}
-	// remove SPACE tokens
+	join_string_tokens(&tokens);
 	remove_space_tokens(&tokens);
-	// next_token = tokens;
-	// while (next_token)
-	// {
-	// 	t_token		*current_token = next_token->content;
-	// 	printf("[%s]\n", current_token->value);
-	// 	next_token = next_token->next;
-	// }
 	expand_envs(tokens);
 	return (tokens);
 }
