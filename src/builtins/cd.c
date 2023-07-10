@@ -101,7 +101,10 @@ void	ft_cd(char **args)
 	cwd = getcwd(NULL, 0);
 	update_old_pwd(cwd);
 	if (chdir(dir) == 0)
+	{
+		cwd = getcwd(NULL, 0);
 		update_pwd(dir, cwd);
+	}
 	else
 	{
 		g_meta.status = BUILTIN_FAIL;
