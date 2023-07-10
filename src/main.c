@@ -17,12 +17,11 @@ t_meta	g_meta;
 int	main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
-	if (env == NULL || *env == NULL)
-	{
-		printf("vars should be added manually\n");
-	}
+	if (*env == NULL)
+		g_meta.env = init_env_manually();
+	else
+		g_meta.env = init_env(env);
 	g_meta.set_old_pwd = 0;
-	g_meta.env = init_env(env);
 	g_meta.status = 0;
 	g_meta.pids = NULL;
 	prompt_loop();
