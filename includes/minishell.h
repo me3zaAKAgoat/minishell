@@ -90,6 +90,7 @@ typedef struct s_token {
 extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
+extern	t_node	*init_env_manually(void);
 extern	t_node	*init_env(char **env);
 extern	void		ft_cd(char **args);
 extern	void		ft_echo(char **args);
