@@ -97,6 +97,7 @@ extern	void		ft_echo(char **args);
 extern	void		ft_env(char **args);
 extern	void		ft_exit(char **args);
 extern	void		ft_export(char **args);
+extern	int			key_is_valid(char *key);
 extern	void		ft_pwd(void);
 extern	void		ft_unset(char **args);
 extern	void		handle_builtin(t_command *cmd);
