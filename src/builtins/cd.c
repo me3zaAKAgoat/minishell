@@ -79,7 +79,7 @@ char	*next_dir(char *arg)
 			home = kvp->value;
 		else
 			return (g_meta.status = BUILTIN_FAIL,
-				werror("Minishell: cd: HOME not set"), NULL);
+				werror("Minishell: cd: HOME not set\n"), NULL);
 	}
 	if (!arg || (arg[0] == '~' && ft_strlen(arg) == 1))
 		return (ft_strdup(home));
