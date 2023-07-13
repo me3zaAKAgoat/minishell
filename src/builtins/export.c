@@ -157,8 +157,6 @@ int	update_env(char *arg)
 		free(value);
 		value = NULL;
 	}
-	if (!value)
-		value = ft_strdup("");
 	check = key_is_valid(key);
 	if (!check)
 		return (werror("Minishell: export: `"), werror(arg),
