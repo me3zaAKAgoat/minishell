@@ -22,6 +22,13 @@ char	*append_to_result(char *str, char *substring)
 	return (new_str);
 }
 
+int	count_key_length(char *key, int i)
+{
+	while (key[i] && !ft_isspace(key[i]) && key[i] != '"' && key[i] != '$')
+		i++;
+	return (i);
+}
+
 char	*expanded_string(char	*initial_str)
 {
 	char	*str;
@@ -35,28 +42,51 @@ char	*expanded_string(char	*initial_str)
 	i = 0;
 	while (initial_str[i])
 	{
-		if (initial_str[i] == '$' && initial_str[i + 1] && !ft_isspace(initial_str[i + 1]))
+		if (initial_str[i] == '$' && initial_str[i + 1] && initial_str[i + 1] != '"' && !ft_isspace(initial_str[i + 1]))
 		{
-			str = append_to_result(str, ft_substr(initial_str, j, i - j));
-			if (initial_str[i + 1] == '?')
-				(str = append_to_result(str, ft_itoa(g_meta.status)), i += 2);
+			i += 1;
+			if (initial_str[i] == '?')
+			{
+				str = append_to_result(str, ft_strdup(ft_itoa(g_meta.status)));
+				i += 1;
+			}
+			else if (initial_str[i] == '$')
+			{
+				str = append_to_result(str, ft_strdup("$$"));
+				i += 1;
+			}
 			else
-			{				
-				j = i + 1;
-				while (initial_str[i] && !ft_isspace(initial_str[i]))
-					i++;
+			{
+				j = i;
+				i = count_key_length(initial_str, i);
 				key = ft_substr(initial_str, j, i - j);
+				if (key_is_valid(key) != 1)
+					str = append_to_result(str, ft_strdup(key));
 				if (get_kvp(g_meta.env, key))
-					str = append_to_result(str,
-							ft_strdup(get_kvp(g_meta.env, key)->value));
+					str = append_to_result(str, ft_strdup(get_kvp(g_meta.env, key)->value));
 				free(key);
 			}
 			j = i;
 		}
+		else if (initial_str[i] == '$')
+		{
+			str = append_to_result(str, ft_strdup("$"));
+			i += 1;
+			j = i;
+		}
 		else
-			i++;
+		{
+			j = i;
+			if (i == 0 && initial_str[i] == '"')
+				j += 1;
+			while (initial_str[i] && initial_str[i] != '$')
+				i++;
+			str = append_to_result(str, ft_substr(initial_str, j, i - j));
+		}
+	char	*tmp = str;
+	str = ft_strtrim(tmp, "\"");
 	}
-	return (append_to_result(str, ft_substr(initial_str, j, i - j)));
+	return (str);
 }
 
 void	expand_envs(t_node *tokens)
@@ -70,8 +100,12 @@ void	expand_envs(t_node *tokens)
 		if (token->type == STRING || token->type == DQUOTE)
 		{
 			tmp = token->value;
-			token->value = expanded_string(tmp);
-			free(tmp);
+			if (ft_strchr(tmp, '$'))
+			{
+				token->value = expanded_string(tmp);
+				token->type = STRING;
+				free(tmp);
+			}
 		}
 		tokens = tokens->next;
 	}

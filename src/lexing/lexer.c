@@ -158,12 +158,12 @@ t_node	*tokenize(char *cmd_line)
 		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
-	if (lexical_errors(tokens))
-		return (ll_clear(&tokens, (void *)(void *)clear_token),
-			g_meta.status = 1, NULL);
+	expand_envs(tokens);
 	remove_string_quotations(tokens);
 	join_string_tokens(&tokens);
 	remove_space_tokens(&tokens);
-	expand_envs(tokens);
+	if (lexical_errors(tokens))
+		return (ll_clear(&tokens, (void *)(void *)clear_token),
+			g_meta.status = 1, NULL);
 	return (tokens);
 }
