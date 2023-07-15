@@ -34,6 +34,8 @@ void	update_old_pwd(char *cwd)
 		kvp_old_pwd = new_kvp("OLDPWD", ft_strdup(cwd));
 		ll_push(&g_meta.env, ll_new(kvp_old_pwd));
 	}
+	else if (!kvp_old_pwd && g_meta.set_old_pwd == 1)
+		return ;
 	else
 	{
 		free(kvp_old_pwd->value);
