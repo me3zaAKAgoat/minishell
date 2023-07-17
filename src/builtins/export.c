@@ -103,8 +103,6 @@ char	*get_value(char *arg)
 		i++;
 	}
 	value[i] = '\0';
-	if (!value)
-		return (NULL);
 	return (value);
 }
 
@@ -152,11 +150,6 @@ int	update_env(char *arg)
 
 	key = get_key(arg);
 	value = get_value(arg);
-	if (value && value[0] == '\0')
-	{
-		free(value);
-		value = NULL;
-	}
 	check = key_is_valid(key);
 	if (!check)
 		return (werror("Minishell: export: `"), werror(arg),
