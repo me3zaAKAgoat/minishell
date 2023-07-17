@@ -53,13 +53,35 @@ void	update_shlvl(t_node *head)
 {
 	t_dict	*kvp;
 	int		old_shlvl;
+	int		new_shlvl;
+	char	*tmp;
 
 	kvp = get_kvp(head, "SHLVL");
 	if (kvp)
 	{
 		old_shlvl = ft_atoi(kvp->value);
 		free(kvp->value);
-		kvp->value = ft_itoa(old_shlvl + 1);
+		new_shlvl = old_shlvl + 1;
+		if (new_shlvl < 0)
+			kvp->value = ft_strdup("0");
+		else if (new_shlvl == MAX_SHLVL)
+			kvp->value = ft_strdup("");
+		else if (new_shlvl > MAX_SHLVL)
+		{
+			werror("Minishell : warning: shell level (");
+			tmp = ft_itoa(new_shlvl);
+			werror(tmp);
+			free(tmp);
+			werror(") too high, resetting to 1\n");
+			kvp->value = ft_itoa(1);
+		}
+		else
+			kvp->value = ft_itoa(old_shlvl + 1);
+	}
+	else
+	{
+		kvp = new_kvp("SHLVL", ft_itoa(1));
+		ll_push(&g_meta.env, ll_new(kvp));
 	}
 }
 
