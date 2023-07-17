@@ -30,6 +30,7 @@
 
 /* MACROS */
 # define READ_END 0
+# define MAX_SHLVL 1000
 # define WRITE_END 1
 # define CMD_FAIL 126
 # define CMD_UNKNOWN 127
@@ -53,9 +54,14 @@ typedef struct s_dict {
 	char	*value;
 }	t_dict;
 
+typedef struct s_flags {
+	int	flag_expansion_heredoc;
+}	t_flags;
+
 typedef struct s_meta {
 	t_node	*env;
 	int		status;
+	t_flags	flags;
 	int		set_old_pwd;
 	t_node	*pids;
 }	t_meta;
