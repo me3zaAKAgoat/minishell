@@ -14,7 +14,7 @@
 
 int	is_builtin(t_command *cmd)
 {
-	if (!cmd->args)
+	if (!cmd->args || !cmd->args[0])
 		return (0);
 	if (!ft_strcmp(cmd->args[0], "exit"))
 		return (1);
