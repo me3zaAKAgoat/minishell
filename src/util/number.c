@@ -17,6 +17,8 @@ int	is_number(char *str)
 	int	i;
 
 	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	if (!str[i])
@@ -24,9 +26,13 @@ int	is_number(char *str)
 	while (str[i])
 	{
 		if (!(48 <= str[i] && str[i] <= 57))
-			return (0);
+			break;
 		i++;
 	}
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i])
+		return (0);
 	return (1);
 }
 
