@@ -97,6 +97,8 @@ void	ft_cd(char **args)
 	char	*cwd;
 
 	g_meta.status = 0;
+	if (args[1] && !args[1][0])
+		return ;
 	dir = next_dir(args[1]);
 	if (!dir)
 		return ;
