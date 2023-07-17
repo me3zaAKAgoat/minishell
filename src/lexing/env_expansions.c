@@ -16,6 +16,8 @@ char	*append_to_result(char *str, char *substring)
 {
 	char	*new_str;
 
+	if (!str && !substring)
+		return (NULL);
 	new_str = ft_strjoin(str, substring);
 	free(str);
 	free(substring);
@@ -33,6 +35,7 @@ char	*expanded_string(char	*initial_str)
 {
 	char	*str;
 	char	*key;
+	char	*value;
 	int		i;
 	int		j;
 
@@ -62,8 +65,13 @@ char	*expanded_string(char	*initial_str)
 				key = ft_substr(initial_str, j, i - j);
 				if (key_is_valid(key) != 1)
 					str = append_to_result(str, ft_strdup(key));
-				if (get_kvp(g_meta.env, key))
-					str = append_to_result(str, ft_strdup(get_kvp(g_meta.env, key)->value));
+				else if (!get_kvp(g_meta.env, key))
+					continue;
+				else if (get_kvp(g_meta.env, key))
+				{
+					value = get_kvp(g_meta.env, key)->value;
+						str = append_to_result(str, ft_strdup(value));
+				}
 				free(key);
 			}
 			j = i;
@@ -100,9 +108,13 @@ void	expand_envs(t_node *tokens)
 		if (token->type == STRING || token->type == DQUOTE)
 		{
 			tmp = token->value;
+				// printf("before token->value : %s\n", token->value);
 			if (ft_strchr(tmp, '$'))
 			{
 				token->value = expanded_string(tmp);
+				// if (!token->value)
+				// 	token->value = ft_strdup("");
+				// printf("after token->value : %s\n", token->value);
 				token->type = STRING;
 				free(tmp);
 			}
