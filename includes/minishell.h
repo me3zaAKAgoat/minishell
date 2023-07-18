@@ -144,6 +144,7 @@ extern	int		lexical_errors(t_node	*tokens);
 extern	int		is_number(char *str);
 extern	long long	ft_atoll(const char *str);
 extern	void		expand_envs(t_node *tokens);
+extern	char	*expanded_string(char	*initial_str);
 extern	size_t	strarr_len(char **arr);
 
 extern t_meta	g_meta;
