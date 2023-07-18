@@ -26,7 +26,7 @@ char	*append_to_result(char *str, char *substring)
 
 int	count_key_length(char *key, int i)
 {
-	while (key[i] && !ft_isspace(key[i]) && key[i] != '"' && key[i] != '$')
+	while (key[i] && !ft_isspace(key[i]) && key[i] != '"' && key[i] != '$' && (ft_isalpha(key[i]) || key[i] == '_' || ft_isdigit(key[i])))
 		i++;
 	return (i);
 }
@@ -108,13 +108,9 @@ void	expand_envs(t_node *tokens)
 		if (token->type == STRING || token->type == DQUOTE)
 		{
 			tmp = token->value;
-				// printf("before token->value : %s\n", token->value);
 			if (ft_strchr(tmp, '$'))
 			{
 				token->value = expanded_string(tmp);
-				// if (!token->value)
-				// 	token->value = ft_strdup("");
-				// printf("after token->value : %s\n", token->value);
 				token->type = STRING;
 				free(tmp);
 			}
