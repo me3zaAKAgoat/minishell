@@ -42,6 +42,13 @@ static void	remove_string_quotations(t_node *tokens)
 	while (tokens)
 	{
 		token = tokens->content;
+		if (token->type == HEREDOC)
+		{
+			tokens = tokens->next;
+			token = tokens->content;
+			if (token->type == DQUOTE || token->type == SQUOTE)
+				g_meta.flags.flag_expansion_heredoc = 0;
+		}
 		if (token->type == DQUOTE || token->type == SQUOTE)
 		{
 			if (token->type == DQUOTE)
