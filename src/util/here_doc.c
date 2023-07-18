@@ -38,35 +38,46 @@ static char	*unique_tmp_name(void)
 	return (NULL);
 }
 
-static void	handle_sigint(void)
+static void	handle_sigint(int i)
 {
+	(void)i;
 	exit(EXIT_FAILURE);
 }
 
 char	*here_doc(char *eof)
 {
 	char	*read_buf;
+	char	*tmp;
 	char	*eof_check;
 	char	*unique_filename;
 	int		fd;
 
-	signal(SIGINT, (__sighandler_t)handle_sigint);
+	signal(SIGINT, handle_sigint);
 	unique_filename = unique_tmp_name();
 	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
 	if (fd == -1)
-		return (NULL);
+		return (free(eof), NULL);
 	read_buf = prompt_heredoc();
 	while (read_buf)
 	{
 		eof_check = ft_substr(read_buf, 0, ft_strlen(read_buf) - 1);
 		if (!ft_strcmp(eof_check, eof))
-			return (free(read_buf),
+			return (free(read_buf), free(eof),
 				free(eof_check), unique_filename);
+		if (ft_strchr(read_buf, '$') && g_meta.flags.flag_expansion_heredoc == 1)
+		{
+			tmp = read_buf;
+			read_buf = expanded_string(tmp);
+			free(tmp);
+			write(fd, read_buf, ft_strlen(read_buf));
+		}
 		else
 			write(fd, read_buf, ft_strlen(read_buf));
 		free(read_buf);
 		free(eof_check);
 		read_buf = prompt_heredoc();
 	}
+	close(fd);
+	free(eof);
 	return (unique_filename);
 }

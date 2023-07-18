@@ -23,6 +23,7 @@ int	main(int ac, char **av, char **env)
 		g_meta.env = init_env(env);
 	g_meta.set_old_pwd = 0;
 	g_meta.status = 0;
+	g_meta.flags.flag_expansion_heredoc = 1;
 	g_meta.pids = NULL;
 	prompt_loop();
 }
