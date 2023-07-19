@@ -14,6 +14,12 @@
 
 t_meta	g_meta;
 
+void	init_flags(void)
+{
+	g_meta.flags.set_old_pwd = 0;
+	g_meta.flags.expansion_heredoc = 1;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
@@ -21,9 +27,8 @@ int	main(int ac, char **av, char **env)
 		g_meta.env = init_env_manually();
 	else
 		g_meta.env = init_env(env);
-	g_meta.set_old_pwd = 0;
 	g_meta.status = 0;
-	g_meta.flags.flag_expansion_heredoc = 1;
+	init_flags();
 	g_meta.pids = NULL;
 	prompt_loop();
 }
