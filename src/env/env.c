@@ -81,7 +81,7 @@ void	update_shlvl(t_node *head)
 	else
 	{
 		kvp = new_kvp("SHLVL", ft_itoa(1));
-		ll_push(&g_meta.env, ll_new(kvp));
+		ll_push(&head, ll_new(kvp));
 	}
 }
 
