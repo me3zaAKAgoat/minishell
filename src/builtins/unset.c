@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+int	invalid_identifier(char *str)
+{
+	werror("Minishell: export: `");
+	werror(str);
+	werror("': not a valid identifier\n");
+	return (1);
+}
+
 void	ft_unset(char **args)
 {
 	t_node	*iterator;
@@ -26,7 +34,9 @@ void	ft_unset(char **args)
 		while (iterator)
 		{
 			kvp = iterator->content;
-			if (!ft_strcmp(args[i], kvp->key))
+			if (key_is_valid(args[i]) != 1 && invalid_identifier(args[i]))
+				break ;
+			else if (!ft_strcmp(args[i], kvp->key))
 			{
 				ll_del_one(ll_pop(&g_meta.env,
 						ll_get_index(g_meta.env, iterator)), (void*)clear_kvp);
