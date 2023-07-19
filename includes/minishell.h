@@ -55,14 +55,14 @@ typedef struct s_dict {
 }	t_dict;
 
 typedef struct s_flags {
-	int	flag_expansion_heredoc;
+	int	expansion_heredoc;
+	int	set_old_pwd;
 }	t_flags;
 
 typedef struct s_meta {
 	t_node	*env;
 	int		status;
 	t_flags	flags;
-	int		set_old_pwd;
 	t_node	*pids;
 }	t_meta;
 
