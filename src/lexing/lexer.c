@@ -42,13 +42,6 @@ static void	remove_string_quotations(t_node *tokens)
 	while (tokens)
 	{
 		token = tokens->content;
-		if (token->type == HEREDOC)
-		{
-			tokens = tokens->next;
-			token = tokens->content;
-			if (token->type == DQUOTE || token->type == SQUOTE)
-				g_meta.flags.flag_expansion_heredoc = 0;
-		}
 		if (token->type == DQUOTE || token->type == SQUOTE)
 		{
 			if (token->type == DQUOTE)
@@ -144,6 +137,29 @@ void	join_string_tokens(t_node **tokens)
 		next_node = next_node->next;
 	}
 }
+void	is_delimiter_inside_quotes(t_node *tokens)
+{
+	t_token	*token;
+
+	while (tokens)
+	{
+		token = tokens->content;
+		if (token->type == HEREDOC)
+		{
+			tokens = tokens->next;
+			while (tokens)
+			{
+				token = tokens->content;
+				if (token->type != SPACEE)
+					break;
+				tokens = tokens->next;
+			}
+			if (token->type == DQUOTE || token->type == SQUOTE)
+				g_meta.flags.expansion_heredoc = 0;
+		}
+		tokens = tokens->next;
+	}
+}
 
 t_node	*tokenize(char *cmd_line)
 {
@@ -165,6 +181,7 @@ t_node	*tokenize(char *cmd_line)
 		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
+	is_delimiter_inside_quotes(tokens);
 	expand_envs(tokens);
 	remove_string_quotations(tokens);
 	join_string_tokens(&tokens);

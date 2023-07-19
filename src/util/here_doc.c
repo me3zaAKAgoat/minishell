@@ -64,7 +64,7 @@ char	*here_doc(char *eof)
 		if (!ft_strcmp(eof_check, eof))
 			return (free(read_buf), free(eof),
 				free(eof_check), unique_filename);
-		if (ft_strchr(read_buf, '$') && g_meta.flags.flag_expansion_heredoc == 1)
+		if (ft_strchr(read_buf, '$') && g_meta.flags.expansion_heredoc == 1)
 		{
 			tmp = read_buf;
 			read_buf = expanded_string(tmp);
