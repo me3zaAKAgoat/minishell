@@ -18,7 +18,7 @@ void	exec_cmd(t_command *cmd)
 
 	if (cmd->io_error)
 		exit(EXIT_FAILURE);
-	if (!cmd->args)
+	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	envp = envp_generator(g_meta.env);
 	if (ft_strchr(cmd->args[0], '/'))
