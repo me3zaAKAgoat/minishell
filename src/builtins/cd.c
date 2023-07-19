@@ -28,13 +28,13 @@ void	update_old_pwd(char *cwd)
 		else
 			kvp_old_pwd->value = ft_strdup(kvp_pwd->value);
 	}
-	else if (!kvp_old_pwd && g_meta.set_old_pwd == 0)
+	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 0)
 	{
-		g_meta.set_old_pwd = 1;
+		g_meta.flags.set_old_pwd = 1;
 		kvp_old_pwd = new_kvp("OLDPWD", ft_strdup(cwd));
 		ll_push(&g_meta.env, ll_new(kvp_old_pwd));
 	}
-	else if (!kvp_old_pwd && g_meta.set_old_pwd == 1)
+	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 1)
 		return ;
 	else
 	{
