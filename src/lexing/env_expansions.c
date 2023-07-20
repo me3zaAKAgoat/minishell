@@ -101,6 +101,7 @@ void	expand_envs(t_node *tokens)
 {
 	t_token	*token;
 	char	*tmp;
+	char	**arr_strs;
 
 	while (tokens)
 	{
@@ -111,6 +112,9 @@ void	expand_envs(t_node *tokens)
 			if (ft_strchr(tmp, '$'))
 			{
 				token->value = expanded_string(tmp);
+				arr_strs = ft_split(token->value, ' ');
+				free(token->value);
+				token->value = join_arr(arr_strs, " ");
 				token->type = STRING;
 				free(tmp);
 			}
