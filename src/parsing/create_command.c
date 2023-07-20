@@ -69,6 +69,8 @@ int	open_heredoc(char *delim)
 
 void	input_redirections(t_node *tokens, t_command *cmd)
 {
+	// if (!ft_strcmp("cd",  cmd->args[0])) /* bcs cd can works with/without an input redirection*/
+	// 	return ;
 	if (((t_token *)tokens->content)->type == IN && !cmd->io_error)
 	{
 		tokens = tokens->next;
