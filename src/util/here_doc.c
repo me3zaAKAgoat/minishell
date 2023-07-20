@@ -44,6 +44,22 @@ static void	handle_sigint(int i)
 	exit(EXIT_FAILURE);
 }
 
+void	process_heredoc_line(char *read_buf, int fd)
+{
+	char	*tmp;
+
+	if (ft_strchr(read_buf, '$') && g_meta.flags.expansion_heredoc == 1)
+	{
+		tmp = read_buf;
+		read_buf = expanded_string(tmp);
+		free(tmp);
+		write(fd, read_buf, ft_strlen(read_buf));
+	}
+	else
+		write(fd, read_buf, ft_strlen(read_buf));
+	free(read_buf);
+}
+
 char	*here_doc(char *eof)
 {
 	char	*read_buf;
@@ -64,18 +80,9 @@ char	*here_doc(char *eof)
 		if (!ft_strcmp(eof_check, eof))
 			return (free(read_buf), free(eof),
 				free(eof_check), unique_filename);
-		if (ft_strchr(read_buf, '$') && g_meta.flags.expansion_heredoc == 1)
-		{
-			tmp = read_buf;
-			read_buf = expanded_string(tmp);
-			free(tmp);
-			write(fd, read_buf, ft_strlen(read_buf));
-		}
-		else
-			write(fd, read_buf, ft_strlen(read_buf));
-		free(read_buf);
-		free(eof_check);
+		process_heredoc_line(read_buf, fd);
 		read_buf = prompt_heredoc();
+		free(eof_check);
 	}
 	close(fd);
 	free(eof);

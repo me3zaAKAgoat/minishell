@@ -11,7 +11,18 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/errno.h>
+
+void	initialize_old_pwd(t_dict **kvp_old_pwd)
+{
+	t_dict	*kvp_pwd;
+
+	kvp_pwd = get_kvp(g_meta.env, "PWD");
+	free((*kvp_old_pwd)->value);
+	if (!kvp_pwd)
+		(*kvp_old_pwd)->value = ft_strdup("");
+	else
+		(*kvp_old_pwd)->value = ft_strdup(kvp_pwd->value);
+}
 
 void	update_old_pwd(char *cwd)
 {
@@ -20,14 +31,7 @@ void	update_old_pwd(char *cwd)
 
 	kvp_old_pwd = get_kvp(g_meta.env, "OLDPWD");
 	if (kvp_old_pwd)
-	{
-		kvp_pwd = get_kvp(g_meta.env, "PWD");
-		free(kvp_old_pwd->value);
-		if (!kvp_pwd)
-			kvp_old_pwd->value = ft_strdup("");
-		else
-			kvp_old_pwd->value = ft_strdup(kvp_pwd->value);
-	}
+		initialize_old_pwd(&kvp_old_pwd);
 	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 0)
 	{
 		g_meta.flags.set_old_pwd = 1;

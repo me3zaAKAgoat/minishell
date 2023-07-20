@@ -136,7 +136,9 @@ void	join_string_tokens(t_node **tokens)
 			current_node = current_node->next;
 		next_node = next_node->next;
 	}
+	remove_space_tokens(tokens);
 }
+
 void	is_delimiter_inside_quotes(t_node *tokens)
 {
 	t_token	*token;
@@ -151,7 +153,7 @@ void	is_delimiter_inside_quotes(t_node *tokens)
 			{
 				token = tokens->content;
 				if (token->type != SPACEE)
-					break;
+					break ;
 				tokens = tokens->next;
 			}
 			if (token->type == DQUOTE || token->type == SQUOTE)
@@ -181,11 +183,9 @@ t_node	*tokenize(char *cmd_line)
 		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
-	is_delimiter_inside_quotes(tokens);
 	expand_envs(tokens);
 	remove_string_quotations(tokens);
 	join_string_tokens(&tokens);
-	remove_space_tokens(&tokens);
 	if (lexical_errors(tokens))
 		return (ll_clear(&tokens, (void *)(void *)clear_token),
 			g_meta.status = 258, NULL);

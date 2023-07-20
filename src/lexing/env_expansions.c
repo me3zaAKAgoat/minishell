@@ -26,7 +26,9 @@ char	*append_to_result(char *str, char *substring)
 
 int	count_key_length(char *key, int i)
 {
-	while (key[i] && !ft_isspace(key[i]) && key[i] != '"' && key[i] != '$' && (ft_isalpha(key[i]) || key[i] == '_' || ft_isdigit(key[i])))
+	while (key[i] && !ft_isspace(key[i])
+		&& key[i] != '"' && key[i] != '$'
+		&& (ft_isalpha(key[i]) || key[i] == '_' || ft_isdigit(key[i])))
 		i++;
 	return (i);
 }
@@ -35,6 +37,7 @@ char	*expanded_string(char	*initial_str)
 {
 	char	*str;
 	char	*key;
+	char	*tmp;
 	char	*value;
 	int		i;
 	int		j;
@@ -45,7 +48,8 @@ char	*expanded_string(char	*initial_str)
 	i = 0;
 	while (initial_str[i])
 	{
-		if (initial_str[i] == '$' && initial_str[i + 1] && initial_str[i + 1] != '"' && !ft_isspace(initial_str[i + 1]))
+		if (initial_str[i] == '$' && initial_str[i + 1]
+			&& initial_str[i + 1] != '"' && !ft_isspace(initial_str[i + 1]))
 		{
 			i += 1;
 			if (initial_str[i] == '?')
@@ -66,7 +70,7 @@ char	*expanded_string(char	*initial_str)
 				if (key_is_valid(key) != 1)
 					str = append_to_result(str, ft_strdup(key));
 				else if (!get_kvp(g_meta.env, key))
-					continue;
+					continue ;
 				else if (get_kvp(g_meta.env, key))
 				{
 					value = get_kvp(g_meta.env, key)->value;
@@ -91,7 +95,7 @@ char	*expanded_string(char	*initial_str)
 				i++;
 			str = append_to_result(str, ft_substr(initial_str, j, i - j));
 		}
-	char	*tmp = str;
+	tmp = str;
 	str = ft_strtrim(tmp, "\"");
 	}
 	return (str);
@@ -103,6 +107,7 @@ void	expand_envs(t_node *tokens)
 	char	*tmp;
 	char	**arr_strs;
 
+	is_delimiter_inside_quotes(tokens);
 	while (tokens)
 	{
 		token = ((t_token *)tokens->content);
@@ -122,7 +127,6 @@ void	expand_envs(t_node *tokens)
 		tokens = tokens->next;
 	}
 }
-
 
 // char	*append_to_result(char *str, char *substring)
 // {

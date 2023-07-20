@@ -39,7 +39,7 @@ char	*unexpand_heredoc_delimiter(char *delim)
 	{
 		kvp = iterator->content;
 		if (!ft_strcmp(kvp->value, delim))
-			return (ft_strjoin("$" ,kvp->key));
+			return (ft_strjoin("$", kvp->key));
 		iterator = iterator->next;
 	}
 	return (NULL);
@@ -69,7 +69,8 @@ int	open_heredoc(char *delim)
 
 void	input_redirections(t_node *tokens, t_command *cmd)
 {
-	// if (!ft_strcmp("cd",  cmd->args[0])) /* bcs cd can works with/without an input redirection*/
+	/* bcs cd can works with/without an input redirection*/
+	// if (!ft_strcmp("cd",  cmd->args[0]))
 	// 	return ;
 	if (((t_token *)tokens->content)->type == IN && !cmd->io_error)
 	{

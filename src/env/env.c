@@ -49,6 +49,24 @@ void	free_envp(char **envp)
 	free(envp);
 }
 
+void	shlvl_too_high(char *tmp, int new_shlvl, t_dict **kvp)
+{
+	werror("Minishell : warning: shell level (");
+	tmp = ft_itoa(new_shlvl);
+	werror(tmp);
+	free(tmp);
+	werror(") too high, resetting to 1\n");
+	(*kvp)->value = ft_itoa(1);
+}
+
+void	handle_shlvl_limit(int new_shlvl, t_dict **kvp, char *tmp)
+{
+	if (new_shlvl == MAX_SHLVL)
+		(*kvp)->value = ft_strdup("");
+	else if (new_shlvl > MAX_SHLVL)
+		shlvl_too_high(tmp, new_shlvl, kvp);
+}
+
 void	update_shlvl(t_node *head)
 {
 	t_dict	*kvp;
@@ -64,17 +82,8 @@ void	update_shlvl(t_node *head)
 		new_shlvl = old_shlvl + 1;
 		if (new_shlvl < 0)
 			kvp->value = ft_strdup("0");
-		else if (new_shlvl == MAX_SHLVL)
-			kvp->value = ft_strdup("");
-		else if (new_shlvl > MAX_SHLVL)
-		{
-			werror("Minishell : warning: shell level (");
-			tmp = ft_itoa(new_shlvl);
-			werror(tmp);
-			free(tmp);
-			werror(") too high, resetting to 1\n");
-			kvp->value = ft_itoa(1);
-		}
+		else if (new_shlvl >= MAX_SHLVL)
+			handle_shlvl_limit(new_shlvl, &kvp, tmp);
 		else
 			kvp->value = ft_itoa(old_shlvl + 1);
 	}
