@@ -32,44 +32,67 @@ char	*lex_string(char *cmd_line)
 
 	end = 0;
 	while (cmd_line[end] && cmd_line[end] != '\''
-		&& cmd_line[end] != '\"' && cmd_line[end] != '|' && !ft_isspace(cmd_line[end]))
+		&& cmd_line[end] != '\"'
+		&& cmd_line[end] != '|' && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
+}
+
+void	print_syntax_error(char *value)
+{
+	werror("Minishell: syntax error near unexpected token '");
+	werror(value);
+	werror("'\n");
+}
+
+int	syntax_error_pipe(t_token *current, t_node *iterator, int i)
+{
+	t_token	*next;
+
+	if (i == 1)
+		return (print_syntax_error(current->value), 1);
+	next = iterator->next->content;
+	if (next->type == END)
+		return (print_syntax_error(current->value), 1);
+	else if (!(STRING <= next->type && next->type <= SQUOTE)
+		&& !(IN <= next->type && next->type <= APPEND))
+		return (print_syntax_error(current->value), 1);
+	return (0);
+}
+
+int	syntax_error_redirection(t_node *iterator, t_token *current)
+{
+	t_token	*next;
+
+	if (!iterator->next)
+		return (print_syntax_error(current->value), 1);
+	else
+	{
+		next = iterator->next->content;
+		if (!(STRING <= next->type && next->type <= SQUOTE))
+			return (print_syntax_error(current->value), 1);
+	}
 }
 
 int	lexical_errors(t_node	*tokens)
 {
 	t_node	*iterator;
+	int		i;
 	t_token	*current;
-	t_token	*next;
 
 	iterator = tokens;
+	i = 1;
 	while (iterator)
 	{
 		current = iterator->content;
-		if (current->type == ERR)
-			return (werror("Minishell: Parsing error near '"),
-				werror(current->value), werror("'\n"), 1);
-		if (current->type == PIPE)
-		{
-			next = iterator->next->content;
-			if (next->type == END)
-				return (werror("Minishell: Parsing error near '"),
-					werror(current->value), werror("'\n"), 1);
-		}
-		if (IN <= current->type && current->type <= APPEND)
-		{
-			if (!iterator->next)
-				return (werror("Minishell: Parsing error near '"),
-					werror(current->value), werror("'\n"), 1);
-			else
-			{
-				next = iterator->next->content;
-				if (!(STRING <= next->type && next->type <= SQUOTE))
-					return (werror("Minishell: Parsing error near '"),
-						werror(current->value), werror("'\n"), 1);
-			}
-		}
+		// if (current->type == ERR)
+		// 	return (print_syntax_error(current->value), 1);
+		if (current->type == PIPE && syntax_error_pipe(current, iterator, i))
+			return (1);
+		else if (IN <= current->type && current->type <= APPEND
+			&& syntax_error_redirection(iterator, current))
+			return (1);
+		i++;
 		iterator = iterator->next;
 	}
 	return (0);

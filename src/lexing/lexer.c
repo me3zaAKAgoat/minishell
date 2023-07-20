@@ -188,6 +188,6 @@ t_node	*tokenize(char *cmd_line)
 	remove_space_tokens(&tokens);
 	if (lexical_errors(tokens))
 		return (ll_clear(&tokens, (void *)(void *)clear_token),
-			g_meta.status = 1, NULL);
+			g_meta.status = 258, NULL);
 	return (tokens);
 }
