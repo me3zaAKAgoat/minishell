@@ -103,7 +103,7 @@ extern	void		ft_echo(char **args);
 extern	void		ft_env(char **args);
 extern	void		ft_exit(char **args);
 extern	void		ft_export(char **args);
-extern	int			key_is_valid(char *key);
+extern	int		key_is_valid(char *key);
 extern	void		ft_pwd(void);
 extern	void		ft_unset(char **args);
 extern	void		handle_builtin(t_command *cmd);
@@ -144,7 +144,7 @@ extern	int		lexical_errors(t_node	*tokens);
 extern	int		is_number(char *str);
 extern	long long	ft_atoll(const char *str);
 extern	void		expand_envs(t_node *tokens);
-extern	char	*expanded_string(char	*initial_str);
+extern	char		*expanded_string(char *initial_str);
 extern	size_t	strarr_len(char **arr);
 
 extern t_meta	g_meta;
