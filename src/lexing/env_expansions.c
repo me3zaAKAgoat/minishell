@@ -52,7 +52,10 @@ char	*expand_vars(int *j, int *i, char *initial_str, char *str)
 	(*i) = count_key_length(initial_str, (*i));
 	key = ft_substr(initial_str, (*j), (*i) - (*j));
 	if (key_is_valid(key) != 1)
+	{
+		str = append_to_result(str, ft_strdup("$"));
 		str = append_to_result(str, ft_strdup(key));
+	}
 	else if (!get_kvp(g_meta.env, key))
 		return (NULL);
 	else if (get_kvp(g_meta.env, key))
@@ -102,9 +105,28 @@ char	*append(char *initial_str, char *str, int *i, int *j)
 	return (str);
 }
 
+char	*expand_process(int *i, int *j, char *initial_str, char *str)
+{
+	char	*tmp;
+
+	if (initial_str[(*i)] == '?' || initial_str[(*i)] == '$')
+		str = expand_special_vars(initial_str, i, str);
+	else
+	{
+		tmp = expand_vars(j, i, initial_str, str);
+		if (!tmp)
+			return (NULL);
+		else
+			str = tmp;
+	}
+	(*j) = (*i);
+	return (str);
+}
+
 char	*expanded_string(char	*initial_str)
 {
 	char	*str;
+	char	*tmp;
 	int		i;
 	int		j;
 
@@ -117,19 +139,14 @@ char	*expanded_string(char	*initial_str)
 			&& initial_str[i + 1] != '"' && !ft_isspace(initial_str[i + 1]))
 		{
 			i += 1;
-			if (initial_str[i] == '?' || initial_str[i] == '$')
-				str = expand_special_vars(initial_str, &i, str);
+			tmp = expand_process(&i, &j, initial_str, str);
+			if (!tmp)
+				continue ;
 			else
-			{
-				if (!expand_vars(&j, &i, initial_str, str))
-					continue ;
-				else
-					str = expand_vars(&j, &i, initial_str, str);
-			}
-			j = i;
+				str = tmp;
 		}
 		else
-			append(initial_str, str, &i, &j);
+			str = append(initial_str, str, &i, &j);
 	}
 	str = remove_last_quote(str);
 	return (str);
@@ -175,11 +192,11 @@ void	expand_envs(t_node *tokens)
 			if (ft_strchr(tmp, '$'))
 			{
 				token->value = expanded_string(tmp);
+				free(tmp);
 				arr_strs = ft_split(token->value, ' ');
 				free(token->value);
 				token->value = join_arr(arr_strs, " ");
 				token->type = STRING;
-				free(tmp);
 			}
 		}
 		tokens = tokens->next;
