@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_expansions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 06:31:03 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:03:21 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*append_to_result(char *str, char *substring)
-{
-	char	*new_str;
-
-	if (!str && !substring)
-		return (NULL);
-	new_str = ft_strjoin(str, substring);
-	free(str);
-	free(substring);
-	return (new_str);
-}
-
-int	count_key_length(char *key, int i)
-{
-	while (key[i] && !ft_isspace(key[i])
-		&& key[i] != '"' && key[i] != '$'
-		&& (ft_isalpha(key[i]) || key[i] == '_' || ft_isdigit(key[i])))
-		i++;
-	return (i);
-}
 
 char	*expand_special_vars(char *initial_str, int *i, char *str)
 {
@@ -64,44 +43,6 @@ char	*expand_vars(int *j, int *i, char *initial_str, char *str)
 		str = append_to_result(str, ft_strdup(value));
 	}
 	free(key);
-	return (str);
-}
-
-char	*append_dollar(int *j, int *i, char *str)
-{
-	str = append_to_result(str, ft_strdup("$"));
-	(*i) += 1;
-	(*j) = (*i);
-	return (str);
-}
-
-char	*append_normal_text(int *j, int *i, char *initial_str, char *str)
-{
-	(*j) = (*i);
-	if (i == 0 && initial_str[(*i)] == '"')
-		(*j) += 1;
-	while (initial_str[(*i)] && initial_str[(*i)] != '$')
-		(*i)++;
-	str = append_to_result(str, ft_substr(initial_str, (*j), (*i) - (*j)));
-	return (str);
-}
-
-char	*remove_last_quote(char *str)
-{
-	char	*tmp;
-
-	tmp = str;
-	str = ft_strtrim(tmp, "\"");
-	free(tmp);
-	return (str);
-}
-
-char	*append(char *initial_str, char *str, int *i, int *j)
-{
-	if (initial_str[(*i)] == '$')
-		str = append_dollar(j, i, str);
-	else
-		str = append_normal_text(j, i, initial_str, str);
 	return (str);
 }
 
@@ -152,30 +93,6 @@ char	*expanded_string(char	*initial_str)
 	return (str);
 }
 
-void	is_delimiter_inside_quotes(t_node *tokens)
-{
-	t_token	*token;
-
-	while (tokens)
-	{
-		token = tokens->content;
-		if (token->type == HEREDOC)
-		{
-			tokens = tokens->next;
-			while (tokens)
-			{
-				token = tokens->content;
-				if (token->type != SPACEE)
-					break ;
-				tokens = tokens->next;
-			}
-			if (token->type == DQUOTE || token->type == SQUOTE)
-				g_meta.flags.expansion_heredoc = 0;
-		}
-		tokens = tokens->next;
-	}
-}
-
 void	expand_envs(t_node *tokens)
 {
 	t_token	*token;
@@ -202,60 +119,3 @@ void	expand_envs(t_node *tokens)
 		tokens = tokens->next;
 	}
 }
-
-// char	*append_to_result(char *str, char *substring)
-// {
-// 	char	*new_str;
-
-// 	new_str = ft_strjoin(str, substring);
-// 	free(str);
-// 	free(substring);
-// 	return (new_str);
-// }
-
-// int	expand_string_helper(char	*s1, char *s2, int i, int j)
-// {
-// 	char	*key;
-
-// 	key = NULL;
-// 	s2 = append_to_result(s2, ft_substr(s1, j, i - j));
-// 	if (s1[i + 1] == '?')
-// 	{
-// 		s2 = append_to_result(s2, ft_itoa(g_meta.status));
-// 		i += 2;
-// 	}
-// 	else
-// 	{
-// 		j = i + 1;
-// 		while (s1[i] && !ft_isspace(s1[i]))
-// 			i++;
-// 		key = ft_substr(s1, j, i - j);
-// 		if (get_kvp(g_meta.env, key))
-// 			s2 = append_to_result(s2,
-// 					ft_strdup(get_kvp(g_meta.env, key)->value));
-// 		free(key);
-// 	}
-// 	return (i);
-// }
-
-// char	*expand_string(char	*initial_str)
-// {
-// 	char	*expanded_string;
-// 	int		i;
-// 	int		j;
-
-// 	expanded_string = NULL;
-// 	j = 0;
-// 	i = 0;
-// 	while (initial_str[i])
-// 	{
-// 		if (initial_str[i] == '$' && initial_str[i + 1])
-// 		{
-// 			i = expand_string_helper(initial_str, expanded_string, i, j);
-// 			j = i;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (append_to_result(expanded_string, ft_substr(initial_str, j, i - j)));
-// }

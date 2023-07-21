@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 06:46:00 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:41:14 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,6 @@ void	join_command_args(t_node *token, t_command *cmd)
 	tmp[arr_len + 1] = NULL;
 	free(cmd->args);
 	cmd->args = tmp;
-}
-
-char	*unexpand_heredoc_delimiter(char *delim)
-{
-	t_node	*iterator;
-	t_dict	*kvp;
-
-	iterator = g_meta.env;
-	while (iterator)
-	{
-		kvp = iterator->content;
-		if (!ft_strcmp(kvp->value, delim))
-			return (ft_strjoin("$", kvp->key));
-		iterator = iterator->next;
-	}
-	return (NULL);
 }
 
 int	open_heredoc(char *delim)

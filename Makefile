@@ -12,6 +12,7 @@ SOURCES = src/main.c\
 	src/builtins/pwd.c\
 	src/builtins/unset.c\
 	src/builtins/export.c\
+	src/builtins/export_utils.c\
 	src/builtins/env.c\
 	src/builtins/echo.c\
 	src/builtins/cd.c\
@@ -29,11 +30,17 @@ SOURCES = src/main.c\
 	src/lexing/lexer.c\
 	src/lexing/token.c\
 	src/lexing/env_expansions.c\
+	src/lexing/expansion_utils.c\
+	src/lexing/append.c\
 	src/lexing/util.c\
+	src/lexing/syntax_errors.c\
+	src/lexing/remove_space_tokens.c\
 	src/env/env.c\
+	src/env/update_shlvl.c\
 	src/signals/signals.c\
 	src/parsing/parse.c\
 	src/parsing/create_command.c\
+	src/parsing/unexpand_delimiter.c\
 	src/execution/handle_builtin.c\
 	src/execution/execution.c\
 	src/execution/redirection.c\

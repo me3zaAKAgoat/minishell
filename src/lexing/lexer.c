@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 22:06:55 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:48:49 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,50 +53,6 @@ static void	remove_string_quotations(t_node *tokens)
 			token->type = STRING;
 		}
 		tokens = tokens->next;
-	}
-}
-
-void	remove_one_space(t_node **head, t_node **previous, t_node **current)
-{
-	t_token	*current_token;
-
-	current_token = (*current)->content;
-	if ((*previous) == NULL)
-	{
-		*head = (*current)->next;
-		free(current_token->value);
-		free((*current)->content);
-		free((*current));
-		(*current) = *head;
-	}
-	else
-	{
-		(*previous)->next = (*current)->next;
-		free(current_token->value);
-		free((*current)->content);
-		free((*current));
-		(*current) = (*previous)->next;
-	}
-}
-
-void	remove_space_tokens(t_node **head)
-{
-	t_node	*current_node;
-	t_node	*previous_node;
-	t_token	*current_token;
-
-	current_node = *head;
-	previous_node = NULL;
-	while (current_node)
-	{
-		current_token = current_node->content;
-		if (current_token->type == SPACEE)
-			remove_one_space(head, &previous_node, &current_node);
-		else
-		{
-			previous_node = current_node;
-			current_node = current_node->next;
-		}
 	}
 }
 

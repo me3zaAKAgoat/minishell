@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 23:28:10 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:45:36 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,43 +36,6 @@ char	*lex_string(char *cmd_line)
 		&& cmd_line[end] != '|' && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
-}
-
-void	print_syntax_error(char *value)
-{
-	werror("Minishell: syntax error near unexpected token '");
-	werror(value);
-	werror("'\n");
-}
-
-int	syntax_error_pipe(t_token *current, t_node *iterator, int i)
-{
-	t_token	*next;
-
-	if (i == 1)
-		return (print_syntax_error(current->value), 1);
-	next = iterator->next->content;
-	if (next->type == END)
-		return (print_syntax_error(current->value), 1);
-	else if (!(STRING <= next->type && next->type <= SQUOTE)
-		&& !(IN <= next->type && next->type <= APPEND))
-		return (print_syntax_error(current->value), 1);
-	return (0);
-}
-
-int	syntax_error_redirection(t_node *iterator, t_token *current)
-{
-	t_token	*next;
-
-	if (!iterator->next)
-		return (print_syntax_error(current->value), 1);
-	else
-	{
-		next = iterator->next->content;
-		if (!(STRING <= next->type && next->type <= SQUOTE))
-			return (print_syntax_error(current->value), 1);
-	}
-	return (0);
 }
 
 int	lexical_errors(t_node	*tokens)
