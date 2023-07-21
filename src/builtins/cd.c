@@ -27,7 +27,6 @@ void	initialize_old_pwd(t_dict **kvp_old_pwd)
 void	update_old_pwd(char *cwd)
 {
 	t_dict	*kvp_old_pwd;
-	t_dict	*kvp_pwd;
 
 	kvp_old_pwd = get_kvp(g_meta.env, "OLDPWD");
 	if (kvp_old_pwd)

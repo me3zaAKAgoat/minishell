@@ -33,17 +33,82 @@ int	count_key_length(char *key, int i)
 	return (i);
 }
 
+char	*expand_special_vars(char *initial_str, int *i, char *str)
+{
+	if (initial_str[(*i)] == '?')
+		str = append_to_result(str, ft_strdup(ft_itoa(g_meta.status)));
+	else if (initial_str[(*i)] == '$')
+		str = append_to_result(str, ft_strdup("$$"));
+	(*i) += 1;
+	return (str);
+}
+
+char	*expand_vars(int *j, int *i, char *initial_str, char *str)
+{
+	char	*key;
+	char	*value;
+
+	(*j) = (*i);
+	(*i) = count_key_length(initial_str, (*i));
+	key = ft_substr(initial_str, (*j), (*i) - (*j));
+	if (key_is_valid(key) != 1)
+		str = append_to_result(str, ft_strdup(key));
+	else if (!get_kvp(g_meta.env, key))
+		return (NULL);
+	else if (get_kvp(g_meta.env, key))
+	{
+		value = get_kvp(g_meta.env, key)->value;
+		str = append_to_result(str, ft_strdup(value));
+	}
+	free(key);
+	return (str);
+}
+
+char	*append_dollar(int *j, int *i, char *str)
+{
+	str = append_to_result(str, ft_strdup("$"));
+	(*i) += 1;
+	(*j) = (*i);
+	return (str);
+}
+
+char	*append_normal_text(int *j, int *i, char *initial_str, char *str)
+{
+	(*j) = (*i);
+	if (i == 0 && initial_str[(*i)] == '"')
+		(*j) += 1;
+	while (initial_str[(*i)] && initial_str[(*i)] != '$')
+		(*i)++;
+	str = append_to_result(str, ft_substr(initial_str, (*j), (*i) - (*j)));
+	return (str);
+}
+
+char	*remove_last_quote(char *str)
+{
+	char	*tmp;
+
+	tmp = str;
+	str = ft_strtrim(tmp, "\"");
+	free(tmp);
+	return (str);
+}
+
+char	*append(char *initial_str, char *str, int *i, int *j)
+{
+	if (initial_str[(*i)] == '$')
+		str = append_dollar(j, i, str);
+	else
+		str = append_normal_text(j, i, initial_str, str);
+	return (str);
+}
+
 char	*expanded_string(char	*initial_str)
 {
 	char	*str;
-	char	*key;
-	char	*tmp;
-	char	*value;
 	int		i;
 	int		j;
 
 	str = NULL;
-	key = NULL;
 	j = 0;
 	i = 0;
 	while (initial_str[i])
@@ -52,53 +117,46 @@ char	*expanded_string(char	*initial_str)
 			&& initial_str[i + 1] != '"' && !ft_isspace(initial_str[i + 1]))
 		{
 			i += 1;
-			if (initial_str[i] == '?')
-			{
-				str = append_to_result(str, ft_strdup(ft_itoa(g_meta.status)));
-				i += 1;
-			}
-			else if (initial_str[i] == '$')
-			{
-				str = append_to_result(str, ft_strdup("$$"));
-				i += 1;
-			}
+			if (initial_str[i] == '?' || initial_str[i] == '$')
+				str = expand_special_vars(initial_str, &i, str);
 			else
 			{
-				j = i;
-				i = count_key_length(initial_str, i);
-				key = ft_substr(initial_str, j, i - j);
-				if (key_is_valid(key) != 1)
-					str = append_to_result(str, ft_strdup(key));
-				else if (!get_kvp(g_meta.env, key))
+				if (!expand_vars(&j, &i, initial_str, str))
 					continue ;
-				else if (get_kvp(g_meta.env, key))
-				{
-					value = get_kvp(g_meta.env, key)->value;
-						str = append_to_result(str, ft_strdup(value));
-				}
-				free(key);
+				else
+					str = expand_vars(&j, &i, initial_str, str);
 			}
-			j = i;
-		}
-		else if (initial_str[i] == '$')
-		{
-			str = append_to_result(str, ft_strdup("$"));
-			i += 1;
 			j = i;
 		}
 		else
-		{
-			j = i;
-			if (i == 0 && initial_str[i] == '"')
-				j += 1;
-			while (initial_str[i] && initial_str[i] != '$')
-				i++;
-			str = append_to_result(str, ft_substr(initial_str, j, i - j));
-		}
-	tmp = str;
-	str = ft_strtrim(tmp, "\"");
+			append(initial_str, str, &i, &j);
 	}
+	str = remove_last_quote(str);
 	return (str);
+}
+
+void	is_delimiter_inside_quotes(t_node *tokens)
+{
+	t_token	*token;
+
+	while (tokens)
+	{
+		token = tokens->content;
+		if (token->type == HEREDOC)
+		{
+			tokens = tokens->next;
+			while (tokens)
+			{
+				token = tokens->content;
+				if (token->type != SPACEE)
+					break ;
+				tokens = tokens->next;
+			}
+			if (token->type == DQUOTE || token->type == SQUOTE)
+				g_meta.flags.expansion_heredoc = 0;
+		}
+		tokens = tokens->next;
+	}
 }
 
 void	expand_envs(t_node *tokens)

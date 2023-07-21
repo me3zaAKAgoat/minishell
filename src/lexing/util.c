@@ -72,6 +72,7 @@ int	syntax_error_redirection(t_node *iterator, t_token *current)
 		if (!(STRING <= next->type && next->type <= SQUOTE))
 			return (print_syntax_error(current->value), 1);
 	}
+	return (0);
 }
 
 int	lexical_errors(t_node	*tokens)

@@ -139,30 +139,6 @@ void	join_string_tokens(t_node **tokens)
 	remove_space_tokens(tokens);
 }
 
-void	is_delimiter_inside_quotes(t_node *tokens)
-{
-	t_token	*token;
-
-	while (tokens)
-	{
-		token = tokens->content;
-		if (token->type == HEREDOC)
-		{
-			tokens = tokens->next;
-			while (tokens)
-			{
-				token = tokens->content;
-				if (token->type != SPACEE)
-					break ;
-				tokens = tokens->next;
-			}
-			if (token->type == DQUOTE || token->type == SQUOTE)
-				g_meta.flags.expansion_heredoc = 0;
-		}
-		tokens = tokens->next;
-	}
-}
-
 t_node	*tokenize(char *cmd_line)
 {
 	t_node	*tokens;

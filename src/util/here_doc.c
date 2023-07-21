@@ -63,7 +63,6 @@ void	process_heredoc_line(char *read_buf, int fd)
 char	*here_doc(char *eof)
 {
 	char	*read_buf;
-	char	*tmp;
 	char	*eof_check;
 	char	*unique_filename;
 	int		fd;
