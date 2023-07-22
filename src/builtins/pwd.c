@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:30:57 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 21:33:48 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:39:57 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_pwd(void)
 	if (!wd)
 	{
 		kvp = get_kvp(g_meta.env, "PWD");
-		if (kvp)
+		if (kvp && kvp->value)
 			write(1, kvp->value, ft_strlen(kvp->value));
 		else
 		{

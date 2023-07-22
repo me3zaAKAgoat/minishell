@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 22:08:13 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:41:06 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	*relative_wd(void)
 	if (!wd)
 	{
 		kvp = get_kvp(g_meta.env, "PWD");
-		if (kvp)
+		if (kvp && kvp->value)
 			relative_path = kvp->value;
 		else
-			relative_path = ".";
+			relative_path = "removed directory";
 	}
 	else
 		relative_path = wd;
