@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:30:57 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/22 21:39:57 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/23 17:57:23 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_pwd(void)
 		kvp = get_kvp(g_meta.env, "PWD");
 		if (kvp && kvp->value)
 			write(1, kvp->value, ft_strlen(kvp->value));
+		else if ((!kvp || !kvp->value) && g_meta.save_pwd)
+			write(1, g_meta.save_pwd, ft_strlen(g_meta.save_pwd));
 		else
 		{
 			g_meta.status = BUILTIN_FAIL;

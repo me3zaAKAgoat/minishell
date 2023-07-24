@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/22 20:41:06 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/24 14:36:35 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,15 @@
 char	*relative_wd(void)
 {
 	char	*wd;
-	t_dict	*kvp;
 	char	*relative_path;
 
 	wd = getcwd(NULL, 0);
+	relative_path = NULL;
 	if (!wd)
-	{
-		kvp = get_kvp(g_meta.env, "PWD");
-		if (kvp && kvp->value)
-			relative_path = kvp->value;
-		else
-			relative_path = "removed directory";
-	}
+		relative_path = "removed-directory!";
 	else
 		relative_path = wd;
-	while (*relative_path)
+	while (relative_path && *relative_path)
 	{
 		if (!ft_strchr(relative_path, '/'))
 			break ;
