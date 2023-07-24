@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/27 20:15:04 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:08:16 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,31 @@ char	*next_dir(char *arg)
 		return (ft_strdup(arg));
 }
 
+void	save_current_dir(void)
+{
+	t_dict	*kvp;
+	char	*cwd;
+	char	*tmp;
+
+	kvp = get_kvp(g_meta.env, "PWD");
+	cwd = getcwd(NULL, 0);
+	if ((!kvp || !kvp->value) && !cwd)
+	{
+
+		tmp = g_meta.save_pwd;
+		g_meta.save_pwd = ft_strjoin(tmp, "/");
+		free(tmp);
+		tmp = g_meta.save_pwd;
+		g_meta.save_pwd = ft_strjoin(tmp, "..");
+		free(tmp);
+		
+	}
+	else if (cwd)
+		g_meta.save_pwd = getcwd(NULL, 0);
+	else
+		g_meta.save_pwd = ft_strdup(kvp->value);
+}
+
 void	ft_cd(char **args)
 {
 	char	*dir;
@@ -111,6 +136,7 @@ void	ft_cd(char **args)
 	{
 		cwd = getcwd(NULL, 0);
 		update_pwd(dir, cwd);
+		save_current_dir();
 	}
 	else
 	{
