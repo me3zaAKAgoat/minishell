@@ -6,13 +6,13 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 17:08:16 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/25 16:05:36 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_old_pwd(t_dict **kvp_old_pwd)
+void	set_new_value(t_dict **kvp_old_pwd)
 {
 	t_dict	*kvp_pwd;
 
@@ -30,11 +30,11 @@ void	update_old_pwd(char *cwd)
 
 	kvp_old_pwd = get_kvp(g_meta.env, "OLDPWD");
 	if (kvp_old_pwd)
-		initialize_old_pwd(&kvp_old_pwd);
+		set_new_value(&kvp_old_pwd);
 	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 0)
 	{
 		g_meta.flags.set_old_pwd = 1;
-		kvp_old_pwd = new_kvp("OLDPWD", ft_strdup(cwd));
+		kvp_old_pwd = new_kvp("OLDPWD", cwd);
 		ll_push(&g_meta.env, ll_new(kvp_old_pwd));
 	}
 	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 1)
@@ -104,7 +104,6 @@ void	save_current_dir(void)
 	cwd = getcwd(NULL, 0);
 	if ((!kvp || !kvp->value) && !cwd)
 	{
-
 		tmp = g_meta.save_pwd;
 		g_meta.save_pwd = ft_strjoin(tmp, "/");
 		free(tmp);
@@ -117,6 +116,7 @@ void	save_current_dir(void)
 		g_meta.save_pwd = getcwd(NULL, 0);
 	else
 		g_meta.save_pwd = ft_strdup(kvp->value);
+	free(cwd);
 }
 
 void	ft_cd(char **args)
@@ -132,10 +132,12 @@ void	ft_cd(char **args)
 		return ;
 	cwd = getcwd(NULL, 0);
 	update_old_pwd(cwd);
+	free(cwd);
 	if (chdir(dir) == 0)
 	{
 		cwd = getcwd(NULL, 0);
 		update_pwd(dir, cwd);
+		free(cwd);
 		save_current_dir();
 	}
 	else

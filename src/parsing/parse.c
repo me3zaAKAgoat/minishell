@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 18:34:20 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/25 16:06:47 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	parse(char *cmd_line)
 		if (cmds)
 			execute_commands(cmds);
 	}
+	free(g_meta.save_pwd);
 	ll_clear(&cmds, (void *)(void *)clear_command);
 	ll_clear(&tokens, (void *)(void *)clear_token);
 }
