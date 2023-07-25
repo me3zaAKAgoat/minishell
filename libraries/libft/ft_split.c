@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 13:45:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/05/31 13:48:26 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 18:37:30 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	*split_clear(char	**arr)
 	int	index;
 
 	index = 0;
+	if (!arr)
+		return (NULL);
 	while (arr[index])
 		free(arr[index++]);
 	free(arr);
