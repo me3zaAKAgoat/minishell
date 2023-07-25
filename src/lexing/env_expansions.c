@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/21 15:03:21 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/24 18:58:40 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*expand_special_vars(char *initial_str, int *i, char *str)
 {
 	if (initial_str[(*i)] == '?')
-		str = append_to_result(str, ft_strdup(ft_itoa(g_meta.status)));
+		str = append_to_result(str, ft_itoa(g_meta.status));
 	else if (initial_str[(*i)] == '$')
 		str = append_to_result(str, ft_strdup("$$"));
 	(*i) += 1;
@@ -113,6 +113,7 @@ void	expand_envs(t_node *tokens)
 				arr_strs = ft_split(token->value, ' ');
 				free(token->value);
 				token->value = join_arr(arr_strs, " ");
+				split_clear(arr_strs);
 				token->type = STRING;
 			}
 		}
