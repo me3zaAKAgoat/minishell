@@ -3,55 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/27 20:15:04 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:08:16 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/errno.h>
 
-void	update_env_dirs(char *key, char *dir)
+void	initialize_old_pwd(t_dict **kvp_old_pwd)
 {
-	t_dict	*kvp;
 	t_dict	*kvp_pwd;
-	char	*cwd;
+
+	kvp_pwd = get_kvp(g_meta.env, "PWD");
+	free((*kvp_old_pwd)->value);
+	if (!kvp_pwd)
+		(*kvp_old_pwd)->value = ft_strdup("");
+	else
+		(*kvp_old_pwd)->value = ft_strdup(kvp_pwd->value);
+}
+
+void	update_old_pwd(char *cwd)
+{
+	t_dict	*kvp_old_pwd;
+
+	kvp_old_pwd = get_kvp(g_meta.env, "OLDPWD");
+	if (kvp_old_pwd)
+		initialize_old_pwd(&kvp_old_pwd);
+	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 0)
+	{
+		g_meta.flags.set_old_pwd = 1;
+		kvp_old_pwd = new_kvp("OLDPWD", ft_strdup(cwd));
+		ll_push(&g_meta.env, ll_new(kvp_old_pwd));
+	}
+	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 1)
+		return ;
+	else
+	{
+		free(kvp_old_pwd->value);
+		kvp_old_pwd->value = ft_strdup(cwd);
+	}
+}
+
+void	update_pwd(char *dir, char *cwd)
+{
+	t_dict	*kvp_pwd;
 	char	*tmp;
 
-	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		perror("Minishell: cd ");
-	kvp = get_kvp(g_meta.env, key);
-	if (!cwd && kvp && !ft_strcmp(key, "PWD"))
+	kvp_pwd = get_kvp(g_meta.env, "PWD");
+	if (!kvp_pwd)
+		return ;
+	else if (!cwd && kvp_pwd)
 	{
-		tmp = kvp->value;
-		kvp->value = ft_strjoin(tmp, "/");
+		tmp = kvp_pwd->value;
+		kvp_pwd->value = ft_strjoin(tmp, "/");
 		free(tmp);
-		tmp = kvp->value;
-		kvp->value = ft_strjoin(tmp, dir);
+		tmp = kvp_pwd->value;
+		kvp_pwd->value = ft_strjoin(tmp, dir);
 		free(tmp);
-	}
-	else if (!cwd && kvp && !ft_strcmp(key, "OLDPWD"))
-	{
-		kvp_pwd = get_kvp(g_meta.env, "PWD");
-		if (!kvp_pwd)
-			return ;
-		free(kvp->value);
-		kvp->value = ft_strdup(kvp_pwd->value);
-	}
-	else if (!kvp)
-	{
-		kvp = new_kvp(key, ft_strdup(cwd));
-		ll_push(&g_meta.env, ll_new(kvp));
 	}
 	else
 	{
-		free(kvp->value);
-		kvp->value = ft_strdup(cwd);
+		free(kvp_pwd->value);
+		kvp_pwd->value = ft_strdup(cwd);
 	}
-	free(cwd);
 }
 
 char	*next_dir(char *arg)
@@ -66,7 +84,7 @@ char	*next_dir(char *arg)
 			home = kvp->value;
 		else
 			return (g_meta.status = BUILTIN_FAIL,
-				werror("Minishell: cd: HOME not set"), NULL);
+				werror("Minishell: cd: HOME not set\n"), NULL);
 	}
 	if (!arg || (arg[0] == '~' && ft_strlen(arg) == 1))
 		return (ft_strdup(home));
@@ -76,18 +94,54 @@ char	*next_dir(char *arg)
 		return (ft_strdup(arg));
 }
 
+void	save_current_dir(void)
+{
+	t_dict	*kvp;
+	char	*cwd;
+	char	*tmp;
+
+	kvp = get_kvp(g_meta.env, "PWD");
+	cwd = getcwd(NULL, 0);
+	if ((!kvp || !kvp->value) && !cwd)
+	{
+
+		tmp = g_meta.save_pwd;
+		g_meta.save_pwd = ft_strjoin(tmp, "/");
+		free(tmp);
+		tmp = g_meta.save_pwd;
+		g_meta.save_pwd = ft_strjoin(tmp, "..");
+		free(tmp);
+		
+	}
+	else if (cwd)
+		g_meta.save_pwd = getcwd(NULL, 0);
+	else
+		g_meta.save_pwd = ft_strdup(kvp->value);
+}
+
 void	ft_cd(char **args)
 {
 	char	*dir;
+	char	*cwd;
 
 	g_meta.status = 0;
+	if (args[1] && !args[1][0])
+		return ;
 	dir = next_dir(args[1]);
 	if (!dir)
 		return ;
-	update_env_dirs("OLDPWD", dir);
+	cwd = getcwd(NULL, 0);
+	update_old_pwd(cwd);
 	if (chdir(dir) == 0)
-		update_env_dirs("PWD", dir);
+	{
+		cwd = getcwd(NULL, 0);
+		update_pwd(dir, cwd);
+		save_current_dir();
+	}
 	else
-		(g_meta.status = BUILTIN_FAIL, perror("Minishell: cd"));
+	{
+		g_meta.status = BUILTIN_FAIL;
+		perror("Minishell: cd");
+	}
 	free(dir);
 }

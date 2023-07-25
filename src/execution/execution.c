@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 20:36:48 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:27:49 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,32 @@ void	exec_cmd(t_command *cmd)
 {
 	char	**envp;
 
+	if (cmd->io_error)
+		exit(EXIT_FAILURE);
+	if (!cmd->args || !cmd->args[0])
+		exit(0);
 	envp = envp_generator(g_meta.env);
 	if (ft_strchr(cmd->args[0], '/'))
 	{
 		if (access(cmd->args[0], F_OK))
 			(perror("Minishell"), exit(CMD_UNKNOWN));
 		execve(cmd->args[0], cmd->args, envp);
-		(werror("Minishell: "), werror(cmd->args[0]), perror(" "), exit(CMD_FAIL));
+		(werror("Minishell: "), werror(cmd->args[0]), perror(" "));
+		exit(CMD_FAIL);
 	}
+	else if (is_builtin(cmd))
+		(handle_builtin(cmd), exit(0));
 	else
-	{
-		if (is_builtin(cmd))
-			(handle_builtin(cmd), exit(0));
-		else
-			handle_bin_cmd(cmd->args, envp);
-	}
+		handle_bin_cmd(cmd->args, envp);
 	free_envp(envp);
 }
 
 void	handle_priority(t_command *cmd, int **first_pipe, int **second_pipe)
 {
-	if (cmd->appendfile || cmd->truncfile)
-		*first_pipe = NULL;
-	if (cmd->delim || cmd->infile)
+	if (cmd->infile >= 0)
 		*second_pipe = NULL;
+	if (cmd->outfile >= 0)
+		*first_pipe = NULL;
 }
 
 /*
@@ -57,12 +59,11 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	if (*pid == 0)
 	{
 		execution_signals();
-		if (input_redirection(cmd) < 0 || out_redirection(cmd) < 0)
-			exit(1);
+		input_redirection(cmd);
+		out_redirection(cmd);
 		handle_priority(cmd, &first_pipe, &second_pipe);
 		setup_pipes(first_pipe, second_pipe);
-		if (cmd->args)
-			exec_cmd(cmd);
+		exec_cmd(cmd);
 	}
 	else
 	{
@@ -74,24 +75,26 @@ void	cmd_wrapper(t_command *cmd, int first_pipe[2], int second_pipe[2])
 	}
 }
 
-void	single_command(t_node *cmd)
+void	single_command(t_command *cmd)
 {
 	int	original_stdin;
 	int	original_stdout;
 
-	if (is_builtin(cmd->content))
+	if (is_builtin(cmd))
 	{
 		original_stdin = dup(0);
 		original_stdout = dup(1);
-		if (!input_redirection(cmd->content) && !out_redirection(cmd->content))
-			handle_builtin(cmd->content);
+		input_redirection(cmd);
+		out_redirection(cmd);
+		if (!cmd->io_error)
+			handle_builtin(cmd);
 		else
-			g_meta.status = 1;
+			g_meta.status = EXIT_FAILURE;
 		dup2(original_stdin, 0);
 		dup2(original_stdout, 1);
 	}
 	else
-		cmd_wrapper(cmd->content, NULL, NULL);
+		cmd_wrapper(cmd, NULL, NULL);
 }
 
 /*
@@ -103,7 +106,7 @@ void	execute_commands(t_node *cmds)
 	int		status;
 
 	if (ll_size(cmds) == 1)
-		single_command(cmds);
+		single_command(cmds->content);
 	else if (ll_size(cmds) > 1)
 		pipeline(cmds);
 	while (ll_size(g_meta.pids))

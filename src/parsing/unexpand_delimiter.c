@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   unexpand_delimiter.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 23:56:41 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 16:49:35 by ekenane          ###   ########.fr       */
+/*   Created: 2023/07/21 14:40:56 by ekenane           #+#    #+#             */
+/*   Updated: 2023/07/21 14:42:47 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int i)
+char	*unexpand_heredoc_delimiter(char *delim)
 {
-	(void)i;
-	g_meta.status = CMD_INT;
-	if (!ll_size(g_meta.pids))
+	t_node	*iterator;
+	t_dict	*kvp;
+
+	iterator = g_meta.env;
+	while (iterator)
 	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
+		kvp = iterator->content;
+		if (!ft_strcmp(kvp->value, delim))
+			return (ft_strjoin("$", kvp->key));
+		iterator = iterator->next;
 	}
-}
-
-void	prompt_signals(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
-}
-
-void	execution_signals(void)
-{
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+	return (NULL);
 }

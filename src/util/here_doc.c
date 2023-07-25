@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:48:13 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 20:50:41 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:49:38 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,22 @@ static void	handle_sigint(int i)
 	exit(EXIT_FAILURE);
 }
 
+void	process_heredoc_line(char *read_buf, int fd)
+{
+	char	*tmp;
+
+	if (ft_strchr(read_buf, '$') && g_meta.flags.expansion_heredoc == 1)
+	{
+		tmp = read_buf;
+		read_buf = expanded_string(tmp);
+		free(tmp);
+		write(fd, read_buf, ft_strlen(read_buf));
+	}
+	else
+		write(fd, read_buf, ft_strlen(read_buf));
+	free(read_buf);
+}
+
 char	*here_doc(char *eof)
 {
 	char	*read_buf;
@@ -55,19 +71,19 @@ char	*here_doc(char *eof)
 	unique_filename = unique_tmp_name();
 	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
 	if (fd == -1)
-		return (NULL);
+		return (free(eof), NULL);
 	read_buf = prompt_heredoc();
 	while (read_buf)
 	{
 		eof_check = ft_substr(read_buf, 0, ft_strlen(read_buf) - 1);
 		if (!ft_strcmp(eof_check, eof))
-			return (free(read_buf),
+			return (free(read_buf), free(eof),
 				free(eof_check), unique_filename);
-		else
-			write(fd, read_buf, ft_strlen(read_buf));
-		free(read_buf);
-		free(eof_check);
+		process_heredoc_line(read_buf, fd);
 		read_buf = prompt_heredoc();
+		free(eof_check);
 	}
+	close(fd);
+	free(eof);
 	return (unique_filename);
 }

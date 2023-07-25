@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 03:44:59 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 18:57:53 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:27:59 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtin(t_command *cmd)
 {
-	if (!cmd->args)
+	if (!cmd->args || !cmd->args[0])
 		return (0);
 	if (!ft_strcmp(cmd->args[0], "exit"))
 		return (1);

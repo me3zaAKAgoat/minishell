@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/23 18:31:02 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:30:45 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	key_is_valid(char *key)
-{
-	int	i;
-	int	len;
-
-	if (!key)
-		return (0);
-	len = ft_strlen(key) - 1;
-	i = 0;
-	if (!ft_isalpha(key[i]) && key[i] != '_')
-		return (0);
-	i++;
-	while (i < len)
-	{
-		if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]))
-			return (0);
-		i++;
-	}
-	if (!ft_isalpha(key[len]) && key[len] != '_' && !ft_isdigit(key[len]) && key[len] != '+')
-		return (0);
-	return (1);
-}
 
 void	print_export(void)
 {
@@ -57,76 +34,71 @@ void	print_export(void)
 	}
 }
 
-void	concatenate_values(t_dict *concatenate_pair, char *new_val)
+void	concatenate_values(t_dict *existing_pair, char *new_value)
 {
-	char	*concatenate_val;
-	concatenate_val = ft_strjoin(concatenate_pair->value, new_val);
-	free(concatenate_pair->value);
-	concatenate_pair->value = ft_strdup(concatenate_val);
-	free(concatenate_val);
+	char	*concatenate_value;
+
+	concatenate_value = ft_strjoin(existing_pair->value, new_value);
+	free(existing_pair->value);
+	existing_pair->value = concatenate_value;
 }
 
-char	*set_new_value(char **key_value_arr, char *args)
+void	modify_environment(char *key, char *value, int check)
 {
-	char	*new_val;
+	char	*tmp;
+	t_dict	*exist_pair;
 
-	new_val = join_arr(key_value_arr + 1, "=");
-	if (ft_strchr(args, '=') && !new_val)
-		new_val = ft_strdup("");
-	return (new_val);
-}
-
-void	replace_value(t_dict **existing_pair, char *new_val)
-{
-	free((*existing_pair)->value);
-	(*existing_pair)->value = ft_strdup(new_val);
+	tmp = key;
+	key = ft_strtrim(tmp, "+");
+	free(tmp);
+	exist_pair = get_kvp(g_meta.env, key);
+	if (check == 2)
+	{
+		if (exist_pair)
+			concatenate_values(exist_pair, value);
+		else
+			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
+	}
+	else
+	{
+		if (exist_pair)
+			(free(exist_pair->value), exist_pair->value = ft_strdup(value));
+		else
+			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
+	}
+	free(value);
+	free(key);
 }
 
 int	update_env(char *arg)
 {
-	char	**key_value_arr;
-	t_dict	*existing_pair;
-	t_dict	*concatenate_pair;
-	char	*new_val;
-	char	*tmp_key;
+	char	*key;
+	char	*value;
+	int		check;
 
-	key_value_arr = ft_split(arg, '=');
-	if (!key_is_valid(key_value_arr[0]))
+	key = get_key(arg);
+	value = get_value(arg);
+	check = key_is_valid(key);
+	if (!check)
 		return (werror("Minishell: export: `"), werror(arg),
-			werror("': not a valid identifier\n"), split_clear(key_value_arr),
-			-1);
-	new_val = set_new_value(key_value_arr, arg);
-	existing_pair = get_kvp(g_meta.env, key_value_arr[0]);
-	tmp_key = ft_strtrim(key_value_arr[0], "+");
-	concatenate_pair = get_kvp(g_meta.env, tmp_key);
-	if (existing_pair)
-		replace_value(&existing_pair, new_val);
-	else if (concatenate_pair)
-		concatenate_values(concatenate_pair, new_val);
-	else
-		ll_push(&g_meta.env, ll_new(new_kvp(tmp_key, new_val)));
-	free(new_val);
-	free(tmp_key);
-	split_clear(key_value_arr);
+			free(value), free(key),
+			werror("': not a valid identifier\n"),
+			g_meta.status = BUILTIN_FAIL, -1);
+	modify_environment(key, value, check);
 	return (0);
 }
 
 void	ft_export(char **args)
 {
 	int	i;
-	int	status;
 
-	i = 1;
-	status = 0;
-	if (!args[i])
+	if (!args[1])
 		return (print_export());
+	i = 1;
 	while (args[i])
 	{
-		if (update_env(args[i]) == -1)
-			status = 1;
+		if (update_env(args[i]) != -1)
+			g_meta.status = 0;
 		i++;
 	}
-	g_meta.status = 0;
-	if (status)
-		g_meta.status = 1;
 }

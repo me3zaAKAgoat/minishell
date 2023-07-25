@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:54:19 by ekenane           #+#    #+#             */
-/*   Updated: 2023/06/23 01:54:59 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/24 18:33:54 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	ft_echo(char **args)
 		args++;
 	while (*args)
 	{
-		printf("%s", *args);
+		write(1, *args, ft_strlen(*args));
 		if (*(args + 1))
-			printf(" ");
+			write(1, " ", ft_strlen(" "));
 		args++;
 	}
 	if (!suppress_newline)
-		printf("\n");
+		write(1, "\n", ft_strlen("\n"));
 	g_meta.status = 0;
 }
