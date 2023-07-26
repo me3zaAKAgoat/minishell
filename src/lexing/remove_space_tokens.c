@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:48:14 by ekenane           #+#    #+#             */
-/*   Updated: 2023/07/21 14:48:30 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/26 10:34:07 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	remove_space_tokens(t_node **head)
 	while (current_node)
 	{
 		current_token = current_node->content;
-		if (current_token->type == SPACEE)
+		if (current_token->type == WSPACEE)
 			remove_one_space(head, &previous_node, &current_node);
 		else
 		{

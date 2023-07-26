@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:57:47 by ekenane           #+#    #+#             */
-/*   Updated: 2023/07/24 14:55:09 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/26 10:34:07 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	is_delimiter_inside_quotes(t_node *tokens)
 			while (tokens)
 			{
 				token = tokens->content;
-				if (token->type != SPACEE)
+				if (token->type != WSPACEE)
 					break ;
 				tokens = tokens->next;
 			}

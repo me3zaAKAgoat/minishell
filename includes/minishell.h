@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 16:49:16 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/26 10:34:07 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include "linked_list.h"
 # include "libft.h"
 # include "get_next_line.h"
+
+// #define malloc(x) NULL
 
 /* MACROS */
 # define READ_END 0
@@ -82,7 +84,7 @@ typedef enum e_token_type {
 	STRING,
 	DQUOTE,
 	SQUOTE,
-	SPACEE,
+	WSPACEE,
 	PIPE,
 	ERR,
 	END,
