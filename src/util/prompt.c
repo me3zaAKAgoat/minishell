@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 14:36:35 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/25 21:05:36 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*relative_wd(void)
 		relative_path++;
 	}
 	relative_path = ft_strdup(relative_path);
+	if (!relative_path)
+		return (NULL);
 	free(wd);
 	return (relative_path);
 }
@@ -41,6 +43,8 @@ char	*prompt_string(void)
 	char	*words[10];
 
 	relative_path = relative_wd();
+	if (!relative_path)
+		return (NULL);
 	if (g_meta.status)
 		words[0] = RED;
 	else
@@ -71,6 +75,8 @@ void	prompt_loop(void)
 	while (1)
 	{
 		prompt = prompt_string();
+		if (!prompt)
+			return ;
 		cmd_line = readline(prompt);
 		free(prompt);
 		add_history(cmd_line);
