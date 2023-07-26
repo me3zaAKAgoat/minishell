@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/21 14:30:45 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/26 11:26:02 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ void	modify_environment(char *key, char *value, int check)
 	exist_pair = get_kvp(g_meta.env, key);
 	if (check == 2)
 	{
-		if (exist_pair)
+		if (exist_pair && value)
 			concatenate_values(exist_pair, value);
-		else
+		else if (!exist_pair)
 			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
 	}
 	else
 	{
-		if (exist_pair)
+		if (exist_pair && value)
 			(free(exist_pair->value), exist_pair->value = ft_strdup(value));
-		else
+		else if (!exist_pair)
 			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
 	}
 	free(value);
