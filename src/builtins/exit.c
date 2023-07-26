@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/28 20:03:32 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:13:26 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	bad_argument_exit(char **args)
 	werror("Minishell: exit: ");
 	werror(args[1]);
 	werror(": numeric argument required\n");
-	// should be exit with 255 not 2
-	// exit(BUILTIN_INCORRECT_USAGE);
-	exit(255);
+	exit(BUILTIN_INCORRECT_USAGE);
 }
 
 void	ft_exit(char **args)
