@@ -6,7 +6,7 @@
 /*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/21 14:45:36 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/26 14:43:02 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,35 @@ char	*lex_string(char *cmd_line)
 
 	end = 0;
 	while (cmd_line[end] && cmd_line[end] != '\''
-		&& cmd_line[end] != '\"'
+		&& cmd_line[end] != '\"' && cmd_line[end] != '<' && cmd_line[end] != '>'
 		&& cmd_line[end] != '|' && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
 }
 
-int	lexical_errors(t_node	*tokens)
+int	count_heredocs(t_node *tokens)
 {
 	t_node	*iterator;
+	t_token	*current;
+	int		i;
+
+	iterator = tokens;
+	i = 0;
+	while (iterator)
+	{
+		current = iterator->content;
+		if (current->type == HEREDOC)
+			i++;
+		iterator = iterator->next;
+	}
+	return (i);
+}
+
+int	lexical_errors(t_node	*tokens)
+{
 	int		i;
 	t_token	*current;
+	t_node	*iterator;
 
 	iterator = tokens;
 	i = 1;
@@ -59,5 +77,8 @@ int	lexical_errors(t_node	*tokens)
 		i++;
 		iterator = iterator->next;
 	}
+	i = count_heredocs(tokens);
+	if (i > 16)
+		return (werror("Minishell : maximum here-document count exceeded\n"), 1);
 	return (0);
 }
