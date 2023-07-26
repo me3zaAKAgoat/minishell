@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:30:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/27 20:31:14 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/26 10:42:48 by ekenane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_unset(char **args)
 			kvp = iterator->content;
 			if (key_is_valid(args[i]) != 1 && invalid_identifier(args[i]))
 				break ;
-			else if (!ft_strcmp(args[i], kvp->key))
+			else if (!ft_strcmp(args[i], kvp->key) && ft_strcmp("_", kvp->key))
 			{
 				ll_del_one(ll_pop(&g_meta.env,
 						ll_get_index(g_meta.env, iterator)), (void*)clear_kvp);
