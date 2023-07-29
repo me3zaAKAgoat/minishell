@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:48:13 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 16:49:38 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:07:12 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@ static char	*unique_tmp_name(void)
 	return (NULL);
 }
 
-static void	handle_sigint(int i)
-{
-	(void)i;
-	exit(EXIT_FAILURE);
-}
-
 void	process_heredoc_line(char *read_buf, int fd)
 {
 	char	*tmp;
@@ -60,30 +54,49 @@ void	process_heredoc_line(char *read_buf, int fd)
 	free(read_buf);
 }
 
-char	*here_doc(char *eof)
+void heredoc_loop(char *eof, int fd)
 {
 	char	*read_buf;
-	char	*eof_check;
-	char	*unique_filename;
-	int		fd;
+	char	*no_nl_buf;
 
-	signal(SIGINT, handle_sigint);
-	unique_filename = unique_tmp_name();
-	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
-	if (fd == -1)
-		return (free(eof), NULL);
 	read_buf = prompt_heredoc();
 	while (read_buf)
 	{
-		eof_check = ft_substr(read_buf, 0, ft_strlen(read_buf) - 1);
-		if (!ft_strcmp(eof_check, eof))
-			return (free(read_buf), free(eof),
-				free(eof_check), unique_filename);
+		if (g_meta.heredoc_fd == -1)
+		{
+			free(read_buf);
+			break ;
+		}
+		no_nl_buf = ft_substr(read_buf, 0, ft_strlen(read_buf) - 1);
+		if (!ft_strcmp(no_nl_buf, eof))
+		{
+			free(no_nl_buf);
+			free(read_buf);
+			break ;
+		}
 		process_heredoc_line(read_buf, fd);
 		read_buf = prompt_heredoc();
-		free(eof_check);
+		free(no_nl_buf);
 	}
-	close(fd);
-	free(eof);
+}
+
+/*
+close the unique filename and remove it
+break the heredoc loop
+re prompt
+*/
+char	*here_doc(char *eof)
+{
+	char	*unique_filename;
+	int		fd;
+
+	unique_filename = unique_tmp_name();
+	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
+	g_meta.heredoc_fd = fd;
+	if (fd == -1)
+		return (free(eof), NULL);
+	heredoc_loop(eof, fd);
+	(close(fd), free(eof));
+	g_meta.heredoc_fd = -1;
 	return (unique_filename);
 }

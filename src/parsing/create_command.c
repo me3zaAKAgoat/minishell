@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 18:52:26 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:29:42 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ int	open_heredoc(char *delim)
 
 void	input_redirections(t_node *tokens, t_command *cmd)
 {
-	/* bcs cd can works with/without an input redirection*/
-	// if (!ft_strcmp("cd",  cmd->args[0]))
-	// 	return ;
 	if (((t_token *)tokens->content)->type == IN && !cmd->io_error)
 	{
 		tokens = tokens->next;

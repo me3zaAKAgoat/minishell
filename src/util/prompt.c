@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:35:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 14:36:35 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:35:33 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	prompt_loop(void)
 		cmd_line = readline(prompt);
 		free(prompt);
 		add_history(cmd_line);
+		g_meta.should_execute = 1;
 		parse(cmd_line);
 		free(cmd_line);
 	}

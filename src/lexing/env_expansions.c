@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expansions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 18:58:40 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/27 19:01:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*expand_vars(int *j, int *i, char *initial_str, char *str)
 		str = append_to_result(str, ft_strdup(key));
 	}
 	else if (!get_kvp(g_meta.env, key))
-		return (NULL);
+		return (free(key), NULL);
 	else if (get_kvp(g_meta.env, key))
 	{
 		value = get_kvp(g_meta.env, key)->value;

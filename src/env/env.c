@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/21 14:36:01 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:24:05 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,28 +73,5 @@ t_node	*init_env(char **env)
 		env++;
 	}
 	update_shlvl(head);
-	return (head);
-}
-
-t_node	*init_env_manually(void)
-{
-	t_node	*head;
-	t_dict	*tmp_dict;
-
-	head = NULL;
-	tmp_dict = new_kvp("SHLVL", "1");
-	if (tmp_dict)
-		ll_push(&head, ll_new(tmp_dict));
-	tmp_dict = new_kvp("_", "/usr/bin/env");
-	if (tmp_dict)
-		ll_push(&head, ll_new(tmp_dict));
-	tmp_dict = new_kvp("PWD", getcwd(NULL, 0));
-	if (tmp_dict)
-		ll_push(&head, ll_new(tmp_dict));
-	tmp_dict = new_kvp("PATH", "/goinfre/ekenane/.brew/bin:\
-		/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:\
-		/Library/Apple/usr/bin:/goinfre/ekenane/.brew/bin");
-	if (tmp_dict)
-		ll_push(&head, ll_new(tmp_dict));
 	return (head);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_space_tokens.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:48:14 by ekenane           #+#    #+#             */
-/*   Updated: 2023/07/21 14:48:30 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:39:02 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	remove_space_tokens(t_node **head)
 	while (current_node)
 	{
 		current_token = current_node->content;
-		if (current_token->type == SPACEE)
+		if (current_token->type == WSPACE)
 			remove_one_space(head, &previous_node, &current_node);
 		else
 		{

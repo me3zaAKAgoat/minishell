@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 16:49:16 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:39:02 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_meta {
 	t_node	*env;
 	int		status;
 	char	*save_pwd;
+	int		heredoc_fd;
+	int		should_execute;
 	t_flags	flags;
 	t_node	*pids;
 }	t_meta;
@@ -82,7 +84,7 @@ typedef enum e_token_type {
 	STRING,
 	DQUOTE,
 	SQUOTE,
-	SPACEE,
+	WSPACE,
 	PIPE,
 	ERR,
 	END,

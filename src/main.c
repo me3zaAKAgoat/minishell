@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:29:54 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 16:50:39 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:24:34 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ void	init_flags(void)
 int	main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
-	if (*env == NULL)
-		g_meta.env = init_env_manually();
-	else
-		g_meta.env = init_env(env);
+	g_meta.env = init_env(env);
+	g_meta.heredoc_fd = -1;
 	g_meta.status = 0;
 	init_flags();
 	g_meta.pids = NULL;

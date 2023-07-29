@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 18:34:20 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:25:18 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	parse(char *cmd_line)
 	if (tokens)
 	{
 		cmds = get_cmds(tokens);
-		if (cmds)
+		if (cmds && g_meta.should_execute)
 			execute_commands(cmds);
 	}
 	ll_clear(&cmds, (void *)(void *)clear_command);

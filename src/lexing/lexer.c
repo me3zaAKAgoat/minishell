@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 18:35:07 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 17:40:53 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static t_token	*get_next_token(char *cmd_line)
 		return (new_token(lex_quotes(cmd_line, '\''), SQUOTE));
 	else if (!ft_strncmp("\"", cmd_line, 1))
 		return (new_token(lex_quotes(cmd_line, '\"'), DQUOTE));
-	else if (!ft_strncmp(" ", cmd_line, 1))
-		return (new_token(ft_strdup(" "), SPACEE));
+	else if (ft_isspace(*cmd_line))
+		return (new_token(ft_strdup(" "), WSPACE));
 	else
 		return (new_token(lex_string(cmd_line), STRING));
 }
@@ -56,41 +56,34 @@ static void	remove_string_quotations(t_node *tokens)
 	}
 }
 
-void	join_two_strings(t_node **current_node, t_node **next_node)
+void	join_two_strings(t_node *n)
 {
-	char		*concatenate_value;
-	t_token		*current_token;
-	t_token		*next_token;
+	char	*concatenated_value;
+	t_node	*tmp;
 
-	current_token = (*current_node)->content;
-	next_token = (*next_node)->content;
-	concatenate_value = ft_strjoin(current_token->value, next_token->value);
-	free(current_token->value);
-	free(next_token->value);
-	free(next_token);
-	(*current_node)->next = (*next_node)->next;
-	current_token->value = concatenate_value;
-	(*current_node)->content = current_token;
+	concatenated_value = ft_strjoin(((t_token *)n->content)->value, ((t_token *)n->next->content)->value);
+	free(((t_token *)n->content)->value);
+	((t_token *)n->content)->value = concatenated_value;
+	tmp = n->next->next;
+	ll_del_one(n->next, (void *)(void *)clear_token);
+	n->next = tmp;
 }
 
 void	join_string_tokens(t_node **tokens)
 {
-	t_node		*current_node;
-	t_node		*next_node;
-	t_token		*current_token;
-	t_token		*next_token;
+	t_node	*current_node;
+	t_token	*current;
+	t_token	*next;
 
 	current_node = (*tokens);
-	next_node = current_node->next;
-	while (next_node)
+	while (current_node->next)
 	{
-		current_token = current_node->content;
-		next_token = next_node->content;
-		if (current_token->type == STRING && next_token->type == STRING)
-			join_two_strings(&current_node, &current_node->next);
+		current = current_node->content;
+		next = current_node->next->content;
+		if (current->type == STRING && next->type == STRING)
+			join_two_strings(current_node);
 		else
 			current_node = current_node->next;
-		next_node = next_node->next;
 	}
 	remove_space_tokens(tokens);
 }
