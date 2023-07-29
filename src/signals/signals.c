@@ -26,6 +26,7 @@ void	handle_sigint(int i)
 
 void	prompt_signals(void)
 {
+	write(1, "\n", 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 }
