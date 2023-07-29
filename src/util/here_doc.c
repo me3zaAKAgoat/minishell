@@ -78,7 +78,7 @@ char	*here_doc(char *eof)
 		eof_check = ft_substr(read_buf, 0, ft_strlen(read_buf) - 1);
 		if (!ft_strcmp(eof_check, eof))
 			return (free(read_buf), free(eof),
-				free(eof_check), unique_filename);
+				free(eof_check), close(fd), unique_filename);
 		process_heredoc_line(read_buf, fd);
 		read_buf = prompt_heredoc();
 		free(eof_check);
