@@ -110,7 +110,6 @@ void	save_current_dir(void)
 		tmp = g_meta.save_pwd;
 		g_meta.save_pwd = ft_strjoin(tmp, "..");
 		free(tmp);
-		
 	}
 	else if (cwd)
 		g_meta.save_pwd = getcwd(NULL, 0);

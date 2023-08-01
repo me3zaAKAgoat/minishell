@@ -67,8 +67,6 @@ int	lexical_errors(t_node	*tokens)
 	while (iterator)
 	{
 		current = iterator->content;
-		// if (current->type == ERR)
-		// 	return (print_syntax_error(current->value), 1);
 		if (current->type == PIPE && syntax_error_pipe(current, iterator, i))
 			return (1);
 		else if (IN <= current->type && current->type <= APPEND
@@ -77,8 +75,5 @@ int	lexical_errors(t_node	*tokens)
 		i++;
 		iterator = iterator->next;
 	}
-	i = count_heredocs(tokens);
-	if (i > 16)
-		return (werror("Minishell : maximum here-document count exceeded\n"), 1);
 	return (0);
 }

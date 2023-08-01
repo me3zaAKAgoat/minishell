@@ -22,7 +22,7 @@ void	bad_argument_exit(char **args)
 }
 
 void	ft_exit(char **args)
-{	
+{
 	if (!args[1])
 		(printf("exit\n"), exit(g_meta.status));
 	else if (!is_number(args[1])

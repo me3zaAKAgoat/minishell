@@ -14,7 +14,7 @@
 
 int	invalid_identifier(char *str)
 {
-	werror("Minishell: export: `");
+	werror("Minishell: unset: `");
 	werror(str);
 	werror("': not a valid identifier\n");
 	return (1);

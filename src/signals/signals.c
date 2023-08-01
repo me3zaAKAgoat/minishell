@@ -16,6 +16,7 @@ void	handle_sigint(int i)
 {
 	(void)i;
 	g_meta.status = CMD_INT;
+	write(1, "\n", 1);
 	if (!ll_size(g_meta.pids))
 	{
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
@@ -26,7 +27,6 @@ void	handle_sigint(int i)
 
 void	prompt_signals(void)
 {
-	write(1, "\n", 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 }

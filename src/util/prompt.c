@@ -20,7 +20,7 @@ char	*relative_wd(void)
 	wd = getcwd(NULL, 0);
 	relative_path = NULL;
 	if (!wd)
-		relative_path = "removed-directory!";
+		relative_path = ".";
 	else
 		relative_path = wd;
 	while (relative_path && *relative_path)
@@ -31,9 +31,8 @@ char	*relative_wd(void)
 	}
 	relative_path = ft_strdup(relative_path);
 	if (!relative_path)
-		return (NULL);
-	free(wd);
-	return (relative_path);
+		return (free(wd), NULL);
+	return (free(wd), relative_path);
 }
 
 char	*prompt_string(void)
@@ -62,8 +61,7 @@ char	*prompt_string(void)
 	words[8] = COLOR_OFF;
 	words[9] = NULL;
 	prompt = join_arr(words, "");
-	free(relative_path);
-	return (prompt);
+	return (free(relative_path), prompt);
 }
 
 void	prompt_loop(void)

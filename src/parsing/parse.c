@@ -49,7 +49,8 @@ void	parse(char *cmd_line)
 		if (cmds)
 			execute_commands(cmds);
 	}
-	// free(g_meta.save_pwd);
+	free(g_meta.save_pwd);
+	g_meta.save_pwd = NULL;
 	ll_clear(&cmds, (void *)(void *)clear_command);
 	ll_clear(&tokens, (void *)(void *)clear_token);
 }
