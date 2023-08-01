@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:39:02 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 20:00:31 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_meta {
 	int		status;
 	char	*save_pwd;
 	int		heredoc_fd;
-	int		should_execute;
+	int		halt_parsing;
 	t_flags	flags;
 	t_node	*pids;
 }	t_meta;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/21 14:45:36 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/07/29 21:02:13 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	lexical_errors(t_node	*tokens)
 	while (iterator)
 	{
 		current = iterator->content;
-		// if (current->type == ERR)
-		// 	return (print_syntax_error(current->value), 1);
 		if (current->type == PIPE && syntax_error_pipe(current, iterator, i))
 			return (1);
 		else if (IN <= current->type && current->type <= APPEND

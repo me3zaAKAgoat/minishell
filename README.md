@@ -42,3 +42,5 @@
 
 - fix the disgusting code for updating PWD and OLDPWD in cd
 - add += in export
+
+- all redirections (heredoc) should be ran regardless of any errors, errors come past handling of all redirections

@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:10:00 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:25:18 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:09:47 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_node	*get_cmds(t_node *tokens)
 	t_command	*cmd;
 
 	cmds = NULL;
-	while (((t_token *)tokens->content)->type != END)
+	while (((t_token *)tokens->content)->type != END && !g_meta.halt_parsing)
 	{
 		cmd = create_command(tokens);
 		if (cmd)
@@ -46,7 +46,7 @@ void	parse(char *cmd_line)
 	if (tokens)
 	{
 		cmds = get_cmds(tokens);
-		if (cmds && g_meta.should_execute)
+		if (cmds && !g_meta.halt_parsing)
 			execute_commands(cmds);
 	}
 	ll_clear(&cmds, (void *)(void *)clear_command);

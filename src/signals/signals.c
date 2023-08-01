@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 23:56:41 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:25:34 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 20:02:30 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_sigint(int i)
 		{
 			close(g_meta.heredoc_fd);
 			g_meta.heredoc_fd = -1;
-			g_meta.should_execute = 0;
+			g_meta.halt_parsing = 1;
 		}
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);

@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:40:53 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:02:41 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	join_two_strings(t_node *n)
 	char	*concatenated_value;
 	t_node	*tmp;
 
-	concatenated_value = ft_strjoin(((t_token *)n->content)->value, ((t_token *)n->next->content)->value);
+	concatenated_value = ft_strjoin(((t_token *)n->content)->value,
+			((t_token *)n->next->content)->value);
 	free(((t_token *)n->content)->value);
 	((t_token *)n->content)->value = concatenated_value;
 	tmp = n->next->next;
@@ -113,6 +114,6 @@ t_node	*tokenize(char *cmd_line)
 	join_string_tokens(&tokens);
 	if (lexical_errors(tokens))
 		return (ll_clear(&tokens, (void *)(void *)clear_token),
-			g_meta.status = 258, NULL);
+			g_meta.status = EXIT_FAILURE, NULL);
 	return (tokens);
 }

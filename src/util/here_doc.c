@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:48:13 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:07:12 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:01:25 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	process_heredoc_line(char *read_buf, int fd)
 	free(read_buf);
 }
 
-void heredoc_loop(char *eof, int fd)
+void	heredoc_loop(char *eof, int fd)
 {
 	char	*read_buf;
 	char	*no_nl_buf;
@@ -80,11 +80,6 @@ void heredoc_loop(char *eof, int fd)
 	}
 }
 
-/*
-close the unique filename and remove it
-break the heredoc loop
-re prompt
-*/
 char	*here_doc(char *eof)
 {
 	char	*unique_filename;

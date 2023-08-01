@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/27 18:53:50 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:14:30 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,14 @@ void	save_current_dir(void)
 		g_meta.save_pwd = ft_strjoin(tmp, "..");
 		free(tmp);
 	}
-	else if (cwd)
-		g_meta.save_pwd = getcwd(NULL, 0);
 	else
-		g_meta.save_pwd = ft_strdup(kvp->value);
+	{
+		free(g_meta.save_pwd);
+		if (cwd)
+			g_meta.save_pwd = getcwd(NULL, 0);
+		else
+			g_meta.save_pwd = ft_strdup(kvp->value);
+	}
 	free(cwd);
 }
 

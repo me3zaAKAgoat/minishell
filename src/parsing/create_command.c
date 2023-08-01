@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:29:42 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/07/29 20:10:05 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_command	*create_command(t_node *tokens)
 	if (!cmd)
 		return (NULL);
 	while (((t_token *)tokens->content)->type != PIPE
-		&& ((t_token *)tokens->content)->type != END)
+		&& ((t_token *)tokens->content)->type != END && !g_meta.halt_parsing)
 	{
 		if (IN <= ((t_token *)tokens->content)->type
 			&& ((t_token *)tokens->content)->type <= APPEND)
