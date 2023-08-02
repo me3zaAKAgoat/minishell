@@ -75,8 +75,6 @@ $(NAME) : $(OBJECTS)
 	@$(CC) $(CFLAGS) -o $@ $(LIB_READLINE) $(OBJECTS) $(LDLFLAGS)
 	@printf "${GREEN}Done Making Minishell.                        ${COLOR_OFF}\n"
 
-bonus :
-
 %.o : %.c $(HEADER)
 	@printf "${BLUE}Compiling $<...\r${COLOR_OFF}"
 	@$(CC) $(CFLAGS) -I./includes $(INCLUDE_READLINE) -c $< -o $@
@@ -97,4 +95,4 @@ fclean :
 
 re : fclean all
 
-.PHONY : fclean re clean all bonus
+.PHONY : fclean re clean all
