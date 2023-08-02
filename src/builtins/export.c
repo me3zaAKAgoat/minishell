@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 17:22:31 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/21 14:30:45 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:10:28 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	concatenate_values(t_dict *existing_pair, char *new_value)
 	existing_pair->value = concatenate_value;
 }
 
-void	modify_environment(char *key, char *value, int check)
+void	modify_environment(char *key, char *value, int append)
 {
 	char	*tmp;
 	t_dict	*exist_pair;
@@ -52,7 +52,7 @@ void	modify_environment(char *key, char *value, int check)
 	key = ft_strtrim(tmp, "+");
 	free(tmp);
 	exist_pair = get_kvp(g_meta.env, key);
-	if (check == 2)
+	if (append)
 	{
 		if (exist_pair)
 			concatenate_values(exist_pair, value);
@@ -61,9 +61,9 @@ void	modify_environment(char *key, char *value, int check)
 	}
 	else
 	{
-		if (exist_pair)
+		if (exist_pair && value)
 			(free(exist_pair->value), exist_pair->value = ft_strdup(value));
-		else
+		else if (!exist_pair)
 			ll_push(&g_meta.env, ll_new(new_kvp(key, value)));
 	}
 	free(value);
@@ -84,7 +84,7 @@ int	update_env(char *arg)
 			free(value), free(key),
 			werror("': not a valid identifier\n"),
 			g_meta.status = BUILTIN_FAIL, -1);
-	modify_environment(key, value, check);
+	modify_environment(key, value, check - 1);
 	return (0);
 }
 
@@ -92,13 +92,13 @@ void	ft_export(char **args)
 {
 	int	i;
 
+	g_meta.status = 0;
 	if (!args[1])
 		return (print_export());
 	i = 1;
 	while (args[i])
 	{
-		if (update_env(args[i]) != -1)
-			g_meta.status = 0;
+		update_env(args[i]);
 		i++;
 	}
 }

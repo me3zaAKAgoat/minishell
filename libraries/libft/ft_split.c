@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 13:45:48 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 18:37:30 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:20:02 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	count(char const *s, char c)
 	count_of_c = 0;
 	index = 0;
 	while (s[index])
-	{	
+	{
 		if (s[index] != c)
 		{
 			while (s[index] != c && s[index])

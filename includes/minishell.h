@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 20:00:31 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:02:00 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define WRITE_END 1
 # define CMD_FAIL 126
 # define CMD_UNKNOWN 127
+# define CMD_SIGNALED 128
 # define CMD_INT 130
 # define BUILTIN_INCORRECT_USAGE 2
 # define BUILTIN_FAIL 1
@@ -62,7 +63,6 @@ typedef struct s_flags {
 typedef struct s_meta {
 	t_node	*env;
 	int		status;
-	char	*save_pwd;
 	int		heredoc_fd;
 	int		halt_parsing;
 	t_flags	flags;
@@ -99,7 +99,6 @@ typedef struct s_token {
 extern	void		clear_kvp(t_dict *kvp);
 extern	t_dict	*new_kvp(char *key, char *val);
 extern	t_dict	*get_kvp(t_node *kvp_list, char *key);
-extern	t_node	*init_env_manually(void);
 extern	t_node	*init_env(char **env);
 extern	void		shlvl_too_high(int new_shlvl, t_dict **kvp);
 extern	void		handle_shlvl_limit(int new_shlvl, t_dict **kvp);

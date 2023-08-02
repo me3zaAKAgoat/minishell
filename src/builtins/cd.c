@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 21:14:30 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/02 20:59:10 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,34 +94,6 @@ char	*next_dir(char *arg)
 		return (ft_strdup(arg));
 }
 
-void	save_current_dir(void)
-{
-	t_dict	*kvp;
-	char	*cwd;
-	char	*tmp;
-
-	kvp = get_kvp(g_meta.env, "PWD");
-	cwd = getcwd(NULL, 0);
-	if ((!kvp || !kvp->value) && !cwd)
-	{
-		tmp = g_meta.save_pwd;
-		g_meta.save_pwd = ft_strjoin(tmp, "/");
-		free(tmp);
-		tmp = g_meta.save_pwd;
-		g_meta.save_pwd = ft_strjoin(tmp, "..");
-		free(tmp);
-	}
-	else
-	{
-		free(g_meta.save_pwd);
-		if (cwd)
-			g_meta.save_pwd = getcwd(NULL, 0);
-		else
-			g_meta.save_pwd = ft_strdup(kvp->value);
-	}
-	free(cwd);
-}
-
 void	ft_cd(char **args)
 {
 	char	*dir;
@@ -141,7 +113,6 @@ void	ft_cd(char **args)
 		cwd = getcwd(NULL, 0);
 		update_pwd(dir, cwd);
 		free(cwd);
-		save_current_dir();
 	}
 	else
 	{

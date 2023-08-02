@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:29:32 by ekenane           #+#    #+#             */
-/*   Updated: 2023/07/21 14:30:40 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:01:12 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*get_key(char *arg)
 	char	*key;
 
 	len = 0;
+	if (ft_strchr(arg, '+') && !ft_strchr(arg, '='))
+		return (NULL);
 	while (arg[len] && arg[len] != '=')
 		len++;
 	key = malloc(sizeof(char) * (len + 1));
