@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 21:02:13 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:34:36 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*lex_quotes(char *cmd_line, char delim)
 	int		end;
 
 	end = 1;
+	if (!cmd_line[end])
+		return (NULL);
 	while (cmd_line[end] && cmd_line[end] != delim)
 	{
 		end++;

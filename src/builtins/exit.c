@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 05:31:02 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/25 17:17:50 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:21:14 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	bad_argument_exit(char **args)
 }
 
 void	ft_exit(char **args)
-{	
+{
 	if (!args[1])
 		(printf("exit\n"), exit(g_meta.status));
 	else if (!is_number(args[1])

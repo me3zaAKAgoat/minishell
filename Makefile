@@ -1,9 +1,10 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 LDLFLAGS = -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE) $(READLINE)
-LIB_READLINE = -L/goinfre/ekenane/.brew/opt/readline/lib
-INCLUDE_READLINE = -I/goinfre/ekenane/.brew/opt/readline/include
+READLINE_PATH = $(shell brew --prefix readline)
+LIB_READLINE = -L"$(READLINE_PATH)/lib"
+INCLUDE_READLINE = -I"$(READLINE_PATH)/include"
 READLINE = -lreadline
 
 HEADER = includes/minishell.h

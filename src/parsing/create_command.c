@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 20:10:05 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:13:42 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	open_heredoc(char *delim)
 
 void	input_redirections(t_node *tokens, t_command *cmd)
 {
-	if (((t_token *)tokens->content)->type == IN && !cmd->io_error)
+	if (((t_token *)tokens->content)->type == IN)
 	{
 		tokens = tokens->next;
 		if (cmd->infile >= 0)
@@ -64,7 +64,7 @@ void	input_redirections(t_node *tokens, t_command *cmd)
 				werror(((t_token *)tokens->content)->value),
 				perror(" "), cmd->io_error = 1);
 	}
-	else if (((t_token *)tokens->content)->type == HEREDOC && !cmd->io_error)
+	else if (((t_token *)tokens->content)->type == HEREDOC)
 	{
 		tokens = tokens->next;
 		if (cmd->infile >= 0)

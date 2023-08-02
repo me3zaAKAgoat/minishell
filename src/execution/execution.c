@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/24 20:27:49 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:28:20 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec_cmd(t_command *cmd)
 		exit(CMD_FAIL);
 	}
 	else if (is_builtin(cmd))
-		(handle_builtin(cmd), exit(0));
+		(handle_builtin(cmd), exit(g_meta.status));
 	else
 		handle_bin_cmd(cmd->args, envp);
 	free_envp(envp);
@@ -113,7 +113,7 @@ void	execute_commands(t_node *cmds)
 	{
 		waitpid(*((pid_t *)g_meta.pids->content), &status, 0);
 		if (WIFSIGNALED(status))
-			g_meta.status = CMD_FAIL + WTERMSIG(status);
+			g_meta.status = CMD_SIGNALED + WTERMSIG(status);
 		else if (WIFEXITED(status))
 			g_meta.status = WEXITSTATUS(status);
 		ll_del_one(ll_shift(&g_meta.pids), free);
