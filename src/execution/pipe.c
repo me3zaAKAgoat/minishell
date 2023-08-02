@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:17:50 by echoukri          #+#    #+#             */
-/*   Updated: 2023/06/17 05:25:25 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:47:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,22 @@ void	setup_pipes(int first_pipe[2], int second_pipe[2])
 {
 	if (first_pipe && !second_pipe)
 	{
+		close(first_pipe[READ_END]);
 		dup2(first_pipe[WRITE_END], STDOUT_FILENO);
 		close(first_pipe[WRITE_END]);
 	}
 	else if (!first_pipe && second_pipe)
 	{
+		close(second_pipe[WRITE_END]);
 		dup2(second_pipe[READ_END], STDIN_FILENO);
 		close(second_pipe[READ_END]);
 	}
 	else if (first_pipe && second_pipe)
 	{
+		close(first_pipe[WRITE_END]);
 		dup2(first_pipe[READ_END], STDIN_FILENO);
 		close(first_pipe[READ_END]);
+		close(second_pipe[READ_END]);
 		dup2(second_pipe[WRITE_END], STDOUT_FILENO);
 		close(second_pipe[WRITE_END]);
 	}
