@@ -41,7 +41,6 @@ SOURCES = src/main.c\
 	src/signals/signals.c\
 	src/parsing/parse.c\
 	src/parsing/create_command.c\
-	src/parsing/unexpand_delimiter.c\
 	src/execution/handle_builtin.c\
 	src/execution/execution.c\
 	src/execution/redirection.c\

@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:57:47 by ekenane           #+#    #+#             */
-/*   Updated: 2023/08/03 18:57:53 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:57:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	is_delimiter_inside_quotes(t_node *tokens)
 				tokens = tokens->next;
 			}
 		}
-		tokens = tokens->next;
+		else
+			tokens = tokens->next;
 	}
 }
 
