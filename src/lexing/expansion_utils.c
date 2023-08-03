@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:57:47 by ekenane           #+#    #+#             */
-/*   Updated: 2023/08/03 18:21:10 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:57:53 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,17 @@ void	is_delimiter_inside_quotes(t_node *tokens)
 			tokens = tokens->next;
 			while (tokens && ((t_token *)tokens->content)->type == WSPACE)
 				tokens = tokens->next;
-			if (((t_token *)tokens->content)->type == DQUOTE || ((t_token *)tokens->content)->type == SQUOTE)
-				g_meta.flags.expansion_heredoc = 0;
-			else
-				g_meta.flags.expansion_heredoc = 1;
+			while (tokens && ((t_token *)tokens->content)->type != WSPACE)
+			{
+				if (((t_token *)tokens->content)->type == DQUOTE || ((t_token *)tokens->content)->type == SQUOTE)
+				{
+					g_meta.flags.expansion_heredoc = 0;
+					break ;
+				}
+				else
+					g_meta.flags.expansion_heredoc = 1;
+				tokens = tokens->next;
+			}
 		}
 		tokens = tokens->next;
 	}
