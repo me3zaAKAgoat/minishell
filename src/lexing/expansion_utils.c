@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+t_node	*skip_wspaces(t_node *tokens)
+{
+	while (tokens && ((t_token *)tokens->content)->type == WSPACE)
+		tokens = tokens->next;
+	return (tokens);
+}
+
 char	*append_to_result(char *str, char *substring)
 {
 	char	*new_str;
@@ -44,7 +51,8 @@ void	is_delimiter_inside_quotes(t_node *tokens)
 				tokens = tokens->next;
 			while (tokens && ((t_token *)tokens->content)->type != WSPACE)
 			{
-				if (((t_token *)tokens->content)->type == DQUOTE || ((t_token *)tokens->content)->type == SQUOTE)
+				if (((t_token *)tokens->content)->type == DQUOTE 
+					|| ((t_token *)tokens->content)->type == SQUOTE)
 				{
 					g_meta.flags.expansion_heredoc = 0;
 					break ;

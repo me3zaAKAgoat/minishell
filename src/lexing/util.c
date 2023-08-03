@@ -28,14 +28,20 @@ char	*lex_quotes(char *cmd_line, char delim)
 	return (ft_substr(cmd_line, 0, end + 1));
 }
 
+int	is_special_token(char c)
+{
+	if (c == '<' || c == '>' || c == '|' || c == '\'' || c == '\"')
+		return (1);
+	return (0);
+}
+
 char	*lex_string(char *cmd_line)
 {
 	int	end;
 
 	end = 0;
-	while (cmd_line[end] && cmd_line[end] != '\''
-		&& cmd_line[end] != '\"'
-		&& cmd_line[end] != '|' && !ft_isspace(cmd_line[end]))
+	while (cmd_line[end] 
+		&& !is_special_token(cmd_line[end]) && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
 }
@@ -60,4 +66,16 @@ int	lexical_errors(t_node	*tokens)
 		iterator = iterator->next;
 	}
 	return (0);
+}
+
+char	*rm_expanded_extra_wspace(char *str, char *value)
+{
+	char	**arr_strs;
+
+	arr_strs = ft_split(value, ' ');
+	value = join_arr(arr_strs, " ");
+	split_clear(arr_strs);
+	str = append_to_result(str, ft_strdup(value));
+	free(value);
+	return (str);
 }
