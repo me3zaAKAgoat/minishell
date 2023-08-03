@@ -6,13 +6,13 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 02:27:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/02 20:59:10 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:13:33 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_old_pwd(t_dict **kvp_old_pwd)
+void	set_old_pwd(t_dict **kvp_old_pwd)
 {
 	t_dict	*kvp_pwd;
 
@@ -30,7 +30,7 @@ void	update_old_pwd(char *cwd)
 
 	kvp_old_pwd = get_kvp(g_meta.env, "OLDPWD");
 	if (kvp_old_pwd)
-		initialize_old_pwd(&kvp_old_pwd);
+		set_old_pwd(&kvp_old_pwd);
 	else if (!kvp_old_pwd && g_meta.flags.set_old_pwd == 0)
 	{
 		g_meta.flags.set_old_pwd = 1;
