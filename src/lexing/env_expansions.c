@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/27 19:01:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:21:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,13 @@ void	expand_envs(t_node *tokens)
 	while (tokens)
 	{
 		token = ((t_token *)tokens->content);
-		if (token->type == STRING || token->type == DQUOTE)
+		if (token->type == HEREDOC)
+		{
+			while (tokens && ((t_token *)tokens->content)->type == WSPACE)
+				tokens = tokens->next;
+			tokens = tokens->next;
+		}
+		else if (token->type == STRING || token->type == DQUOTE)
 		{
 			tmp = token->value;
 			if (ft_strchr(tmp, '$'))

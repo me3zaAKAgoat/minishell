@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:48:13 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 21:01:25 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:11:14 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ char	*here_doc(char *eof)
 	fd = open(unique_filename, O_RDWR | O_CREAT, 0644);
 	g_meta.heredoc_fd = fd;
 	if (fd == -1)
-		return (free(eof), NULL);
+		return (NULL);
 	heredoc_loop(eof, fd);
-	(close(fd), free(eof));
+	close(fd);
 	g_meta.heredoc_fd = -1;
 	return (unique_filename);
 }
