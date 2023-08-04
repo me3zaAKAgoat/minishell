@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:57:47 by ekenane           #+#    #+#             */
-/*   Updated: 2023/08/03 19:57:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:48:06 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	is_delimiter_inside_quotes(t_node *tokens)
 				tokens = tokens->next;
 			while (tokens && ((t_token *)tokens->content)->type != WSPACE)
 			{
-				if (((t_token *)tokens->content)->type == DQUOTE 
+				if (((t_token *)tokens->content)->type == DQUOTE
 					|| ((t_token *)tokens->content)->type == SQUOTE)
 				{
 					g_meta.flags.expansion_heredoc = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/03 14:39:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:49:11 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ extern	char		*append_to_result(char *str, char *substring);
 extern	int		count_key_length(char *key, int i);
 extern	void		is_delimiter_inside_quotes(t_node *tokens);
 extern	char		*remove_last_quote(char *str);
-extern	t_node	*skip_wspaces(t_node *tokens);  
+extern	t_node	*skip_wspaces(t_node *tokens);
 extern	size_t	strarr_len(char **arr);
 
 extern t_meta	g_meta;

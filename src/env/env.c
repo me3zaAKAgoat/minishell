@@ -6,19 +6,32 @@
 /*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/04 08:26:40 by me3za            ###   ########.fr       */
+/*   Updated: 2023/08/04 11:20:52 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**envp_concat(char **arr_iter, t_dict *kvp)
+{
+	char	*tmp[3];
+
+	tmp[0] = kvp->key;
+	tmp[1] = kvp->value;
+	tmp[2] = NULL;
+	if (tmp[1])
+	{
+		*arr_iter = join_arr(tmp, "=");
+		arr_iter++;
+	}
+	return (arr_iter);
+}
 
 char	**envp_generator(t_node *env)
 {
 	char	**envp;
 	char	**arr_iter;
 	t_node	*ll_iter;
-	t_dict	*kvp;
-	char	*tmp[3];
 
 	envp = malloc((sizeof(char *)) * (ll_size(env) + 1));
 	if (!envp)
@@ -27,15 +40,7 @@ char	**envp_generator(t_node *env)
 	ll_iter = env;
 	while (ll_iter)
 	{
-		kvp = ll_iter->content;
-		if (kvp->value)
-		{
-			tmp[0] = kvp->key;
-			tmp[1] = kvp->value;
-			tmp[2] = NULL;
-			*arr_iter = join_arr(tmp, "=");
-			arr_iter++;
-		}
+		arr_iter = envp_concat(arr_iter, ll_iter->content);
 		ll_iter = ll_iter->next;
 	}
 	*arr_iter = NULL;

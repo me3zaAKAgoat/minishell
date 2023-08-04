@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 03:14:08 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/02 16:34:36 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:47:42 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*lex_string(char *cmd_line)
 	int	end;
 
 	end = 0;
-	while (cmd_line[end] 
+	while (cmd_line[end]
 		&& !is_special_token(cmd_line[end]) && !ft_isspace(cmd_line[end]))
 		end++;
 	return (ft_substr(cmd_line, 0, end));
