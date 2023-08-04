@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/03 15:21:36 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/04 08:26:40 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@ char	**envp_generator(t_node *env)
 	while (ll_iter)
 	{
 		kvp = ll_iter->content;
-		tmp[0] = kvp->key;
-		tmp[1] = kvp->value;
-		tmp[2] = NULL;
-		*arr_iter = join_arr(tmp, "=");
+		if (kvp->value)
+		{
+			tmp[0] = kvp->key;
+			tmp[1] = kvp->value;
+			tmp[2] = NULL;
+			*arr_iter = join_arr(tmp, "=");
+			arr_iter++;
+		}
 		ll_iter = ll_iter->next;
-		arr_iter++;
 	}
 	*arr_iter = NULL;
 	return (envp);
@@ -49,14 +52,14 @@ void	free_envp(char **envp)
 	free(envp);
 }
 
-void	special_env_init(t_node *head)
+void	special_env_init(t_node **head_p)
 {
 	t_dict	*oldpwd_kvp;
 
 	oldpwd_kvp = new_kvp("OLDPWD", NULL);
 	if (oldpwd_kvp)
-		ll_push(&head, ll_new(oldpwd_kvp));
-	update_shlvl(head);
+		ll_push(head_p, ll_new(oldpwd_kvp));
+	update_shlvl(*head_p);
 }
 
 t_node	*init_env(char **env)
@@ -82,6 +85,6 @@ t_node	*init_env(char **env)
 		split_clear(arr);
 		env++;
 	}
-	special_env_init(head);
+	special_env_init(&head);
 	return (head);
 }
