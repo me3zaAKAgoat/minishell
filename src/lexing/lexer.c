@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 03:37:11 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/02 16:35:28 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/04 05:13:34 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ t_node	*tokenize(char *cmd_line)
 	while (cmd_line[i])
 	{
 		token = get_next_token(cmd_line + i);
+		ll_push(&tokens, ll_new(token));
 		if (token->value == NULL)
 		{
 			return (ll_clear(&tokens, (void *)(void *)clear_token),
 				werror("Unclosed Quotes!\n"), g_meta.status = 1, NULL);
 		}
-		ll_push(&tokens, ll_new(token));
 		i += ft_strlen(token->value);
 	}
 	ll_push(&tokens, ll_new(new_token(NULL, END)));
