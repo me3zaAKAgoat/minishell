@@ -14,6 +14,7 @@
 
 t_node	*skip_wspaces(t_node *tokens)
 {
+	tokens = tokens->next;
 	while (tokens && ((t_token *)tokens->content)->type == WSPACE)
 		tokens = tokens->next;
 	return (tokens);
