@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/02 21:02:00 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:39:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 
 /* MACROS */
 # define READ_END 0
-# define MAX_SHLVL 1000
 # define WRITE_END 1
+# define MAX_SHLVL 1000
 # define CMD_FAIL 126
 # define CMD_UNKNOWN 127
 # define CMD_SIGNALED 128
@@ -132,7 +132,6 @@ extern	t_command	*init_command(void);
 extern	void		clear_command(t_command *cmd);
 extern	void		join_command_args(t_node *tokens, t_command *cmd);
 extern	t_command	*create_command(t_node *tokens);
-extern	char		*unexpand_heredoc_delimiter(char *delim);
 extern	void		execute_commands(t_node *cmds);
 extern	void		setup_pipes(int first_pipe[2], int second_pipe[2]);
 extern	void		close_pipes(int first_pipe[2], int second_pipe[2]);
@@ -156,12 +155,14 @@ extern	int		syntax_error_redirection(t_node *iterator, t_token *current);
 extern	int		is_number(char *str);
 extern	long long	ft_atoll(const char *str);
 extern	void		expand_envs(t_node *tokens);
+extern	char		*rm_expanded_extra_wspace(char *str, char *value);
 extern	char		*expanded_string(char *initial_str);
 extern	char		*append(char *initial_str, char *str, int *i, int *j);
 extern	char		*append_to_result(char *str, char *substring);
 extern	int		count_key_length(char *key, int i);
 extern	void		is_delimiter_inside_quotes(t_node *tokens);
 extern	char		*remove_last_quote(char *str);
+extern	t_node	*skip_wspaces(t_node *tokens);  
 extern	size_t	strarr_len(char **arr);
 
 extern t_meta	g_meta;

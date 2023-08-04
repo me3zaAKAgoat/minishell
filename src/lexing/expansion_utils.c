@@ -6,11 +6,18 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:57:47 by ekenane           #+#    #+#             */
-/*   Updated: 2023/07/29 17:39:02 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:57:44 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_node	*skip_wspaces(t_node *tokens)
+{
+	while (tokens && ((t_token *)tokens->content)->type == WSPACE)
+		tokens = tokens->next;
+	return (tokens);
+}
 
 char	*append_to_result(char *str, char *substring)
 {
@@ -35,25 +42,28 @@ int	count_key_length(char *key, int i)
 
 void	is_delimiter_inside_quotes(t_node *tokens)
 {
-	t_token	*token;
-
 	while (tokens)
 	{
-		token = tokens->content;
-		if (token->type == HEREDOC)
+		if (((t_token *)tokens->content)->type == HEREDOC)
 		{
 			tokens = tokens->next;
-			while (tokens)
+			while (tokens && ((t_token *)tokens->content)->type == WSPACE)
+				tokens = tokens->next;
+			while (tokens && ((t_token *)tokens->content)->type != WSPACE)
 			{
-				token = tokens->content;
-				if (token->type != WSPACE)
+				if (((t_token *)tokens->content)->type == DQUOTE 
+					|| ((t_token *)tokens->content)->type == SQUOTE)
+				{
+					g_meta.flags.expansion_heredoc = 0;
 					break ;
+				}
+				else
+					g_meta.flags.expansion_heredoc = 1;
 				tokens = tokens->next;
 			}
-			if (token->type == DQUOTE || token->type == SQUOTE)
-				g_meta.flags.expansion_heredoc = 0;
 		}
-		tokens = tokens->next;
+		else
+			tokens = tokens->next;
 	}
 }
 

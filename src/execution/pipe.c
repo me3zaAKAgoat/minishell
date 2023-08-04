@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 05:17:50 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/02 21:47:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:03:06 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	setup_pipes(int first_pipe[2], int second_pipe[2])
 	}
 	else if (first_pipe && second_pipe)
 	{
-		close(first_pipe[WRITE_END]);
 		dup2(first_pipe[READ_END], STDIN_FILENO);
 		close(first_pipe[READ_END]);
 		close(second_pipe[READ_END]);
@@ -66,7 +65,7 @@ void	pipeline(t_node *cmds)
 			pipe(pipefd);
 			cmd_wrapper(cmds->content, pipefd, NULL);
 		}
-		else if (ll_size(cmds) != 1)
+		else if (ll_size(cmds) > 1)
 		{
 			pipe(pipefd + i * 2);
 			cmd_wrapper(cmds->content, pipefd + (i - 1) * 2, pipefd + i * 2);

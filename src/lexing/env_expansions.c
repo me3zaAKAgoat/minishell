@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/27 19:01:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:21:19 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ char	*expand_vars(int *j, int *i, char *initial_str, char *str)
 	else if (get_kvp(g_meta.env, key))
 	{
 		value = get_kvp(g_meta.env, key)->value;
-		str = append_to_result(str, ft_strdup(value));
+		if (!ft_strchr(initial_str, '\"'))
+			str = rm_expanded_extra_wspace(str, value);
+		else
+			str = append_to_result(str, ft_strdup(value));
 	}
 	free(key);
 	return (str);
@@ -97,25 +100,19 @@ void	expand_envs(t_node *tokens)
 {
 	t_token	*token;
 	char	*tmp;
-	char	**arr_strs;
 
 	is_delimiter_inside_quotes(tokens);
 	while (tokens)
 	{
 		token = ((t_token *)tokens->content);
-		if (token->type == STRING || token->type == DQUOTE)
+		if (token->type == HEREDOC)
+			tokens = skip_wspaces(tokens)->next;
+		else if (token->type == STRING || token->type == DQUOTE)
 		{
 			tmp = token->value;
-			if (ft_strchr(tmp, '$'))
-			{
-				token->value = expanded_string(tmp);
-				free(tmp);
-				arr_strs = ft_split(token->value, ' ');
-				free(token->value);
-				token->value = join_arr(arr_strs, " ");
-				split_clear(arr_strs);
-				token->type = STRING;
-			}
+			token->value = expanded_string(tmp);
+			free(tmp);
+			token->type = STRING;
 		}
 		tokens = tokens->next;
 	}

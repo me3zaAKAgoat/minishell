@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 NAME = minishell
 LDLFLAGS = -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE) $(READLINE)
 READLINE_PATH = $(shell brew --prefix readline)
@@ -41,7 +41,6 @@ SOURCES = src/main.c\
 	src/signals/signals.c\
 	src/parsing/parse.c\
 	src/parsing/create_command.c\
-	src/parsing/unexpand_delimiter.c\
 	src/execution/handle_builtin.c\
 	src/execution/execution.c\
 	src/execution/redirection.c\

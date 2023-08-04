@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/07/29 17:24:05 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:21:36 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ void	free_envp(char **envp)
 	free(envp);
 }
 
+void	special_env_init(t_node *head)
+{
+	t_dict	*oldpwd_kvp;
+
+	oldpwd_kvp = new_kvp("OLDPWD", NULL);
+	if (oldpwd_kvp)
+		ll_push(&head, ll_new(oldpwd_kvp));
+	update_shlvl(head);
+}
+
 t_node	*init_env(char **env)
 {
 	t_node	*head;
@@ -72,6 +82,6 @@ t_node	*init_env(char **env)
 		split_clear(arr);
 		env++;
 	}
-	update_shlvl(head);
+	special_env_init(head);
 	return (head);
 }
