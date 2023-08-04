@@ -113,7 +113,9 @@ void	expand_envs(t_node *tokens)
 			token->value = expanded_string(tmp);
 			free(tmp);
 			token->type = STRING;
+			tokens = tokens->next;
 		}
-		tokens = tokens->next;
+		else
+			tokens = tokens->next;
 	}
 }

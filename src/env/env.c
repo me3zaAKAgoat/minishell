@@ -61,9 +61,12 @@ void	special_env_init(t_node **head_p)
 {
 	t_dict	*oldpwd_kvp;
 
-	oldpwd_kvp = new_kvp("OLDPWD", NULL);
-	if (oldpwd_kvp)
-		ll_push(head_p, ll_new(oldpwd_kvp));
+	if (!get_kvp(*head_p, "OLDPWD"))
+	{
+		oldpwd_kvp = new_kvp("OLDPWD", NULL);
+		if (oldpwd_kvp)
+			ll_push(head_p, ll_new(oldpwd_kvp));
+	}
 	update_shlvl(*head_p);
 }
 

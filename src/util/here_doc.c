@@ -42,15 +42,13 @@ void	process_heredoc_line(char *read_buf, int fd)
 {
 	char	*tmp;
 
-	if (ft_strchr(read_buf, '$') && g_meta.flags.expansion_heredoc == 1)
+	if (g_meta.flags.expansion_heredoc == 1)
 	{
 		tmp = read_buf;
 		read_buf = expanded_string(tmp);
 		free(tmp);
-		write(fd, read_buf, ft_strlen(read_buf));
 	}
-	else
-		write(fd, read_buf, ft_strlen(read_buf));
+	write(fd, read_buf, ft_strlen(read_buf));
 	free(read_buf);
 }
 
