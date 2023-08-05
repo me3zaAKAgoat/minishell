@@ -60,12 +60,21 @@ void	free_envp(char **envp)
 void	special_env_init(t_node **head_p)
 {
 	t_dict	*oldpwd_kvp;
+	t_dict	*pwd_kvp;
+	char	dir[4097];
 
 	if (!get_kvp(*head_p, "OLDPWD"))
 	{
 		oldpwd_kvp = new_kvp("OLDPWD", NULL);
 		if (oldpwd_kvp)
 			ll_push(head_p, ll_new(oldpwd_kvp));
+	}
+	if (!get_kvp(*head_p, "PWD"))
+	{
+		getcwd(dir, sizeof(dir));
+		pwd_kvp = new_kvp("PWD", dir);
+		if (pwd_kvp)
+			ll_push(head_p, ll_new(pwd_kvp));
 	}
 	update_shlvl(*head_p);
 }
