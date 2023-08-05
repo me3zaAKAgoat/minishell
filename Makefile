@@ -32,6 +32,7 @@ SOURCES = src/main.c\
 	src/lexing/token.c\
 	src/lexing/env_expansions.c\
 	src/lexing/expansion_utils.c\
+	src/lexing/expansion_utils2.c\
 	src/lexing/append.c\
 	src/lexing/util.c\
 	src/lexing/syntax_errors.c\

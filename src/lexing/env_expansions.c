@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:13:19 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/03 18:21:19 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/05 22:36:21 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,11 @@ void	expand_envs(t_node *tokens)
 		{
 			tmp = token->value;
 			token->value = expanded_string(tmp);
+			if (token->type == STRING)
+				split_expand_value(tokens);
+			else if (token->type == DQUOTE)
+				token->type = STRING;
 			free(tmp);
-			token->type = STRING;
 			tokens = tokens->next;
 		}
 		else

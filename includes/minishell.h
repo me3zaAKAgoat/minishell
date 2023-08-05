@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:30:04 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/04 10:49:11 by me3za            ###   ########.fr       */
+/*   Updated: 2023/08/05 20:44:20 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ typedef enum e_token_type {
 	HEREDOC,
 	APPEND,
 	STRING,
+	NON_JOINABLE_STR,
 	DQUOTE,
 	SQUOTE,
 	WSPACE,
 	PIPE,
-	ERR,
 	END,
 }	t_token_type;
 
@@ -157,6 +157,7 @@ extern	long long	ft_atoll(const char *str);
 extern	void		expand_envs(t_node *tokens);
 extern	char		*rm_expanded_extra_wspace(char *str, char *value);
 extern	char		*expanded_string(char *initial_str);
+extern	void		split_expand_value(t_node *tokens);
 extern	char		*append(char *initial_str, char *str, int *i, int *j);
 extern	char		*append_to_result(char *str, char *substring);
 extern	int		count_key_length(char *key, int i);
