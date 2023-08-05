@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
+/*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:38:56 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/04 11:20:52 by me3za            ###   ########.fr       */
+/*   Updated: 2023/08/05 16:54:00 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,28 @@ void	free_envp(char **envp)
 
 void	special_env_init(t_node **head_p)
 {
-	t_dict	*oldpwd_kvp;
-	t_dict	*pwd_kvp;
+	t_dict	*tmp_kvp;
 	char	dir[4097];
 
 	if (!get_kvp(*head_p, "OLDPWD"))
 	{
-		oldpwd_kvp = new_kvp("OLDPWD", NULL);
-		if (oldpwd_kvp)
-			ll_push(head_p, ll_new(oldpwd_kvp));
+		tmp_kvp = new_kvp("OLDPWD", NULL);
+		if (tmp_kvp)
+			ll_push(head_p, ll_new(tmp_kvp));
 	}
 	if (!get_kvp(*head_p, "PWD"))
 	{
 		getcwd(dir, sizeof(dir));
-		pwd_kvp = new_kvp("PWD", dir);
-		if (pwd_kvp)
-			ll_push(head_p, ll_new(pwd_kvp));
+		tmp_kvp = new_kvp("PWD", dir);
+		if (tmp_kvp)
+			ll_push(head_p, ll_new(tmp_kvp));
+	}
+	if (!get_kvp(*head_p, "PATH"))
+	{
+		tmp_kvp = new_kvp("PATH",
+				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+		if (tmp_kvp)
+			ll_push(head_p, ll_new(tmp_kvp));
 	}
 	update_shlvl(*head_p);
 }

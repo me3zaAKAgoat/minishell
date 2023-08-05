@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 03:46:51 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/02 17:28:20 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:40:16 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	single_command(t_command *cmd)
 			g_meta.status = EXIT_FAILURE;
 		dup2(original_stdin, 0);
 		dup2(original_stdout, 1);
+		close(original_stdin);
+		close(original_stdout);
 	}
 	else
 		cmd_wrapper(cmd, NULL, NULL);

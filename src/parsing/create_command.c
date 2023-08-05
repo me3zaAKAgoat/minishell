@@ -6,7 +6,7 @@
 /*   By: echoukri <echoukri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:38:45 by echoukri          #+#    #+#             */
-/*   Updated: 2023/08/03 18:12:44 by echoukri         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:40:59 by echoukri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	join_command_args(t_node *token, t_command *cmd)
 	else
 		arr_len = 0;
 	tmp = malloc((arr_len + 2) * sizeof(char *));
+	if (!tmp)
+	{
+		cmd->args = NULL;
+		return ;
+	}
 	ft_memcpy(tmp, cmd->args, arr_len * sizeof(char *));
 	tmp[arr_len] = ft_strdup(((t_token *)token->content)->value);
 	tmp[arr_len + 1] = NULL;
