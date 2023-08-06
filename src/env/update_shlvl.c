@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_shlvl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekenane <ekenane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: me3za <me3za@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:24 by ekenane           #+#    #+#             */
-/*   Updated: 2023/07/21 14:37:39 by ekenane          ###   ########.fr       */
+/*   Updated: 2023/08/06 13:48:06 by me3za            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	update_shlvl(t_node *head)
 	t_dict	*kvp;
 	int		old_shlvl;
 	int		new_shlvl;
+	char	*tmp;
 
 	kvp = get_kvp(head, "SHLVL");
 	if (kvp)
@@ -53,7 +54,10 @@ void	update_shlvl(t_node *head)
 	}
 	else
 	{
-		kvp = new_kvp("SHLVL", ft_itoa(1));
-		ll_push(&head, ll_new(kvp));
+		tmp = ft_itoa(1);
+		kvp = new_kvp("SHLVL", tmp);
+		free(tmp);
+		if (kvp)
+			ll_push(&head, ll_new(kvp));
 	}
 }

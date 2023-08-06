@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 NAME = minishell
 LDLFLAGS = -lll -lgnl -lft -L$(LINKED_LIST) -L$(LIBFT) -L$(GET_NEXT_LINE) $(READLINE)
-READLINE_PATH = $(shell brew --prefix readline)
+READLINE_PATH := $(shell brew --prefix readline)
 LIB_READLINE = -L"$(READLINE_PATH)/lib"
 INCLUDE_READLINE = -I"$(READLINE_PATH)/include"
 READLINE = -lreadline
