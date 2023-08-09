@@ -32,12 +32,23 @@ void	handle_shlvl_limit(int new_shlvl, t_dict **kvp)
 		shlvl_too_high(new_shlvl, kvp);
 }
 
+void	set_shlvl(t_node *head)
+{
+	char	*tmp;
+	t_dict	*kvp;
+
+	tmp = ft_itoa(1);
+	kvp = new_kvp("SHLVL", tmp);
+	free(tmp);
+	if (kvp)
+		ll_push(&head, ll_new(kvp));
+}
+
 void	update_shlvl(t_node *head)
 {
 	t_dict	*kvp;
 	int		old_shlvl;
 	int		new_shlvl;
-	char	*tmp;
 
 	kvp = get_kvp(head, "SHLVL");
 	if (kvp)
@@ -53,11 +64,5 @@ void	update_shlvl(t_node *head)
 			kvp->value = ft_itoa(old_shlvl + 1);
 	}
 	else
-	{
-		tmp = ft_itoa(1);
-		kvp = new_kvp("SHLVL", tmp);
-		free(tmp);
-		if (kvp)
-			ll_push(&head, ll_new(kvp));
-	}
+		set_shlvl(head);
 }
