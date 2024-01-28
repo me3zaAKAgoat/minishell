@@ -1,4 +1,4 @@
-<h1 align="center"> Minishell - Your Own Simple Shell </h1>
+<h1 align="center"> Minishell - Our Own Simple Shell </h1>
 
 <div align="center">
   <img src="./readme_assets/minishell.gif" alt="minishell">
