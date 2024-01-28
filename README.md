@@ -1,14 +1,31 @@
-# **References**
+<h1 align="center"> Minishell - Your Own Simple Shell </h1>
 
-## general
+<div align="center">
+  <img src="./readme_assets/minishell.gif" alt="minishell">
+</div>
+
+## Overview
+Minishell is a project focused on creating a simple shell, offering a glimpse into the world of processes and file descriptors. As a developer, you'll delve into the fundamentals of shell functionality, including command execution, history management, and handling various special characters.
+
+## Key Features
+
+- **Prompt:** Displays a prompt when waiting for a new command.
+- **History:** Includes a working command history feature.
+- **Command Execution:** Searches and launches the right executable based on the PATH variable or using a relative or absolute path.
+- **Quoting:** Handles single and double quotes, preventing interpretation of meta-characters.
+- **Redirections:** Implements input and output redirections, as well as append mode.
+- **Pipes:** Supports command pipelines using the '|' character.
+- **Environment Variables:** Expands variables such as $PATH.
+- **Built-in Commands:** Implements essential built-ins like echo, cd, pwd, export, unset, env, and exit.
+- **Signal Handling:** Responds to signals such as ctrl-C, ctrl-D, and ctrl-\ in interactive mode.
+- **Bash-like Behavior:** Mimics behavior similar to Bash for various functionalities.
+
+## References
 
 - https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
 - https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 - https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
 - https://www.gnu.org/software/bash/manual/bash.html
-
-## parsing
-
 - https://www.oilshell.org/blog/2019/02/07.html
 - https://www.geeksforgeeks.org/developing-linux-based-shell/
 - https://hal.science/hal-01890044/file/main.pdf
@@ -16,31 +33,3 @@
 - https://mukulrathi.com/create-your-own-programming-language/parsing-ocamllex-menhir/
 - https://tomassetti.me/guide-parsing-algorithms-terminology/
 
-# **concerns**
-
-- lexing
-  - handle unclosed quotes
-- handle cd when directories are removed
-- fix wildcard \*
-- handle exit status of shell builtins 0 success 1 failure 2 invalid options
-- handle += in export
-- handle delim of heredoc being inside of quotes -> dont expand (maybe have two types of delim tokens)
-- pipeline should stop if a command fails
-  this would mean that I might have to change the way things are being waited for, not sure tho
-- redirections might have to get moved up to parsing and have the command structure only return a file descriptor
-- handle cases where a string is : "hello"world
-  it should not become hello world
-- if an env expansion amounts to NULL dont concatenate it/ pop the token
-- export xd="" should work like export xd=
-- add append in export
-
-- description of redirections
-
-  > redirections should happen at parsing stage, when creating the command structure, the files should get opened and the file descriptors for these opened files should be saved as output and input files.
-  > if there are two redirections the previous file descriptor should be closed and then replaced by the newer one
-  > what happens if an input redirection fails??
-
-- fix the disgusting code for updating PWD and OLDPWD in cd
-- add += in export
-
-- all redirections (heredoc) should be ran regardless of any errors, errors come past handling of all redirections
