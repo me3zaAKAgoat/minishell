@@ -33,3 +33,7 @@ Minishell is a project focused on creating a simple shell, offering a glimpse in
 - https://mukulrathi.com/create-your-own-programming-language/parsing-ocamllex-menhir/
 - https://tomassetti.me/guide-parsing-algorithms-terminology/
 
+## Grade
+<div align="center">
+  <img src="./readme_assets/grade.png" alt="grade" width="150">
+</div>
