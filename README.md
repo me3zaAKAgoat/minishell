@@ -1,37 +1,36 @@
-<h1 align="center"> Minishell - Our Own Simple Shell </h1>
+<h1 align="center"> Minishell - Crafting a Custom Shell </h1>
 
 <div align="center">
   <img src="./readme_assets/minishell.gif" alt="minishell">
 </div>
 
 ## Overview
-Minishell is a project focused on creating a simple shell, offering a glimpse into the world of processes and file descriptors. As a developer, you'll delve into the fundamentals of shell functionality, including command execution, history management, and handling various special characters.
+A shell is the interface between a user and an operating system, allowing users to interact with the system via command-line inputs. Minishell is a project designed to create a basic shell, providing insights into process management and file operations. It explores core shell functionalities such as command execution, history management, and character handling.
+
+## Understanding Shells
+Shells are crucial components of Unix-like systems, offering a text-based environment for users to execute commands and automate tasks. They play a vital role in system administration, scripting, and software development.
 
 ## Key Features
 
-- **Prompt:** Displays a prompt when waiting for a new command.
-- **History:** Includes a working command history feature.
-- **Command Execution:** Searches and launches the right executable based on the PATH variable or using a relative or absolute path.
-- **Quoting:** Handles single and double quotes, preventing interpretation of meta-characters.
-- **Redirections:** Implements input and output redirections, as well as append mode.
-- **Pipes:** Supports command pipelines using the '|' character.
-- **Environment Variables:** Expands variables such as $PATH.
-- **Built-in Commands:** Implements essential built-ins like echo, cd, pwd, export, unset, env, and exit.
-- **Signal Handling:** Responds to signals such as ctrl-C, ctrl-D, and ctrl-\ in interactive mode.
-- **Bash-like Behavior:** Mimics behavior similar to Bash for various functionalities.
+- **Prompt:** Displays a prompt awaiting user commands.
+- **History:** Tracks command history for easy access and repetition.
+- **Command Execution:** Locates and executes commands using PATH variables or specific paths.
+- **Quoting:** Handles single and double quotes to prevent misinterpretation of characters.
+- **Redirections:** Manages input/output redirection and append modes.
+- **Pipes:** Supports command pipelines for inter-process communication.
+- **Environment Variables:** Processes variables like $PATH for dynamic command execution.
+- **Built-in Commands:** Includes essential built-ins such as echo, cd, and pwd.
+- **Signal Handling:** Responds to signals like ctrl-C and ctrl-D for user interaction.
+- **Bash-like Behavior:** Offers behavior similar to the Bash shell for familiarity.
 
 ## References
 
-- https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
-- https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
-- https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
-- https://www.gnu.org/software/bash/manual/bash.html
-- https://www.oilshell.org/blog/2019/02/07.html
-- https://www.geeksforgeeks.org/developing-linux-based-shell/
-- https://hal.science/hal-01890044/file/main.pdf
-- http://savage.net.au/Ron/html/graphviz2.marpa/Lexing.and.Parsing.Overview.html
-- https://mukulrathi.com/create-your-own-programming-language/parsing-ocamllex-menhir/
-- https://tomassetti.me/guide-parsing-algorithms-terminology/
+- Unix Utilities: https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
+- Writing Your Own Shell: https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+- Signal Handling: https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
+- Bash Manual: https://www.gnu.org/software/bash/manual/bash.html
+- Linux Shell Development: https://www.geeksforgeeks.org/developing-linux-based-shell/
+- Parsing Algorithms: https://tomassetti.me/guide-parsing-algorithms-terminology/
 
 ## Grade
 <div align="center">
